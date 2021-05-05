@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+    <form action="@Url.Content("~/Login/Login")" method="post" class="login shadow-lg  bg-white rounded">
+        <img src="~/Img/logo.png" alt="" width="100px" height="100px" style="border-radius:15px;">
+        <div class="txtimput">
+            <i class="fas fa-user"></i>
+            <input type="text" class="" placeholder="Ingresar Usuario" id="user" name="user">
+        </div>
+        <div class="txtimput">
+            <i class="fas fa-lock"></i>
+            <input type="password" class="" placeholder="Ingresar Contraseña" id="password" name="password">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm btn-info w-100"><i class="fas fa-user"></i> Ingresar</button>
+        </div>
+        <div class="mt-2 ">
+            <label class="text-danger">@ViewBag.Error</label>
+        </div>
+    </form>
+

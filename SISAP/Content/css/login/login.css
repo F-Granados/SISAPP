@@ -1,0 +1,59 @@
+﻿.mt {
+    top: 90px;
+}
+
+.login {
+    border-radius: 20px;
+    padding: 17px;
+    width: 300px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(70deg, white, #949aa2 );
+}
+
+@media (max-width: 400px) {
+    .login, .login-btn {
+        width: 90%;
+    }
+}
+
+.txtimput {
+    width: 100%;
+    overflow: hidden;
+    font-size: 15px;
+    padding: 0px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid #808080;
+}
+
+    .txtimput span {
+        color: #68778d;
+    }
+
+    .txtimput input {
+        border: none;
+        outline: none;
+        background: none;
+        color: #68778d;
+        margin: 10px;
+    }
+
+.btn-color {
+    background-color: #2aa9b6;
+}
+
+button {
+    padding: 2px 0;
+}
+
+img {
+    display: block;
+    margin: auto;
+    pointer-events: none;
+}
+
+.btn-ingresar {
+    font-size: 11px;
+}

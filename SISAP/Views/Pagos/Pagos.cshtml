@@ -1,0 +1,525 @@
+﻿
+@{
+    ViewBag.Title = "Pagos";
+}
+<!--PAGAR-->
+<div class="modal fade" id="PagosCliente" tabindex="-1" role="dialog" aria-labelledby="EjemploModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="card-header">
+                <h4 class="text-center">Pagar Recibos</h4>
+            </div>
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <label for="email"> Codigo</label>
+                        <input type="email" class="form-control" placeholder="55584">
+                    </div>
+                    <div class="col">
+                        <label for="email">Nombre</label>
+                        <input type="email" class="form-control" placeholder="MAMANI QUISPE NANDO">
+                    </div>
+                    <div class="col">
+                        <label for="email">Direccion</label>
+                        <input type="email" class="form-control" placeholder="URB. MARAVILLA MZ. A2 LT. 3">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="email"> Servicio</label>
+                        <input type="email" class="form-control" placeholder="Agua y Desague">
+                    </div>
+                    <div class="col">
+                        <label for="email">Tarifa</label>
+                        <input type="email" class="form-control" placeholder="Domestico">
+                    </div>
+                    <div class="col">
+                        <label for="email">Medidor</label>
+                        <input type="email" class="form-control" placeholder="EA-25511225">
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div class="modal-body">
+                <table class="table table-sm table-striped table-responsive-sm">
+                    <thead>
+                        <tr class="bg-info text-light ">
+                            <th scope="col">#</th>
+                            <th scope="col">Año</th>
+                            <th scope="col">Mes</th>
+                            <th scope="col">Concepto</th>
+                            <th scope="col">Consumo</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Observaciones</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ENERO</td>
+                            <td>AGUA</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ENERO</td>
+                            <td>ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>FEBRERO</td>
+                            <td>AGUA</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>FEBRERO</td>
+                            <td>ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>MARZO</td>
+                            <td>AGUA</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>MARZO</td>
+                            <td>ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ABRIL</td>
+                            <td>AGUA</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ABRIL</td>
+                            <td>ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white form-control-file border" name="file"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+                <div class="d-flex justify-content-end" >
+                    <label for="text" class="mr-sm-3">Pago Total</label>
+                    <input type="number" class="form-control" placeholder="" />
+
+                </div>
+            </div>
+
+                                      
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-success">
+                    <i class="fas fa-money-check-alt"></i> Pagar
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--PAGAR //-->
+
+
+<!--Modal Historial Recibo-->
+<div class="modal fade" id="ReciboCliente" tabindex="-1" role="dialog" aria-labelledby="EjemploModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="card-header">
+                <h4 class="text-center">Hisorial Recibos</h4>
+            </div>
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <label for="email"> Codigo</label>
+                        <input type="email" class="form-control" placeholder="55584">
+                    </div>
+                    <div class="col">
+                        <label for="email">Nombre</label>
+                        <input type="email" class="form-control" placeholder="MAMANI QUISPE NANDO">
+                    </div>
+                    <div class="col">
+                        <label for="email">Direccion</label>
+                        <input type="email" class="form-control" placeholder="URB. MARAVILLA MZ. A2 LT. 3">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="email"> Servicio</label>
+                        <input type="email" class="form-control" placeholder="Agua y Desague">
+                    </div>
+                    <div class="col">
+                        <label for="email">Tarifa</label>
+                        <input type="email" class="form-control" placeholder="Domestico">
+                    </div>
+                    <div class="col">
+                        <label for="email">Medidor</label>
+                        <input type="email" class="form-control" placeholder="EA-25511225">
+                    </div>
+
+                </div>
+
+            </form>
+
+            <div class="modal-body">
+                <table class="table table-sm table-striped table-responsive-sm">
+                    <thead>
+                        <tr class="bg-info text-light ">
+                            <th scope="col">#</th>
+                            <th scope="col">Año</th>
+                            <th scope="col">Mes</th>
+                            <th scope="col">Concepto</th>
+                            <th scope="col">Consumo</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Observaciones</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"> Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ENERO</td>
+                            <td>AGUA Y ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td>Pagado</td>
+
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white"><i class="fas fa-file-upload"></i> Ver</button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>FEBRERO</td>
+                            <td>AGUA Y ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td>Pagado</td>
+
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white"><i class="fas fa-file-upload"></i> Ver</button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>MARZO</td>
+                            <td>AGUA Y ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td>Pagado</td>
+
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white"><i class="fas fa-file-upload"></i> Ver</button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>ABRIL</td>
+                            <td>AGUA Y ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td>Pagado</td>
+
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white"><i class="fas fa-file-upload"></i> Ver</button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>2021</td>
+                            <td>MAYO</td>
+                            <td>AGUA Y ALCANTARILLADO</td>
+                            <td>555.00</td>
+                            <td>559.00</td>
+                            <td><input type="text" class="form-control" placeholder="" /></td>
+                            <td>Pagado</td>
+
+                            <td style="width:80px">
+                                <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <button type="button" data-toggle="modal" data-target="#agregarCategoria" class="btn btn-primary text-white"><i class="fas fa-file-upload"></i> Ver</button>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Historial Recibo.// -->
+
+
+
+
+<div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
+    <div class="card-body fuente">
+        <div class=" card-header bg-dark text-white">
+            <h5><i class="fas fa-table"> Pagos</i></h5>
+        </div>
+
+        <hr style="border-style: dashed;" />
+        <div class="row d-flex justify-content-end">
+
+
+            <div class="col-6 ">
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="searchbar">
+                        <input class="search_input" id="myInput" type="text" name="" placeholder="Buscar por Nombre">
+                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <table class="table table-sm table-striped table-responsive-sm">
+            <thead>
+                <tr class="bg-info text-light ">
+                    <th scope="col">#</th>
+                    <th scope="col">Codigo </th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Meses</th>
+                    <th scope="col">Deuda Total</th>
+
+
+                    <th scope="col"> Opciones</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                <tr>
+                    <th scope="row">1</th>
+                    <td>0063822</td>
+                    <td>MAMANI NANDO</td>
+                    <td>URB. MIRAFLORES MZ. B2 LT. 3B</td>
+                    <td>3</td>
+                    <td>80.5</td>
+                    <td style="width:80px">
+                        <div class="btn-group" role="group">
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#PagosCliente" class="btn btn-primary text-white"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#ReciboCliente" class="btn btn-success text-white"><i class="fas fa-list-alt"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>0063821</td>
+                    <td>MAMANI QUISPE NANDO</td>
+                    <td>URB. MIRAFLORES MZ. B2 LT. 3B</td>
+                    <td>2</td>
+                    <td>96.6</td>
+                    <td style="width:80px">
+                        <div class="btn-group" role="group">
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#PagosCliente" class="btn btn-primary text-white"><i class="fas fa-shopping-cart"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#ReciboCliente" class="btn btn-success text-white"><i class="fas fa-list-alt"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-start mb-2">
+                                <button type="button" data-toggle="modal" data-target="#" class="btn btn-danger text-white"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
