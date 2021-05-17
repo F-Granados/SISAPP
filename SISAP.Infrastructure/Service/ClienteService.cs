@@ -1,32 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using SISAP.Core.Entities;
+using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 
 namespace SISAP.Infrastructure.Service
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "ClienteServicee" en el código y en el archivo de configuración a la vez.
     public class ClienteService : _BaseContext, IClienteService
     {
-    public IEnumerable<Cliente> GetAll()
-
-        {
-            using (var dbContext = GetSISAPDBContext())
-
-            {
-                return dbContext.Clientes.OrderBy(o => o.ClienteId).ToList();
-            }
-        }
-        public Cliente ObtenerCliente( string Codigo, string Nombre, string Apellido)
+        public IEnumerable<Cliente> GetAll(string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
         {
             using (var dbContext = GetSISAPDBContext())
             {
-                return dbContext.Clientes.FirstOrDefault(u => u.CodigoCliente == Codigo && u.Nombre == Nombre && u.Apellido == Apellido);
+                var sql = (from c in dbContext.Clientes
+                           join s in dbContext.EstadoServicios on c.EstadoServicioId equals s.EstadoServicioId
+                           join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+                           join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
+                           where 
+                                (string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido).Contains(FilterNombre.ToUpper()))
+                           orderby c.Nombre ascending
+                           select new
+                           {
+                               c.ClienteId,
+                               c.UsuarioCreacion,
+                               c.CodigoCliente,
+                               c.Nombre,
+                               c.Apellido,
+                               c.DNI,
+                               c.Telefono,
+                               c.Direccion,
+                               c.UrbanizacionId,
+                               c.ManzanaId,
+                               c.ServicioId,
+                               c.CategoriaId,
+                               c.NumeroMedidor,
+                               c.EstadoServicioId,
+                               s.EstadoDescripcion,
+                               u.NombreUrbanizacion,
+                               m.NombreManzana
+
+                           });
+                nroTotalRegistros = sql.Count();
+                sql = sql.Skip(skip).Take(pageSize);
+
+                var ListadoFinal = (from c in sql.ToList()
+                                    select new Cliente()
+                                    {
+                                        ClienteId = c.ClienteId,
+                                        CodigoCliente = c.CodigoCliente,
+                                        Nombre = c.Nombre,
+                                        Apellido = c.Apellido,
+                                        DNI = c.DNI,
+                                        Telefono = c.Telefono,
+                                        Direccion = c.Direccion,
+                                        UrbanizacionId = c.UrbanizacionId,
+                                        ManzanaId = c.ManzanaId,
+                                        ServicioId = c.ServicioId,
+                                        CategoriaId = c.CategoriaId,
+                                        NumeroMedidor = c.NumeroMedidor,
+                                        EstadoServicioId = c.EstadoServicioId,
+                                        UrbanizacionNombre = c.NombreUrbanizacion,
+                                        ManzanaNombre = c.NombreManzana,
+                                        EstadoServicio = new EstadoServicio()
+										{
+                                            EstadoServicioId = c.EstadoServicioId,
+                                            EstadoDescripcion = c.EstadoDescripcion
+                                        }
+
+                                    }).ToList();
+                return ListadoFinal;
             }
         }
+        
+        public IEnumerable<Cliente> GetById(int ClienteId)
+		{
+            using (var dbContext = GetSISAPDBContext())
+			{
+                return dbContext.Clientes.Where(o => o.ClienteId == ClienteId).ToList();
+			}
+		}
+
+        public Cliente Create(Cliente cliente)
+        {
+            using (var dbContext = GetSISAPDBContext())
+            {
+                dbContext.Clientes.Add(cliente);
+                dbContext.SaveChanges();
+            }
+            return cliente;
+        }
+        
+        public void Update(Cliente cliente)
+		{
+            using (var dbContext = GetSISAPDBContext())
+			{
+                dbContext.Clientes.Attach(cliente);
+                dbContext.Entry(cliente).State = EntityState.Modified;
+                dbContext.SaveChanges();
+			}
+		}
+
+        public void Delete(int ClienteId)
+		{
+            using (var dbContext = GetSISAPDBContext())
+			{
+                var clientes = dbContext.Clientes;
+                var obj = clientes.FirstOrDefault(c => c.ClienteId == ClienteId);
+
+                dbContext.Clientes.Remove(obj);
+                dbContext.SaveChanges();
+            }
+		}
     }
 }

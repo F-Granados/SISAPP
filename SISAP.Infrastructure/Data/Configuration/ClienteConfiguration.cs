@@ -9,10 +9,8 @@ namespace SISAP.Infrastructure.Data.Configuration
     {
         public ClienteConfiguration()
         {
-            ToTable("Cliente", " dbo");
+            ToTable("Cliente", "dbo");
             HasKey(o => o.ClienteId);
-
-
-    }
+        }
     }
 }

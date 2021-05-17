@@ -14,7 +14,7 @@ namespace SISAP.Infrastructure.Menu
         {
             var UsuarioId = SessionHelper.Get<int?>("UsuarioId");
             if (UsuarioId == null) return "";
-            var listaOpciones = new OpcionService().ListarOpciones((int)UsuarioId);
+            var listaOpciones = new OpcionService().ListarOpciones();
             var listaGrupos = listaOpciones.Where(m => m.ParentId == null).ToList();
 
 

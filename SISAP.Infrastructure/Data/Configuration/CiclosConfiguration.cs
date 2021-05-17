@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SISAP.Core.Entities;
 using System.Data.Entity.ModelConfiguration;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SISAP.Infrastructure.Data.Configuration
 {
@@ -14,6 +15,8 @@ namespace SISAP.Infrastructure.Data.Configuration
         {
             ToTable("Ciclos", "dbo");
             HasKey(o => o.CiclosId);
+            Property(o => o.CiclosId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).IsRequired();
+
         }
     }
 }

@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,8 +52,10 @@
     <Compile Include="Entities\DireccionDato.cs" />
     <Compile Include="Entities\Estado.cs" />
     <Compile Include="Entities\EstadoPago.cs" />
+    <Compile Include="Entities\EstadoServicio.cs" />
     <Compile Include="Entities\Factura.cs" />
     <Compile Include="Entities\Lectura.cs" />
+    <Compile Include="Entities\Manzana.cs" />
     <Compile Include="Entities\Medidor.cs" />
     <Compile Include="Entities\Opcion.cs" />
     <Compile Include="Entities\OpcionUsuario.cs" />
@@ -61,8 +64,6 @@
     <Compile Include="Entities\TipoCategoria.cs" />
     <Compile Include="Entities\Urbanizacion.cs" />
     <Compile Include="Entities\Usuario.cs" />
-    <Compile Include="Enum\Enumc.cs" />
-    <Compile Include="Enum\Enumcl.cs" />
     <Compile Include="Enum\Enums.cs" />
     <Compile Include="Interfaces\ICategoriaService.cs" />
     <Compile Include="Interfaces\ICiclosService.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Interfaces\IEstadoPagoService.cs" />
     <Compile Include="Interfaces\IEstadoService.cs" />
     <Compile Include="Interfaces\IFacturaService.cs" />
+    <Compile Include="Interfaces\ILecturaService.cs" />
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\IClienteService.cs" />
     <Compile Include="Interfaces\IMedidorService.cs" />

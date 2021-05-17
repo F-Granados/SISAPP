@@ -9,7 +9,6 @@ namespace SISAP.Transfers
     {
         public DateTime anio { get; set; }
         public DateTime mes { get; set; }
-        public int lectura { get; set; }
         public DateTime lecinicial { get; set; }
         public DateTime lecfinal { get; set; }
         public DateTime emiinicial { get; set; }
@@ -20,5 +19,7 @@ namespace SISAP.Transfers
         public DateTime cortfinal { get; set; }
         public DateTime corte { get; set; }
         public DateTime facturacion { get; set; }
+
+
     }
 }

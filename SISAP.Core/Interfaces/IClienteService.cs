@@ -1,17 +1,15 @@
-﻿using System;
+﻿using SISAP.Core.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SISAP.Core.Entities;
 
 namespace SISAP.Core.Interfaces
 {
-    public interface IClienteService
+	public interface IClienteService
     {
-        IEnumerable<Cliente> GetAll();
-
-        Cliente ObtenerCliente(string Codigo, string Nombre, string Apellido);
+        IEnumerable<Cliente> GetAll(string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
+        IEnumerable<Cliente> GetById(int ClienteId);
+        Cliente Create(Cliente cliente);
+        void Update(Cliente cliente);
+        void Delete(int ClienteId);
     }
 }
 

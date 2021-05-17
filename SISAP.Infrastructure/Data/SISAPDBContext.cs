@@ -29,8 +29,10 @@ namespace SISAP.Infrastructure.Data
             modelBuilder.Configurations.Add(new PagoConfiguration());
             modelBuilder.Configurations.Add(new MedidorConfiguration());
             modelBuilder.Configurations.Add(new LecturaConfiguration());
+            modelBuilder.Configurations.Add(new ManzanaConfiguration());
             modelBuilder.Configurations.Add(new FacturaConfiguration());
             modelBuilder.Configurations.Add(new EstadoPagoConfiguration());
+            modelBuilder.Configurations.Add(new EstadoServicioConfiguration());
             modelBuilder.Configurations.Add(new EstadoConfiguration());
             modelBuilder.Configurations.Add(new DireccionDatoConfiguration());
             modelBuilder.Configurations.Add(new DireccionConfiguration());
@@ -43,13 +45,14 @@ namespace SISAP.Infrastructure.Data
         }
         public DbSet<Urbanizacion> Urbanizacions { get; set; }
         public DbSet<TipoCategoria> TipoCategorias { get; set; }
-        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<Servicio> servicios { get; set; }
         public DbSet<Pago> Pagos { get; set; }
         public DbSet<Medidor> Medidors { get; set; }
         public DbSet<Lectura> Lecturas { get; set; }
-        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<Manzana> Manzanas{ get; set; }
         public DbSet<EstadoPago> EstadoPagos { get; set; }
         public DbSet<Estado> Estados { get; set; }
+        public DbSet<EstadoServicio> EstadoServicios{ get; set; }
         public DbSet<DireccionDato> DireccionDatos { get; set; }
         public DbSet<Direccion> Direccions { get; set; }
         public DbSet<DetalleFactura> DetalleFacturas { get; set; }

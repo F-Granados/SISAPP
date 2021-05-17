@@ -86,8 +86,10 @@
     <Compile Include="Data\Configuration\DireccionDatoConfiguration.cs" />
     <Compile Include="Data\Configuration\EstadoConfiguration.cs" />
     <Compile Include="Data\Configuration\EstadoPagoConfiguration.cs" />
+    <Compile Include="Data\Configuration\EstadoServicioConfiguration.cs" />
     <Compile Include="Data\Configuration\FacturaConfiguration.cs" />
     <Compile Include="Data\Configuration\LecturaConfiguration.cs" />
+    <Compile Include="Data\Configuration\ManzanaConfiguration.cs" />
     <Compile Include="Data\Configuration\MedidorConfiguration.cs" />
     <Compile Include="Data\Configuration\OpcionConfiguracion.cs" />
     <Compile Include="Data\Configuration\OpcionUsuarioConfiguracion.cs" />
@@ -101,7 +103,9 @@
     <Compile Include="Menu\Menus.cs" />
     <Compile Include="Menu\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CiclosService.cs" />
     <Compile Include="Service\ClienteService.cs" />
+    <Compile Include="Service\LecturaService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\OpcionService.cs" />
     <Compile Include="Service\UrbanizacionService.cs" />

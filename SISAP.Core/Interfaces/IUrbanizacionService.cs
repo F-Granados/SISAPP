@@ -1,19 +1,22 @@
-﻿using System;
+﻿using SISAP.Core.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SISAP.Core.Entities;
 
 namespace SISAP.Core.Interfaces
 {
-    public interface IUrbanizacionService
+	public interface IUrbanizacionService
     {
+        void DeleteManzana(int ManzanaId);
+        void UpdateManzana(Manzana objManzana);
+        IEnumerable<Manzana> GetUrbByManzanaNombre(string NombreManzana, int pageSize, int skip, out int nroTotalRegistros);
+        Manzana CreateManzana(Manzana objManzana);
+        void DeleteUrbanizacion(int UrbanizacionId);
+        void UpdateUrbanizacion(Urbanizacion objUrbanizacion);
+        IEnumerable<Urbanizacion> GetUrbByUrbanizacionNombre(string NombreUrbanizacion, int pageSize, int skip, out int nroTotalRegistros);
+        Urbanizacion Create(Urbanizacion objUrbanizacion);
         IEnumerable<Urbanizacion> GetAll();
-
-        Urbanizacion RegistroUrbanizacion(string TipoUrbanizacion, string Urbanizaciones);
-
-
-
+        IEnumerable<Manzana> GetManzanaByUrbanizacionId(int UrbanizacionId);
+        IEnumerable<Servicio> GetAllServicios();
+        IEnumerable<Categoria> GetAllCategoria();
+        IEnumerable<EstadoServicio> GetListEstadoServicio();
     }
 }

@@ -24,7 +24,6 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult ListaUsuarios()
         {
-            var user = SessionHelper.Get<string>("Nombre, Apellido, Codigo");
             var usuarios = _usuarioService.GetAll();
 
             return Json(usuarios, JsonRequestBehavior.AllowGet);
