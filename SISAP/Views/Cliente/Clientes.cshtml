@@ -60,22 +60,26 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-sm-4 mb-3">
+                                <div class="col-sm-3 mb-3">
                                     <label>Urbanizacion</label>
                                     <select id="ddUrbanizacion" class="form-control">
                                     </select>
                                 </div>
-                                <div class="col-sm-4 mb-3">
+                                <div class="col-sm-3 mb-3">
                                     <label>Manzana</label>
                                     <select id="ddManzana" class="form-control">
                                     </select>
                                 </div>
 
-                                <div class="col-sm-4 mb-3">
+                                <div class="col-sm-3 mb-3">
                                     <label>Lote </label>
                                     <input type="text" id="ctxtDireccion" class="form-control" placeholder="05">
 
 
+                                </div>
+                                <div class="col-sm-3 mb-3">
+                                    <label>Complemento</label>
+                                    <input type="text" id="ctxtComplemento" class="form-control" placeholder="">
                                 </div>
 
                             </div>
@@ -106,6 +110,11 @@
                                 <div class="col-sm-3 mb-3">
                                     <label>Numero de medidor </label>
                                     <input required id="ctxtNumeroMedidor" type="text" class="form-control" placeholder="">
+                                </div>
+
+                                <div class="col-sm-3 mb-3">
+                                    <label>Observaciones</label>
+                                    <input type="text" id="ctxtObservaciones" class="form-control" placeholder="">
                                 </div>
                             </div>
 
@@ -350,12 +359,14 @@
         $("#ctxtTelefono").val(dCliente.Telefono);
         $("#ctxtDireccion").val(dCliente.Direccion);
         $("#ddUrbanizacion").val(dCliente.UrbanizacionId);
+        $("#ctxtComplemento").val(dCliente.Complemento);
         ListarManzana(dCliente.UrbanizacionId);
         $("#ddServicios").val(dCliente.ServicioId);
         $("#ddCategoria").val(dCliente.CategoriaId);
         $("#ddEstadoServicio").val(dCliente.EstadoServicioId);
         $("#ddEstadoServicio").val(dCliente.EstadoServicioId);
         $("#ctxtNumeroMedidor").val(dCliente.NumeroMedidor);
+        $("#ctxtObservaciones").val(dCliente.Observaciones);
         $("#ddEstadoServicio").val(dCliente.EstadoServicioId);
 
     }
@@ -364,8 +375,8 @@
 
         if ($('#ctxtCodigo').val() == "" || $('#ctxtNombre').val() == "" || $('#ctxtApellido').val() == "" ||
             $('#ctxtDNI').val() == ""|| $('#ctxtTelefono').val() == "" || $('#ctxtDireccion').val() == "" ||
-            $('#ddUrbanizacion').val() == "" || $('#ddServicios').val() == "" || $('#ddCategoria').val() == "" ||
-            $('#ctxtNumeroMedidor').val() == "") {
+            $('#ddUrbanizacion').val() == "" || $('#ctxtComplemento').val() =="" || $('#ddServicios').val() == "" || $('#ddCategoria').val() == "" ||
+            $('#ctxtNumeroMedidor').val() == "" || $('#ctxtObservaciones').val() =="") {
             $("#MSGvalidacion").show();
 
             return false;
@@ -381,10 +392,12 @@
         objCliente.Direccion = $("#ctxtDireccion").val();
         objCliente.UrbanizacionId = $("#ddUrbanizacion").val();
         objCliente.ManzanaId = $("#ddManzana").val();
+        objCliente.Complemento = $('#ctxtComplemento').val();
         objCliente.ServicioId = $("#ddServicios").val();
         objCliente.CategoriaId = $("#ddCategoria").val();
         objCliente.NumeroMedidor = $("#ctxtNumeroMedidor").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
+        objCliente.Observaciones = $('#ctxtObservaciones').val();
 
         $.ajax({
 
@@ -416,9 +429,11 @@
         objCliente.Direccion = $("#ctxtDireccion").val();
         objCliente.UrbanizacionId = $("#ddUrbanizacion").val();
         objCliente.ManzanaId = $("#ddManzana").val();
+        objCliente.Complemento = $("#ctxtComplemento").val();
         objCliente.ServicioId = $("#ddServicios").val();
         objCliente.CategoriaId = $("#ddCategoria").val();
         objCliente.NumeroMedidor = $("#ctxtNumeroMedidor").val();
+        objCliente.Observaciones = $("#ctxtObservaciones").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
 
         $.ajax({
@@ -463,8 +478,10 @@
         $("#ctxtDireccion").val("");
         $("#ddUrbanizacion").val("");
         $("#ddManzana").val("");
+        $("ctxtComplemento").val("");
         $("#ddServicios").val("");
         $("#ddCategoria").val("");
+        $("#ctxtObservaciones").val("");
         $("#ctxtNumeroMedidor").val("");
     }
 

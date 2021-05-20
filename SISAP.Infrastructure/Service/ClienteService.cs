@@ -36,11 +36,13 @@ namespace SISAP.Infrastructure.Service
                                c.Direccion,
                                c.UrbanizacionId,
                                c.ManzanaId,
+                               c.Complemento,
                                c.ServicioId,
                                c.CategoriaId,
                                c.NumeroMedidor,
                                c.EstadoServicioId,
                                s.EstadoDescripcion,
+                               c.Observaciones,
                                u.NombreUrbanizacion,
                                m.NombreManzana
 
@@ -62,10 +64,12 @@ namespace SISAP.Infrastructure.Service
                                         ManzanaId = c.ManzanaId,
                                         ServicioId = c.ServicioId,
                                         CategoriaId = c.CategoriaId,
+                                        Complemento = c.Complemento,
                                         NumeroMedidor = c.NumeroMedidor,
                                         EstadoServicioId = c.EstadoServicioId,
                                         UrbanizacionNombre = c.NombreUrbanizacion,
                                         ManzanaNombre = c.NombreManzana,
+                                        Observaciones = c.Observaciones,
                                         EstadoServicio = new EstadoServicio()
 										{
                                             EstadoServicioId = c.EstadoServicioId,

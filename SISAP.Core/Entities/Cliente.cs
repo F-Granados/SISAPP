@@ -13,12 +13,14 @@ namespace SISAP.Core.Entities
         public string DNI { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+        public string Complemento { get; set; }
         public int UrbanizacionId { get; set; }
         public int ManzanaId { get; set; }
         public int ServicioId { get; set; }
         public int CategoriaId { get; set; }
         public string NumeroMedidor { get; set; }
         public int EstadoServicioId { get; set; }
+        public string Observaciones { get; set; }
 
         [NotMapped]
         public string UrbanizacionNombre { get; set; }
@@ -56,7 +58,7 @@ namespace SISAP.Core.Entities
         [NotMapped]
         public string DireccionStr
         {
-            get { return string.Format("{0}, {1}, {2}", "Urb. "+this.UrbanizacionNombre, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
+            get { return string.Format("{0}, {1}, {2},{3}", "Urb. "+this.UrbanizacionNombre,"." + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
         }
 
 
