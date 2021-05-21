@@ -13,7 +13,7 @@ namespace SISAP.Infrastructure.Service
 {
     public class ClienteService : _BaseContext, IClienteService
     {
-        public IEnumerable<Cliente> GetAll(string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
+        public IEnumerable<Cliente> GetAll(string FilterNombre, string FilterCodigo, string FilterMedidor, int pageSize, int skip, out int nroTotalRegistros)
         {
             using (var dbContext = GetSISAPDBContext())
             {
@@ -22,7 +22,7 @@ namespace SISAP.Infrastructure.Service
                            join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
                            join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
                            where 
-                                (string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido).Contains(FilterNombre.ToUpper()))
+                                (string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor +""+ c.CodigoCliente).Contains(FilterNombre.ToUpper()))
                            orderby c.Nombre ascending
                            select new
                            {

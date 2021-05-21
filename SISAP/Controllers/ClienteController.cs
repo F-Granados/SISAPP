@@ -27,7 +27,7 @@ namespace SISAP.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult ListarClientes(string FilterNombre)
+        public JsonResult ListarClientes(string FilterNombre, string FilterCodigo,string FilterMedidor)
         {
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
@@ -37,7 +37,7 @@ namespace SISAP.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int nroTotalRegistros = 0;
 
-            var clientes = _clienteService.GetAll(FilterNombre, pageSize, skip, out nroTotalRegistros);
+            var clientes = _clienteService.GetAll(FilterNombre, FilterCodigo, FilterMedidor, pageSize, skip, out nroTotalRegistros);
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = clientes }, JsonRequestBehavior.AllowGet);
 

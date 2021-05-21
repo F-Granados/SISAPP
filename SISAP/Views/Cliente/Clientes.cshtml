@@ -1,8 +1,10 @@
 ﻿<!--Modal  registro de usuario-->
 
+
+
 <div id="modal_aside_right" class="modal fixed-right fade fuente " tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-aside " role="document">
-        <div class="modal-content">
+        <div  id="form" class="modal-content">
             <div class="modal-body mt-4 ">
                 <div class="col-md-12 mx-auto">
 
@@ -15,28 +17,31 @@
                             <div class="row">
                                 <div class="col-sm-3 mb-3">
                                     <label>Codigo </label>
-                                    <input type="text" id="ctxtCodigo" class="form-control" placeholder="">
+                                    <input type="text" id="ctxtCodigo" class="form-control" onkeypress="return ValidaLongitud(this, 7);" placeholder="" required />
+                                    <span id="msjcodigo"></span>
+
                                 </div>
                                 <div hidden class="col-sm-3 mb-3">
                                     <label>ClienteId</label>
-                                    <input type="text" id="ctxtClienteId" class="form-control" placeholder="">
+                                    <input type="text" id="ctxtClienteId" class="form-control" placeholder="" required />
                                 </div>
                                 <div hidden class="col-sm-3 mb-3">
                                     <label>EstadoServicioId</label>
-                                    <input type="text" id="ctxtEstadoServicioId" class="form-control" placeholder="">
+                                    <input type="text" id="ctxtEstadoServicioId" class="form-control" placeholder="" />
                                 </div>
                                 <div class="col-sm-3 mb-3">
                                     <label>Nombre </label>
                                     <input type="text" id="ctxtNombre" class="form-control" placeholder="">
-
+                                    <span id="msjnombre"></span>
                                 </div>
                                 <div class="col-sm-3 mb-3">
                                     <label>Apellido </label>
                                     <input type="text" id="ctxtApellido" class="form-control" placeholder="">
+                                    <span id="msjapellido"></span>
                                 </div>
                                 <div class="col-sm-3 mb-3">
                                     <label>DNI </label>
-                                    <input type="number" id="ctxtDNI" class="form-control" placeholder="">
+                                    <input type="number" id="ctxtDNI" class="form-control" onkeypress="return ValidaLongitud(this, 8);" placeholder="">
                                 </div>
 
                             </div>
@@ -44,7 +49,7 @@
 
                                 <div class="col-sm-3 mb-3">
                                     <label>Telefono </label>
-                                    <input type="number" id="ctxtTelefono" class="form-control" placeholder="">
+                                    <input type="number" id="ctxtTelefono" class="form-control" onkeypress="return ValidaLongitud(this, 9);" placeholder="">
 
                                 </div>
 
@@ -73,7 +78,7 @@
 
                                 <div class="col-sm-3 mb-3">
                                     <label>Lote </label>
-                                    <input type="text" id="ctxtDireccion" class="form-control" placeholder="05">
+                                    <input type="number" id="ctxtDireccion" class="form-control" placeholder="05">
 
 
                                 </div>
@@ -125,8 +130,9 @@
                 </div>
 
             </div>
+
             <div class="modal-footer p-1">
-                <label id="MSGvalidacion" class=" text-danger" style="display:none">Debe LLenar todos los campos</label>
+                <label id="MSGvalidacion" class=" text-danger" style="display:none">Debe llenar todos los campos</label>
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnSave" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Guardar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
@@ -134,6 +140,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- modal registrar cliente.// -->
 
@@ -163,6 +170,7 @@
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
                 <tr class="bg-info text-light">
+                    <th scope="col">Codigo</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Direccion</th>
                     <th scope="col">Medidor</th>
@@ -174,6 +182,7 @@
 
     </div>
 </div>
+
 
 <script>
 
@@ -237,6 +246,7 @@
             },
 
             "columns": [
+                { "data":"CodigoCliente"},
                 { "data":"NombreCompleto" },
                 { "data":"DireccionStr" },
                 { "data":"NumeroMedidor" },
@@ -244,7 +254,7 @@
                 {
                     "data": "id",  "render": function(data, type, row, meta) {
                         return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i> </a>" +
-                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
+                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) +")'></i>"
                             //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
                     }
                 },
@@ -478,7 +488,7 @@
         $("#ctxtDireccion").val("");
         $("#ddUrbanizacion").val("");
         $("#ddManzana").val("");
-        $("#ctxtComplemento").val("");
+        $("ctxtComplemento").val("");
         $("#ddServicios").val("");
         $("#ddCategoria").val("");
         $("#ctxtObservaciones").val("");
@@ -506,4 +516,23 @@
         });
     }
 
+</script>
+@*<script type="text/javascript" src="~/Scripts/registrocliente/registrocliente.js"></script>*@
+<script>
+
+    function asegurar() {
+        rc = confirm("¿Seguro que desea Eliminar?");
+        return rc;
+    }
+
+    function ValidaLongitud(campo, longitudMaxima) {
+        try {
+            if (campo.value.length > (longitudMaxima - 1))
+                return false;
+            else
+                return true;
+        } catch (e) {
+            return false;
+        }
+    }
 </script>
