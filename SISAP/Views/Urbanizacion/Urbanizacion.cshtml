@@ -109,7 +109,7 @@
                 "data": function (d) {
                     return $.extend({}, d, {
                         NombreUrbanizacion: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
-                        
+
                     });
                 },
                 "dataSrc": "data",
@@ -201,6 +201,9 @@
         });
         Clean();
     }
+      
+
+
 
     function Delete(dCliente) {
         var data = { UrbanizacionId: dCliente.UrbanizacionId };
@@ -234,4 +237,36 @@
         }
     }
 
+
+
+
+    let timerInterval
+    Swal.fire({
+        title: 'Auto close alert!',
+        html: 'I will close in <b></b> milliseconds.',
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading()
+            timerInterval = setInterval(() => {
+                const content = Swal.getHtmlContainer()
+                if (content) {
+                    const b = content.querySelector('b')
+                    if (b) {
+                        b.textContent = Swal.getTimerLeft()
+                    }
+                }
+            }, 100)
+        },
+        willClose: () => {
+            clearInterval(timerInterval)
+        }
+    }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+        }
+    })
+
 </script>
+

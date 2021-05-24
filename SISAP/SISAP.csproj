@@ -189,6 +189,8 @@
     <Content Include="Content\css\usuario\usuario.css" />
     <Content Include="Content\HideDatePlaceholderInput.css" />
     <Content Include="Content\jquery.datetimepicker.css" />
+    <Content Include="Content\sweetalert2\alert.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
