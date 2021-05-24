@@ -48,7 +48,7 @@ namespace SISAP.Controllers
             return Json(urbanizacions, JsonRequestBehavior.AllowGet);
 		}
         [HttpPost]
-        public JsonResult ListarUrbanizacionByNombre(string NombreUrbanizacion)
+        public JsonResult ListarUrbanizacionByNombre(string NombreUrbanizacion, string CodigoUrbanizacion)
 		{
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
@@ -58,7 +58,7 @@ namespace SISAP.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int nroTotalRegistros = 0;
 
-            var urbanizacions = _commonService.GetUrbByUrbanizacionNombre(NombreUrbanizacion, pageSize, skip, out nroTotalRegistros);
+            var urbanizacions = _commonService.GetUrbByUrbanizacionNombre(NombreUrbanizacion, CodigoUrbanizacion, pageSize, skip, out nroTotalRegistros);
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = urbanizacions }, JsonRequestBehavior.AllowGet);
 

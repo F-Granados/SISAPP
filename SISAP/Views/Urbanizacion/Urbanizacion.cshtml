@@ -14,9 +14,15 @@
             </div>
             <div class="modal-body">
                 <div class="col-sm-12mb-12">
+                    <label>Codigo </label>
+                    <input id="txtCodigoUrbanizacion" type="text" class="form-control" onkeypress="return ValidaLongitud(this, 3);" placeholder="">
+                    <input hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
+                </div>
+
+                <div class="col-sm-12mb-12">
                     <label>Urbanizacion </label>
-                    <input  id="txtUrbanizacion" type="text" class="form-control" placeholder="">
-                    <input  hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
+                    <input id="txtUrbanizacion" type="text" class="form-control" placeholder="">
+                    <input hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
                 </div>
             </div>
             <br />
@@ -56,6 +62,7 @@
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
                 <tr class="bg-info text-light">
+                    <th scope="col">N</th>
                     <th scope="col">Código</th>
                     <th scope="col">Urbanizacion</th>
                     <th scope="col">Opciones</th>
@@ -102,6 +109,7 @@
                 "data": function (d) {
                     return $.extend({}, d, {
                         NombreUrbanizacion: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
+                        
                     });
                 },
                 "dataSrc": "data",
@@ -110,7 +118,8 @@
             },
 
             "columns": [
-                { "data":"UrbanizacionId" },
+                { "data": "UrbanizacionId" },
+                { "data": "CodigoUrbanizacion" },
                 { "data":"NombreUrbanizacion" },
                 {
                     "data": "id",  "render": function(data, type, row, meta) {
@@ -139,6 +148,7 @@
 
         var objUrbanizacion = {};
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
+        objUrbanizacion.CodigoUrbanizacion = $("#txtCodigoUrbanizacion").val();
 
         $.ajax({
 
@@ -163,7 +173,7 @@
         $("#btnSave").hide();
         $("#btnUpdate").show();
         $("#exampleModalCenter").modal('show');
-
+        $("#txtCodigoUrbanizacion").val(dCliente.CodigoUrbanizacion);
         $("#txtUrbanizacion").val(dCliente.NombreUrbanizacion);
         $("#txtUrbanizacionId").val(dCliente.UrbanizacionId);
 
@@ -174,6 +184,7 @@
 
         objUrbanizacion.UrbanizacionId = $("#txtUrbanizacionId").val();
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
+        objUrbanizacion.CodigoUrbanizacion = $("#txtCodigoUrbanizacion").val();
 
         $.ajax({
 
@@ -209,6 +220,18 @@
     function Clean() {
         $("#txtUrbanizacion").val("");
         $("#txtUrbanizacionId").val("");
+        $("#txtCodigoUrbanizacion").val("");
+    }
+
+    function ValidaLongitud(campo, longitudMaxima) {
+        try {
+            if (campo.value.length > (longitudMaxima - 1))
+                return false;
+            else
+                return true;
+        } catch (e) {
+            return false;
+        }
     }
 
 </script>

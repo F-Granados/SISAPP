@@ -91,7 +91,7 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
-		public IEnumerable<Urbanizacion> GetUrbByUrbanizacionNombre(string NombreUrbanizacion, int pageSize, int skip, out int nroTotalRegistros)
+		public IEnumerable<Urbanizacion> GetUrbByUrbanizacionNombre(string NombreUrbanizacion, string CodigoUrbanizacion, int pageSize, int skip, out int nroTotalRegistros)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -102,6 +102,7 @@ namespace SISAP.Infrastructure.Service
 						   select new
 						   {
 							   u.UrbanizacionId,
+							   u.CodigoUrbanizacion,
 							   u.NombreUrbanizacion
 						   });
 				nroTotalRegistros = sql.Count();
@@ -110,6 +111,7 @@ namespace SISAP.Infrastructure.Service
 								 select new Urbanizacion()
 								 {
 									 UrbanizacionId = c.UrbanizacionId,
+									 CodigoUrbanizacion=c.CodigoUrbanizacion,
 									 NombreUrbanizacion = c.NombreUrbanizacion
 								 }).ToList();
 				return ListFinal;

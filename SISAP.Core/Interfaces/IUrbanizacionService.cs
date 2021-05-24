@@ -11,7 +11,7 @@ namespace SISAP.Core.Interfaces
         Manzana CreateManzana(Manzana objManzana);
         void DeleteUrbanizacion(int UrbanizacionId);
         void UpdateUrbanizacion(Urbanizacion objUrbanizacion);
-        IEnumerable<Urbanizacion> GetUrbByUrbanizacionNombre(string NombreUrbanizacion, int pageSize, int skip, out int nroTotalRegistros);
+        IEnumerable<Urbanizacion> GetUrbByUrbanizacionNombre(string NombreUrbanizacion, string CodigoUrbanizacion, int pageSize, int skip, out int nroTotalRegistros);
         Urbanizacion Create(Urbanizacion objUrbanizacion);
         IEnumerable<Urbanizacion> GetAll();
         IEnumerable<Manzana> GetManzanaByUrbanizacionId(int UrbanizacionId);
