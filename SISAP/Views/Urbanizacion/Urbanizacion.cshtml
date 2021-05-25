@@ -15,8 +15,8 @@
             <div class="modal-body">
                 <div class="col-sm-12mb-12">
                     <label>Codigo </label>
-                    <input id="txtCodigoUrbanizacion" type="text" class="form-control" onkeypress="return ValidaLongitud(this, 3);" placeholder="">
-                    <input hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
+                    <input id="txtCodigoUrbanizacion" type="number" class="form-control" onkeypress="return ValidaLongitud(this, 3);" placeholder="">
+                    <input hidden id="txtUrbanizacionId" type="number" class="form-control" placeholder="">
                 </div>
 
                 <div class="col-sm-12mb-12">
@@ -69,7 +69,10 @@
                 </tr>
             </thead>
         </table>
-
+        <div class="modal-footer p-1">
+            <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
+            <button class="btn btn-dark btn-sm" id="btnprint" type="submit"><i class="fas fa-print"></i> Print</button>
+        </div>
     </div>
 </div>
 
@@ -201,7 +204,7 @@
         });
         Clean();
     }
-      
+
 
 
 
@@ -267,6 +270,8 @@
             console.log('I was closed by the timer')
         }
     })
-
+   
 </script>
+
+
 

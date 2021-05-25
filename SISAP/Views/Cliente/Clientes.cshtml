@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="col-sm-3 mb-3">
                                     <label>Numero de medidor </label>
-                                    <input required id="ctxtNumeroMedidor" type="text" class="form-control" placeholder="">
+                                    <input required id="ctxtNumeroMedidor" type="text" class="form-control" onkeypress="return ValidaLongitud(this, 11);" placeholder="">
                                 </div>
 
                                 <div class="col-sm-3 mb-3">
@@ -179,6 +179,10 @@
                 </tr>
             </thead>
         </table>
+        <div class="modal-footer p-1">
+            <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
+            <button class="btn btn-dark btn-sm" id="btnprint" type="submit"><i class="fas fa-print"></i> Print</button>
+        </div>
 
     </div>
 </div>
