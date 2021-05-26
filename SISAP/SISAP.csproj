@@ -291,6 +291,8 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\registrocliente\registrocliente.js" />
+    <Content Include="Scripts\src\html2pdf.bundle.min.js" />
+    <Content Include="Scripts\src\html2pdf.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -309,6 +311,7 @@
     <Content Include="Scripts\src\modifiers\offset.js" />
     <Content Include="Scripts\src\modifiers\preventOverflow.js" />
     <Content Include="Scripts\src\modifiers\shift.js" />
+    <Content Include="Scripts\src\table2excel.js" />
     <Content Include="Scripts\src\utils\clockwise.js" />
     <Content Include="Scripts\src\utils\computeAutoPlacement.js" />
     <Content Include="Scripts\src\utils\debounce.js" />

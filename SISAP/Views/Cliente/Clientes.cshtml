@@ -166,22 +166,23 @@
                 </div>
             </div>
         </div>
-
-        <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
-            <thead>
-                <tr class="bg-info text-light">
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Medidor</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-sm  table-striped table-responsive-sm" id="allGrilla">
+                <thead>
+                    <tr class="bg-info text-light">
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Medidor</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
         <div class="modal-footer p-1">
             <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
-            <button class="btn btn-dark btn-sm" id="btnprint" type="submit"><i class="fas fa-print"></i> Print</button>
+            <button class="btn btn-dark btn-sm" id="printPDF" onclick="printPDF()"  type="submit"><i class="fas fa-print"></i> Print</button>
         </div>
 
     </div>

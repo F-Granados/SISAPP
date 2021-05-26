@@ -25,9 +25,19 @@
     @Scripts.Render("~/Scripts/bootstrap.js")
     @Scripts.Render("~/Scripts/jquery-3.5.1.slim.min.js")
     @Styles.Render("~/Content/bootstrap-datepicker.standalone.css")
-    <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
-    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
+    @Scripts.Render("~/Scripts/src/table2excel.js")
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+            integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw=="
+            crossorigin="anonymous"></script>
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+    <script src="~/Scripts/src/html2pdf.bundle.min.js"></script>
+
+
+    <script src="~/Scripts/src/html2pdf.js"></script>
+
+
+    @*<script src="~/Scripts/src/table2excel.js"></script>*@
 
 
     @*<script src="~/Content/sweetalert2/sweetalert2.all.min.js"></script>*@
@@ -50,7 +60,7 @@
         </button>
 
         <div class="collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-start bg-dark p-4 p-lg-0 mt-5 mt-lg-0 mobileMenu " id="navbarSupportedContent">
-            <ul class="navbar-nav align-self-stretch">
+            <ul class="navbar-nav align-self-stretch text-center">
                 @Html.Raw(HTML_MENU)
             </ul>
             <div class="dropdown  ml-auto">
@@ -111,8 +121,70 @@
                 $(".mobileMenu, .overlay").toggleClass("open");
             })
         });
+
+
+        /**********excel*****/
+
+        document.getElementById('btnExportar').addEventListener('click', function () {
+
+            var table2excel = new Table2Excel();
+            table2excel.export(document.querySelectorAll("#allGrilla"));
+        });
+
+
+        /***************pdf**********/
+
+
+
+        function printPDF() {
+            html2canvas(document.getElementById('allGrilla'), { height: document.body.clientHeight, width: document.body.clientWidth }).then(function (canvas) {
+                // document.body.appendChild(canvas);
+                var wid;
+                var hgt;
+
+                var img = canvas.toDataURL("image/png", wid = canvas.width, hgt = canvas.height);
+                var hratio = hgt / wid
+                var doc = new jsPDF('p', 'pt', 'a4');
+                var width = doc.internal.pageSize.width;
+                var height = width * hratio
+                doc.addImage(img, 'JPEG', 100, 20, width, height);
+                doc.save('Test.pdf');
+            });
+
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escuchamos el click del botón
+            const $boton = document.querySelector("#printPDF");
+            $boton.addEventListener("click", () => {
+                const $elementoParaConvertir = document.body; // <-- Aquí puedes elegir cualquier elemento del DOM
+                html2pdf()
+                    .set({
+                        margin: 1,
+                        filename: 'documento.pdf',
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 3, // A mayor escala, mejores gráficos, pero más peso
+                            letterRendering: true,
+                        },
+                        jsPDF: {
+                            unit: "in",
+                            format: "a3",
+                            orientation: 'portrait' // landscape o portrait
+                        }
+                    })
+                    .from($elementoParaConvertir)
+                    .save()
+                    .catch(err => console.log(err));
+            });
+        });
+
     </script>
-    <script>
+    @*<script>
         const $btnExportar = document.querySelector("#btnExportar"),
             $allGrilla = document.querySelector("#allGrilla");
 
@@ -126,6 +198,6 @@
             let preferenciasDocumento = datos.allGrilla.xlsx;
             tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
         });
-    </script>
+    </script>*@
 </body>
 </html>

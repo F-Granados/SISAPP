@@ -60,20 +60,25 @@
                 </div>
             </div>
         </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered table-hover table-striped table-responsive-sm" id="allGrilla">
+                <thead>
+                    <tr class="bg-info text-light">
+                        <th scope="col">Código</th>
+                        <th scope="col">Urbanizacion</th>
+                        <th scope="col">Manzana</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+            </table>
+            </div>
 
-        <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
-            <thead>
-                <tr class="bg-info text-light">
-                    <th scope="col">Código</th>
-                    <th scope="col">Urbanizacion</th>
-                    <th scope="col">Manzana</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-        </table>
+            <div class="modal-footer p-1">
 
+                <button class="btn btn-dark btn-sm" id="printPDF" onclick="window.print()" type="submit"><i class="fas fa-print"></i> Print</button>
+            </div>
+        </div>
     </div>
-</div>
 
 <script>
 
