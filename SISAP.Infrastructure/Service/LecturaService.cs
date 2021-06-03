@@ -67,6 +67,7 @@ namespace SISAP.Infrastructure.Service
 										Promedio = c.Promedio,
 										Alerta = c.Alerta
 									}).ToList();
+
 				return ListadoFinal;
 			}
 		}
