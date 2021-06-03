@@ -155,7 +155,7 @@ namespace SISAP.Infrastructure.Service
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
-				return dbContext.servicios.OrderBy(o => o.ServicioId).ToList();
+				return dbContext.Servicios.OrderBy(o => o.ServicioId).ToList();
 			}
 		}
 

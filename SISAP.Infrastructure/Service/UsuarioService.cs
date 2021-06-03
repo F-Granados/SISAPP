@@ -25,7 +25,7 @@ namespace SISAP.Infrastructure.Service
                            {
 
                                u.UsuarioId,
-                               u.usuario,
+                               u.User,
                                u.Nombre,
                                u.Password
                            });
@@ -35,7 +35,7 @@ namespace SISAP.Infrastructure.Service
                                  select new Usuario()
                                  {
                                      UsuarioId = c.UsuarioId,
-                                     usuario = c.usuario,
+                                     User = c.User,
                                      Nombre = c.Nombre,
                                      Password = c.Password
                                  }).ToList();
@@ -47,7 +47,7 @@ namespace SISAP.Infrastructure.Service
         {
             using (var dbContext = GetSISAPDBContext())
             {
-                return dbContext.Usuarios.FirstOrDefault(u => u.usuario == user && u.Password == password);
+                return dbContext.Usuarios.FirstOrDefault(u => u.User == user && u.Password == password);
             }
         }
 

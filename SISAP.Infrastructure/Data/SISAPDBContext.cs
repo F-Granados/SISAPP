@@ -45,7 +45,7 @@ namespace SISAP.Infrastructure.Data
         }
         public DbSet<Urbanizacion> Urbanizacions { get; set; }
         public DbSet<TipoCategoria> TipoCategorias { get; set; }
-        public DbSet<Servicio> servicios { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
         public DbSet<Pago> Pagos { get; set; }
         public DbSet<Medidor> Medidors { get; set; }
         public DbSet<Lectura> Lecturas { get; set; }

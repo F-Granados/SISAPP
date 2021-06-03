@@ -34,7 +34,7 @@ namespace SISAP.Controllers
                 }
                 var userData = _usuarioService.SingIn(user, password);
                 SessionHelper.Set<int?>("UsuarioId", userData.UsuarioId);
-                SessionHelper.Set<string>("usuario", userData.usuario);
+                SessionHelper.Set<string>("usuario", userData.User);
                 SessionHelper.Set<string>("Nombre", userData.Nombre);
 
                 return Redirect(Url.Action("Inicio", "Inicio"));
