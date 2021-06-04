@@ -15,7 +15,7 @@ namespace SISAP.Infrastructure.Service
         {
             using (var dbContext = GetSISAPDBContext())
             {
-                return dbContext.Usuarios.FirstOrDefault(o => o.User.Contains(user) && o.Password.Contains(password));
+                return dbContext.Usuarios.FirstOrDefault(o => o.usuario.Contains(user) && o.Password.Contains(password));
             }
         }
         public bool LogOut()

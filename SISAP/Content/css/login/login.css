@@ -1,4 +1,13 @@
-﻿.mt {
+﻿body {
+    background-image: url('/Img/Distant Mountain.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+
+.mt {
     top: 90px;
 }
 

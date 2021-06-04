@@ -3,8 +3,6 @@
     ViewBag.Title = "Configuracion";
 }
 
-
-
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -140,7 +138,7 @@
             "columns": [
                 { "data": "UsuarioId" },
                 { "data": "Nombre"},
-                { "data": "User" },
+                { "data": "usuario" },
                 { "data": "Password" },
                 { "data": "Rol" },
                 {
@@ -170,7 +168,7 @@
 
         var objUsuario = {};
         objUsuario.Nombre = $("#txtNombreUsuario").val();
-        objUsuario.User = $("#txtUsuario").val();
+        objUsuario.usuario = $("#txtUsuario").val();
         objUsuario.Password = $("#txtContraseñaUsuario").val();
 
         $.ajax({
@@ -199,7 +197,7 @@
 
         $("#txtUsuarioId").val(dUsuario.UsuarioId);
         $("#txtNombreUsuario").val(dUsuario.Nombre);
-        $("#txtUsuario").val(dUsuario.User);
+        $("#txtUsuario").val(dUsuario.usuario);
         $("#txtContraseñaUsuario").val(dUsuario.Password);       
       
 
@@ -209,7 +207,7 @@
         var objUsuario = {};
 
         objUsuario.UsuarioId = $("#txtUsuarioId").val();
-        objUsuario.User = $("#txtUsuario").val();
+        objUsuario.usuario = $("#txtUsuario").val();
         objUsuario.Nombre = $("#txtNombreUsuario").val();
         objUsuario.Password = $("#txtContraseñaUsuario").val();
 
