@@ -26,23 +26,8 @@
     @Scripts.Render("~/Scripts/jquery-3.5.1.slim.min.js")
     @Styles.Render("~/Content/bootstrap-datepicker.standalone.css")
     @Scripts.Render("~/Scripts/src/table2excel.js")
-    @*<script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
-            integrity="sha512-cLuyDTDg9CSseBSFWNd4wkEaZ0TBEpclX0zD3D6HjI19pO39M58AgJ1SjHp6c7ZOp0/OCRcC2BCvvySU9KJaGw=="
-            crossorigin="anonymous"></script>
-    <script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-    <script src="~/Scripts/src/html2pdf.bundle.min.js"></script>
 
-
-    @*<script src="~/Scripts/src/html2pdf.js"></script>*@
-
-
-    @*<script src="~/Scripts/src/table2excel.js"></script>*@
-
-
-    @*<script src="~/Content/sweetalert2/sweetalert2.all.min.js"></script>*@
-    
-
+    <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
 
 </head>
 <body>
@@ -60,12 +45,12 @@
         </button>
 
         <div class="collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-start bg-dark p-4 p-lg-0 mt-5 mt-lg-0 mobileMenu " id="navbarSupportedContent">
-            <ul class="navbar-nav align-self-stretch text-center">
+            <ul class="navbar-nav align-self-stretch">
                 @Html.Raw(HTML_MENU)
             </ul>
             <div class="dropdown  ml-auto">
                 <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="text-light"><i class=" fas fa-user"></i> Bienvenido  @Session["Nombre"]</span>
+                    <span class="text-light"><i class=" fas fa-user"></i> Bienvenido @Session["usuario"]</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="~/Configuracion/Perfil"><i class="far fa-user"></i> Perfil</a>
@@ -107,6 +92,8 @@
     <script src='@Url.Content("~/Scripts/bootstrap-datepicker.js")'></script>
     <script src='@Url.Content("~/Scripts/bootstrap-datepicker.min.js")'></script>
 
+
+
     <script>
         $(document).ready(function () {
             $("#LogOut").on('click', function () {
@@ -126,8 +113,23 @@
         });
 
 
-        /**********excel*****/
+        /***************TAMAÑO DE CAMPO DE TEXTO*******************/
 
+        function ValidaLongitud(campo, longitudMaxima) {
+            try {
+                if (campo.value.length > (longitudMaxima - 1))
+                    return false;
+                else
+                    return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+
+
+
+        /********************* EXPORTAR EXCEL*************************************/
         document.getElementById('btnExportar').addEventListener('click', function () {
 
             var table2excel = new Table2Excel();
@@ -135,72 +137,6 @@
         });
 
 
-        /***************pdf**********/
-
-
-
-        function printPDF() {
-            html2canvas(document.getElementById('allGrilla'), { height: document.body.clientHeight, width: document.body.clientWidth }).then(function (canvas) {
-                // document.body.appendChild(canvas);
-                var wid;
-                var hgt;
-
-                var img = canvas.toDataURL("image/png", wid = canvas.width, hgt = canvas.height);
-                var hratio = hgt / wid
-                var doc = new jsPDF('p', 'pt', 'a4');
-                var width = doc.internal.pageSize.width;
-                var height = width * hratio
-                doc.addImage(img, 'JPEG', 100, 20, width, height);
-                doc.save('Test.pdf');
-            });
-
-        }
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // Escuchamos el click del botón
-            const $boton = document.querySelector("#printPDF");
-            $boton.addEventListener("click", () => {
-                const $elementoParaConvertir = document.body; // <-- Aquí puedes elegir cualquier elemento del DOM
-                html2pdf()
-                    .set({
-                        margin: 1,
-                        filename: 'documento.pdf',
-                        image: {
-                            type: 'jpeg',
-                            quality: 0.98
-                        },
-                        html2canvas: {
-                            scale: 3, // A mayor escala, mejores gráficos, pero más peso
-                            letterRendering: true,
-                        },
-                        jsPDF: {
-                            unit: "in",
-                            format: "a3",
-                            orientation: 'portrait' // landscape o portrait
-                        }
-                    })
-                    .from($elementoParaConvertir)
-                    .save()
-                    .catch(err => console.log(err));
-            });
-        });
-
     </script>
-    @*<script>
-        const $btnExportar = document.querySelector("#btnExportar"),
-            $allGrilla = document.querySelector("#allGrilla");
-
-        $btnExportar.addEventListener("click", function () {
-            let tableExport = new TableExport($allGrilla, {
-                exportButtons: false, // No queremos botones
-                filename: "Reporte de prueba", //Nombre del archivo de Excel
-                sheetname: "Reporte de prueba", //Título de la hoja
-            });
-            let datos = tableExport.getExportData();
-            let preferenciasDocumento = datos.allGrilla.xlsx;
-            tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
-        });
-    </script>*@
 </body>
 </html>

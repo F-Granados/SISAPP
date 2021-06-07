@@ -4,6 +4,6 @@
     {
         public int UrbanizacionId { get; set; }
         public string NombreUrbanizacion { get; set; }
-        public string CodigoUrbanizacion { get; set; }
+        public int Codigo { get; set; }
     }
 }

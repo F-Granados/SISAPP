@@ -1,8 +1,8 @@
 ﻿
+using SISAP.Core.Entities;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Helper;
 using SISAP.Infrastructure.Service;
-using SISAP.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace SISAP.Controllers
         private readonly IUsuarioService _usuarioService;
         public UsuarioController()
         {
-           _usuarioService = new UsuarioService();
+            _usuarioService = new UsuarioService();
         }
         public ActionResult Usuarios()
         {
@@ -32,7 +32,7 @@ namespace SISAP.Controllers
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int nroTotalRegistros = 0;
-            var usuarios = _usuarioService.ListarUsuarios(pageSize,skip,out nroTotalRegistros);
+            var usuarios = _usuarioService.ListarUsuarios(pageSize, skip, out nroTotalRegistros);
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal1 = nroTotalRegistros, data = usuarios }, JsonRequestBehavior.AllowGet);
         }

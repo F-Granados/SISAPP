@@ -25,8 +25,12 @@ namespace SISAP.Core.Entities
         [NotMapped]
         public string UrbanizacionNombre { get; set; }
 
+
         [NotMapped]
         public string ManzanaNombre { get; set; }
+        
+        [NotMapped]
+        public int LecturaId { get; set; }
         
         [NotMapped]
         public int Annio { get; set; }
@@ -35,13 +39,16 @@ namespace SISAP.Core.Entities
         public int Mes { get; set; }
         
         [NotMapped]
-        public decimal CantidadLectura { get; set; }
+        public decimal? CantidadLectura { get; set; }
         
         [NotMapped]
-        public decimal Consumo { get; set; }
+        public decimal? Consumo { get; set; }
         
         [NotMapped]
-        public decimal Promedio { get; set; }
+        public decimal? Promedio { get; set; }
+        
+        [NotMapped]
+        public decimal? CantidadLecturaAntigua { get; set; }
         
         [NotMapped]
         public string Alerta { get; set; }
@@ -58,8 +65,9 @@ namespace SISAP.Core.Entities
         [NotMapped]
         public string DireccionStr
         {
-            get { return string.Format("{0}, {1}, {2},{3}", "Urb. "+this.UrbanizacionNombre,"." + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
+            get { return string.Format("{0}, {1}, {2},{3}", "Urb. " + this.UrbanizacionNombre, "." + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
         }
+
 
 
     }

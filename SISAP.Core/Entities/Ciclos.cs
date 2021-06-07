@@ -6,8 +6,8 @@ namespace SISAP.Core.Entities
 	public class Ciclos
     {
         public int CiclosId { get; set; }
-        public int? Annio { get; set; }
-        public int? Mes { get; set; }
+        public int Annio { get; set; }
+        public int Mes { get; set; }
         public DateTime? LecturaInicial { get; set; }
         public DateTime? LecturaFinal { get; set; }
         public DateTime? EmisionInicial { get; set; }

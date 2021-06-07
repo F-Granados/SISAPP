@@ -21,8 +21,8 @@ namespace SISAP.Infrastructure.Service
                            join s in dbContext.EstadoServicios on c.EstadoServicioId equals s.EstadoServicioId
                            join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
                            join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
-                           where 
-                                (string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor +""+ c.CodigoCliente).Contains(FilterNombre.ToUpper()))
+                           where
+                                (string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor + "" + c.CodigoCliente).Contains(FilterNombre.ToUpper()))
                            orderby c.Nombre ascending
                            select new
                            {
@@ -71,7 +71,7 @@ namespace SISAP.Infrastructure.Service
                                         ManzanaNombre = c.NombreManzana,
                                         Observaciones = c.Observaciones,
                                         EstadoServicio = new EstadoServicio()
-										{
+                                        {
                                             EstadoServicioId = c.EstadoServicioId,
                                             EstadoDescripcion = c.EstadoDescripcion
                                         }
@@ -80,14 +80,14 @@ namespace SISAP.Infrastructure.Service
                 return ListadoFinal;
             }
         }
-        
+
         public IEnumerable<Cliente> GetById(int ClienteId)
-		{
+        {
             using (var dbContext = GetSISAPDBContext())
-			{
+            {
                 return dbContext.Clientes.Where(o => o.ClienteId == ClienteId).ToList();
-			}
-		}
+            }
+        }
 
         public Cliente Create(Cliente cliente)
         {
@@ -98,27 +98,27 @@ namespace SISAP.Infrastructure.Service
             }
             return cliente;
         }
-        
+
         public void Update(Cliente cliente)
-		{
+        {
             using (var dbContext = GetSISAPDBContext())
-			{
+            {
                 dbContext.Clientes.Attach(cliente);
                 dbContext.Entry(cliente).State = EntityState.Modified;
                 dbContext.SaveChanges();
-			}
-		}
+            }
+        }
 
         public void Delete(int ClienteId)
-		{
+        {
             using (var dbContext = GetSISAPDBContext())
-			{
+            {
                 var clientes = dbContext.Clientes;
                 var obj = clientes.FirstOrDefault(c => c.ClienteId == ClienteId);
 
                 dbContext.Clientes.Remove(obj);
                 dbContext.SaveChanges();
             }
-		}
+        }
     }
 }

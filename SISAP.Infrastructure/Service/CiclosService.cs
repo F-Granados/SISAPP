@@ -9,6 +9,16 @@ namespace SISAP.Infrastructure.Service
 {
 	public class CiclosService : _BaseContext, ICiclosService
 	{
+		public IEnumerable<Ciclos> EnableToNextPrecess(int? Annio, int? Mes)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				int? NextMonth = Mes + 2;
+				return dbContext.Ciclos.Where(c => c.Annio == Annio && c.Mes > Mes && (c.Mes <NextMonth)).ToList();
+				
+			}
+		}
+
 		public Ciclos Save(Ciclos objCiclos)
 		{
 			using (var dbContext = GetSISAPDBContext())
@@ -104,6 +114,7 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
+		
 		public IEnumerable<Ciclos> ListarMesByAnnio(int? Annio)
 		{
 			using (var dbContext = GetSISAPDBContext())

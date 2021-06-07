@@ -27,7 +27,7 @@ namespace SISAP.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult ListarClientes(string FilterNombre, string FilterCodigo,string FilterMedidor)
+        public JsonResult ListarClientes(string FilterNombre, string FilterCodigo, string FilterMedidor)
         {
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();

@@ -11,7 +11,5 @@ namespace SISAP.Core.Interfaces
         void Delete(int UsuarioId);
         Usuario Save(Usuario objUsuario);
         IEnumerable<Usuario> ListarUsuarios(int pageSize, int skip, out int nroTotalRegistros);
-
-
     }
 }

@@ -14,15 +14,13 @@
             </div>
             <div class="modal-body">
                 <div class="col-sm-12mb-12">
-                    <label>Codigo </label>
-                    <input id="txtCodigoUrbanizacion" type="number" class="form-control" onkeypress="return ValidaLongitud(this, 3);" placeholder="">
-                    <input hidden id="txtUrbanizacionId" type="number" class="form-control" placeholder="">
+                    <label>Codigo: </label>
+                    <input  id="txtCodigo" type="text"  onkeypress="return ValidaLongitud(this, 3);" class="form-control" placeholder="">
                 </div>
-
                 <div class="col-sm-12mb-12">
-                    <label>Urbanizacion </label>
-                    <input id="txtUrbanizacion" type="text" class="form-control" placeholder="">
-                    <input hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
+                    <label>Urbanizacion: </label>
+                    <input  id="txtUrbanizacion" type="text" class="form-control" placeholder="">
+                    <input  hidden id="txtUrbanizacionId" type="text" class="form-control" placeholder="">
                 </div>
             </div>
             <br />
@@ -58,22 +56,17 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive">
+
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
                 <tr class="bg-info text-light">
-                    <th scope="col">N</th>
                     <th scope="col">Código</th>
                     <th scope="col">Urbanizacion</th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
         </table>
-    </div>
-        <div class="modal-footer p-1">
-            <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
-            <button class="btn btn-dark btn-sm" id="btnprint" type="submit"><i class="fas fa-print"></i> Print</button>
-        </div>
+
     </div>
 </div>
 
@@ -113,7 +106,6 @@
                 "data": function (d) {
                     return $.extend({}, d, {
                         NombreUrbanizacion: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
-
                     });
                 },
                 "dataSrc": "data",
@@ -122,8 +114,7 @@
             },
 
             "columns": [
-                { "data": "UrbanizacionId" },
-                { "data": "CodigoUrbanizacion" },
+                { "data":"Codigo" },
                 { "data":"NombreUrbanizacion" },
                 {
                     "data": "id",  "render": function(data, type, row, meta) {
@@ -144,7 +135,7 @@
 
     function Save() {
 
-        if ($('#txtUrbanizacion').val() == "") {
+        if ($('#txtUrbanizacion').val() == "" || $('#txtCodigo').val() == "") {
             $("#MSGvalidacion").show();
 
             return false;
@@ -152,7 +143,7 @@
 
         var objUrbanizacion = {};
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
-        objUrbanizacion.CodigoUrbanizacion = $("#txtCodigoUrbanizacion").val();
+        objUrbanizacion.Codigo = $("#txtCodigo").val();
 
         $.ajax({
 
@@ -177,8 +168,9 @@
         $("#btnSave").hide();
         $("#btnUpdate").show();
         $("#exampleModalCenter").modal('show');
-        $("#txtCodigoUrbanizacion").val(dCliente.CodigoUrbanizacion);
+
         $("#txtUrbanizacion").val(dCliente.NombreUrbanizacion);
+        $("#txtCodigo").val(dCliente.Codigo);
         $("#txtUrbanizacionId").val(dCliente.UrbanizacionId);
 
     }
@@ -188,7 +180,7 @@
 
         objUrbanizacion.UrbanizacionId = $("#txtUrbanizacionId").val();
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
-        objUrbanizacion.CodigoUrbanizacion = $("#txtCodigoUrbanizacion").val();
+        objUrbanizacion.Codigo = $("#txtCodigo").val();
 
         $.ajax({
 
@@ -205,9 +197,6 @@
         });
         Clean();
     }
-
-
-
 
     function Delete(dCliente) {
         var data = { UrbanizacionId: dCliente.UrbanizacionId };
@@ -226,53 +215,8 @@
 
     function Clean() {
         $("#txtUrbanizacion").val("");
+        $("#txtCodigo").val("");
         $("#txtUrbanizacionId").val("");
-        $("#txtCodigoUrbanizacion").val("");
     }
 
-    function ValidaLongitud(campo, longitudMaxima) {
-        try {
-            if (campo.value.length > (longitudMaxima - 1))
-                return false;
-            else
-                return true;
-        } catch (e) {
-            return false;
-        }
-    }
-
-
-
-
-    let timerInterval
-    Swal.fire({
-        title: 'Auto close alert!',
-        html: 'I will close in <b></b> milliseconds.',
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading()
-            timerInterval = setInterval(() => {
-                const content = Swal.getHtmlContainer()
-                if (content) {
-                    const b = content.querySelector('b')
-                    if (b) {
-                        b.textContent = Swal.getTimerLeft()
-                    }
-                }
-            }, 100)
-        },
-        willClose: () => {
-            clearInterval(timerInterval)
-        }
-    }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-            console.log('I was closed by the timer')
-        }
-    })
-   
 </script>
-
-
-

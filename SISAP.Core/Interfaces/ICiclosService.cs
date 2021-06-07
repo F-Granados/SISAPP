@@ -5,6 +5,7 @@ namespace SISAP.Core.Interfaces
 {
 	public interface ICiclosService
     {
+        IEnumerable<Ciclos> EnableToNextPrecess(int? Annio, int? Mes);
         IEnumerable<Ciclos> ListarMesByAnnio(int? Annio);
         IEnumerable<Ciclos> ListarAnnios();
         void Update(Ciclos objCiclos);

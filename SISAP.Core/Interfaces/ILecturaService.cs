@@ -9,6 +9,13 @@ namespace SISAP.Core.Interfaces
 {
 	public interface ILecturaService
 	{
-		IEnumerable<Cliente> ListarClienteLectura(int? UrbanizacionId, int pageSize, int skip, out int nroTotalRegistros);
+		IEnumerable<Lectura> ValidateNextYearUpdateLectura(int? Annio, int? Mes, int? UrbanizacionId);
+		void UpdateProcessLectura(UpdateLectura updateLectura);
+		IEnumerable<Lectura> CheckIfExistLectura(int? Annio, int? Mes, int? UrbanizacionId);
+		IEnumerable<Lectura> ValidateValueNoNullable(int? Annio, int? Mes, int? UrbanizacionId);
+		void UpdateDataExistLectura(Lectura objLectura);
+		Lectura Create(Lectura objLectura);
+		IEnumerable<Lectura> GetFirst6Data();
+		IEnumerable<Cliente> ListarClienteLectura(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
 	}
 }

@@ -15,12 +15,12 @@ namespace SISAP.Infrastructure.Service
                 return dbContext.Usuarios.OrderBy(o => o.UsuarioId).ToList();
             }
         }
-        public IEnumerable<Usuario> ListarUsuarios( int pageSize, int skip, out int nroTotalRegistros)
+        public IEnumerable<Usuario> ListarUsuarios(int pageSize, int skip, out int nroTotalRegistros)
         {
             using (var dbContext = GetSISAPDBContext())
             {
                 var sql = (from u in dbContext.Usuarios
-                          orderby u.UsuarioId descending
+                           orderby u.UsuarioId descending
                            select new
                            {
 
@@ -40,7 +40,7 @@ namespace SISAP.Infrastructure.Service
                                      Password = c.Password
                                  }).ToList();
                 return ListFinal;
-                        
+
             }
         }
         public Usuario SingIn(string user, string password)
@@ -51,42 +51,47 @@ namespace SISAP.Infrastructure.Service
             }
         }
 
-        public Usuario Save(Usuario objUsuario) {
+        public Usuario Save(Usuario objUsuario)
+        {
             using (var dbContex = GetSISAPDBContext())
             {
                 dbContex.Usuarios.Add(objUsuario);
                 dbContex.SaveChanges();
 
             }
-            return objUsuario;        
-        
+            return objUsuario;
+
         }
 
 
-        public void Update(Usuario objUsuario) {
+        public void Update(Usuario objUsuario)
+        {
 
-            using (var dbContext = GetSISAPDBContext()) {
+            using (var dbContext = GetSISAPDBContext())
+            {
 
                 dbContext.Usuarios.Attach(objUsuario);
                 dbContext.Entry(objUsuario).State = EntityState.Modified;
                 dbContext.SaveChanges();
-            
+
             }
-                
+
         }
 
 
 
-        public void Delete(int UsuarioId) {
-            using (var dbContext = GetSISAPDBContext()) {
+        public void Delete(int UsuarioId)
+        {
+            using (var dbContext = GetSISAPDBContext())
+            {
 
                 var usuarios = dbContext.Usuarios;
                 var usuario = usuarios.FirstOrDefault(o => o.UsuarioId == UsuarioId);
 
                 dbContext.Usuarios.Remove(usuario);
-                dbContext.SaveChanges();            
-            
-            } 
+                dbContext.SaveChanges();
+
+            }
         }
 
 
