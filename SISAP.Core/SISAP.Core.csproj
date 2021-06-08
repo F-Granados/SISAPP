@@ -57,6 +57,7 @@
     <Compile Include="Entities\Lectura.cs" />
     <Compile Include="Entities\Manzana.cs" />
     <Compile Include="Entities\Medidor.cs" />
+    <Compile Include="Entities\Meses.cs" />
     <Compile Include="Entities\Opcion.cs" />
     <Compile Include="Entities\OpcionUsuario.cs" />
     <Compile Include="Entities\Pago.cs" />

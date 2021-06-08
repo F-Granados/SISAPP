@@ -14,8 +14,21 @@ namespace SISAP.Infrastructure.Service
 			using (var dbContext = GetSISAPDBContext())
 			{
 				int? NextMonth = Mes + 2;
-				return dbContext.Ciclos.Where(c => c.Annio == Annio && c.Mes > Mes && (c.Mes <NextMonth)).ToList();
-				
+				//return dbContext.Ciclos.Where(c => c.Annio == Annio && c.Mes > Mes && (c.Mes <NextMonth)).ToList();
+				var sql = (from c in dbContext.Ciclos
+						   where c.Annio > Annio
+						   select c).ToList();
+				int nroAnnio = sql.Count();
+				if (nroAnnio > 0)
+				{
+					return dbContext.Ciclos.Where(c => c.Annio > Annio).ToList();
+
+				}
+				else
+				{
+					return dbContext.Ciclos.Where(c => c.Annio == Annio && c.Mes > Mes && (c.Mes < NextMonth)).ToList();
+
+				}
 			}
 		}
 

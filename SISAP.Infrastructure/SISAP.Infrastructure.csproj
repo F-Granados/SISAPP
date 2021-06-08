@@ -91,6 +91,7 @@
     <Compile Include="Data\Configuration\LecturaConfiguration.cs" />
     <Compile Include="Data\Configuration\ManzanaConfiguration.cs" />
     <Compile Include="Data\Configuration\MedidorConfiguration.cs" />
+    <Compile Include="Data\Configuration\MesesConfiguration.cs" />
     <Compile Include="Data\Configuration\OpcionConfiguracion.cs" />
     <Compile Include="Data\Configuration\OpcionUsuarioConfiguracion.cs" />
     <Compile Include="Data\Configuration\PagoConfiguration.cs" />

@@ -80,8 +80,8 @@
                 <label id="MSGvalidacionC" class=" text-danger" style="display:none">Falta registrar ciclo para el siguiente mes</label>-->
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnProcesarLectura"  type="submit"><i class="fas fa-save"></i> Procesar Lectura</button>
-                <button style="display:none;" class="btn btn-success btn-sm" id="btnActualizarLectura"  type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
-                <button style="display:none;" class="btn btn-success btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnActualizarLectura"  type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
             </div>
         </div>
     </div>
@@ -127,7 +127,7 @@
                 <label id="MSGvalidacionVA" class=" text-danger" style="display:none">Debe llenar el valor actual</label>
                 <button type="button" class="btn btn-danger btn-sm" id="btnModalUpdateLecturaDismiss" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnModalUpdateLecturaSave" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Guardar</button>
-                <button style="display:none;" class="btn btn-success btn-sm" id="btnModalUpdateLecturaUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnModalUpdateLecturaUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
             </div>
         </div>
     </div>
@@ -400,22 +400,6 @@
                 validar = resp.mensaje;
                 if (validar != 1) {
                     tabla.draw();
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'La lectura fue procesada correctamente!'
-                    })
                 }
             }
         });
@@ -493,8 +477,8 @@
             dataType: "json",
             async: false,
             success: function (resp) {
-                console.log(resp)
                 ifExists = resp.mensaje;
+                console.log(resp.mensaje +"holas rata")
             }
         });
         if (ifExists > 0) {

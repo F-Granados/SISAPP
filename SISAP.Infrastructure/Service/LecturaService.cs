@@ -22,6 +22,38 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
+		public IEnumerable<Lectura> CheckIfExistLecturaNYM(int? Annio, int? Mes, int? UrbanizacionId)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				int? value = 0;
+
+				var year = (from l in dbContext.Lecturas
+							join c in dbContext.Clientes on l.ClienteId equals c.ClienteId
+							join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+							where (l.Annio > Annio)
+							select l).ToList();
+
+				var month = (from l in dbContext.Lecturas
+							join c in dbContext.Clientes on l.ClienteId equals c.ClienteId
+							join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+							where (l.Mes == 12)
+							select l).ToList();
+
+
+
+				var sql = (from l in dbContext.Lecturas
+						   join c in dbContext.Clientes on l.ClienteId equals c.ClienteId
+						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+						   where (l.Annio == Annio
+								&& (l.Mes > Mes) 
+								&& u.UrbanizacionId == UrbanizacionId
+								)
+						   select l).ToList();
+				return sql;
+
+			}
+		}
 		public IEnumerable<Lectura> CheckIfExistLectura(int? Annio, int? Mes, int? UrbanizacionId)
 		{
 			using (var dbContext = GetSISAPDBContext())
@@ -29,7 +61,7 @@ namespace SISAP.Infrastructure.Service
 				var sql = (from l in dbContext.Lecturas
 						   join c in dbContext.Clientes on l.ClienteId equals c.ClienteId
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
-						   where (l.Annio == Annio && l.Mes > Mes && u.UrbanizacionId == UrbanizacionId)
+						   where (l.Annio == Annio && (l.Mes > Mes) && u.UrbanizacionId == UrbanizacionId)
 						   select l).ToList();
 				return sql;
 
