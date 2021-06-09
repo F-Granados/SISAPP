@@ -13,7 +13,7 @@
             <div class="row  col-6">
                 <div class="col-sm-3 mb-3">
                     <label>Año</label>
-                    <select class="form-control p-2 bg-info order-3">
+                    <select id="ddannio" class="form-control form-control-sm">
 
                         <option>2020</option>
                         <option>2021</option>
@@ -21,34 +21,27 @@
                 </div>
                 <div class="col-sm-4 mb-3 ">
                     <label>Mes</label>
-                    <select class="form-control p-2 bg-info order-3">
+                    <select class="form-control form-control-sm">
                         <option>ENERO</option>
                         <option>FEBRERO</option>
                     </select>
                 </div>
                 <div class="col-sm-4 mb-3 ">
                     <label>Ruta</label>
-                    <select class="form-control p-2 bg-info order-3">
+                    <select class="form-control form-control-sm">
                         <option>110</option>
                         <option>115</option>
                     </select>
                 </div>
 
-                <div class="col-8">
-                    <div class="d-flex justify-content-start mb-4">
-
-                        <button type="button" data-toggle="modal" class="btn btn-info"><i class="fas fa-archive"></i> Ver Registro</button>
-                    </div>
-                </div>
-
-
+               
             </div>
 
 
             <div class="col-6">
                 <div class="d-flex justify-content-end mb-2">
-                    <div class="searchbar">
-                        <input class="search_input" type="text" name="" placeholder="Buscar por Nombre">
+                    <div class="searchbar mr-4 mt-2">
+                        <input class="search_input" type="text" id="txtFilter2" name="" placeholder="Buscar...">
                         <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                     </div>
                 </div>
