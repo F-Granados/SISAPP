@@ -24,6 +24,23 @@ namespace SISAP.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public JsonResult ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre)
+        {
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int nroTotalRegistros = 0;
+
+            var lecturas = _lecturaService.ListLecturaMain(Annio, Mes, UrbanizacionId, FilterNombre, pageSize, skip, out nroTotalRegistros);
+
+            return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult UpdateProcessLectura(ValidateLectura objValidate)
 		{
@@ -39,6 +56,7 @@ namespace SISAP.Controllers
             var dataFromLecturaActually = _lecturaService.ValidateValueNoNullable(Annio, Mes, UrbanizacionId);
             if(existNextYear >0)
 			{
+                newM = newM - 12;
                 newY = Annio + 1;
 			}
             decimal? value = 0;
@@ -70,11 +88,12 @@ namespace SISAP.Controllers
             int Annio = objValidate.Annio;
             int Mes = objValidate.Mes;
             int UrbanizacionId = objValidate.UrbanizacionId;
-
+            
             var dato = _lecturaService.CheckIfExistLectura(Annio, Mes, UrbanizacionId);
             var nroRegistros = dato.Count();
             
             return Json(new { mensaje = nroRegistros }, JsonRequestBehavior.AllowGet);
+            
         }
 
         [HttpPost]
@@ -82,20 +101,31 @@ namespace SISAP.Controllers
 		{
             int Annio = objValidate.Annio;
             int Mes = objValidate.Mes;
+            int UrbanizacionId = objValidate.UrbanizacionId;
+
+
             int nextM = 0;
             int nextY = 0;
             decimal? cantAntigua = 0;
-            int UrbanizacionId = objValidate.UrbanizacionId;
             var netxtYM = _ciclosService.EnableToNextPrecess(Annio, Mes);
             foreach(var item in netxtYM)
 			{
                 nextY = item.Annio;
                 nextM = item.Mes;
             }
-
+            int? ClienteId = 0;
             var objLectura = _lecturaService.ValidateValueNoNullable(Annio, Mes, UrbanizacionId);
             foreach(var item in objLectura)
 			{
+                var updateLecturaProcess = new UpdateLecturaProcess()
+                {
+                    Annio = Annio,
+                    Mes = Mes,
+                    ClienteId = item.ClienteId,
+                    Procesado = 1
+                };
+                _lecturaService.UpdateLecturaProcesada(updateLecturaProcess);
+
                 cantAntigua = item.CantidadLectura;
                 item.CantidadLecturaAntigua = cantAntigua;
                 item.Annio = nextY;
@@ -145,6 +175,7 @@ namespace SISAP.Controllers
             var top6Count = top6.Count();
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
             objLectura.Consumo = consumo;
+            objLectura.FechaRegistro = DateTime.Now;
             decimal? c = 0;
             if(top6Count >5)
 			{

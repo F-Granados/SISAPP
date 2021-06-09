@@ -41,8 +41,6 @@
                             </div>
                             <label id="MSGvalidacion" class=" text-danger mt-4 mr-3" style="display:none">Debe seleccionar los campos de búsqueda</label>
                             <button hidden type="button" id="btnBuscarClienteLectura" class="btn btn-success btn-sm mt-2 calcularOperaciones">Buscar</button>
-
-
                         </div>
                     </div>
                 </div>
@@ -75,9 +73,7 @@
                 <div class="alert alert-secondary" id="MSGvalidacionPL" role="alert" style="display:none">
                     Debe seleccionar Año, Mes y Ruta a Procesar
                 </div>
-                <!--<label id="MSGvalidacionPL" class=" text-danger" style="display:none">Debe seleccionar Año, Mes y Ruta a Procesar</label>
-                <label id="MSGvalidacionPLE" class=" text-danger" style="display:none">Falta digitar la lectura actual de algunos clientes</label>
-                <label id="MSGvalidacionC" class=" text-danger" style="display:none">Falta registrar ciclo para el siguiente mes</label>-->
+
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnProcesarLectura"  type="submit"><i class="fas fa-save"></i> Procesar Lectura</button>
                 <button style="display:none;" class="btn btn-warning btn-sm" id="btnActualizarLectura"  type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
@@ -164,12 +160,18 @@
             </div>
 
             <div class="col-6">
-                <br />
-
                 <div class="d-flex justify-content-end mt-2">
-                    <button id="openModal" type="button" data-toggle="modal" data-target="#modal_aside_right" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Registrar</button>
+                    <div class="searchbar mr-4 mt-2">
+                        <input class="search_input" type="text" id="txtFilter2" name="" placeholder="Buscar...">
+                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+                    <label id="MSGvalidacion" class=" text-danger mt-4 mr-3" style="display:none">Debe seleccionar los campos de búsqueda</label>
+                    <button id="openModal" type="button" data-toggle="modal" data-target="#modal_aside_right" class="btn btn-info btn-sm mt-2"><i class="fas fa-plus"></i> Registrar</button>
+
                 </div>
             </div>
+
+
         </div>
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
@@ -184,7 +186,7 @@
                     <th scope="col">Lec. Actual</th>
                     <th scope="col">Consumo</th>
                     <th scope="col">Promedio</th>
-                    <th scope="col">Opciones</th>
+                    <!--<th scope="col">Opciones</th>-->
                 </tr>
             </thead>
         </table>
@@ -198,6 +200,7 @@
 
 <script>
     var tabla;
+    var tablaMain;
 
     var AnnioActual = "@DateTime.Now.ToString("yyyy")";
 
@@ -207,8 +210,8 @@
         $("#openModal").on('click', function () {
 
             ClenaCombo();
-
-            $('#allGrilla2 tbody').empty();
+            tabla.draw();
+            //$('#allGrilla2 tbody').empty();
             $("#MSGvalidacion").hide();
             $("#MSGvalidacionPL").hide();
             $("#MSGvalidacionPLE").hide();
@@ -248,6 +251,7 @@
             $("#MSGvalidacionPLE").hide();
             tabla.draw();
         })
+
         $("#btnModalUpdateLecturaSave").click(UpdateLecturaSave);
         $("#btnModalUpdateLecturaUpdate").click(UpdateLecturaUpdate);
         $("#btnProcesarLectura").click(ProcesarLectura);
@@ -266,7 +270,80 @@
 
         })
 
+        $("#ddUrbanizacion2").bind("keyup change", function () {
+
+            tablaMain.draw();
+        })
+        $("#ddAnnio2").bind("keyup change", function () {
+
+            tablaMain.draw();
+        })
+        $("#ddMes2").bind("keyup change", function () {
+
+            tablaMain.draw();
+        })
+
+
+        ListLecturaMain();
+
     });
+
+    function ListLecturaMain() {
+
+        tablaMain = $('#allGrilla').DataTable({
+            "destroy": true,
+            "dom": 'Bfrtip',
+            //"bPaginate": false,
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "searching": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "drawCallback": function () {
+                $('.page-link').addClass('btn-sm  border-0')
+            },
+
+            "serverSide": true,
+            "processing": true,
+            "orderable": false,
+            "ajax": {
+                "url": '@Url.Content("~/Lectura/ListLecturaMain")',
+                "type": 'POST',
+                "data": function (d) {
+                    return $.extend({}, d, {
+
+                        Annio: $("#ddAnnio2").val() == "" ? null : $("#ddAnnio2").val(),
+                        Mes: $("#ddMes2").val() == "" ? null : $("#ddMes2").val(),
+                        UrbanizacionId: $("#ddUrbanizacion2").val() == "" ? null : $("#ddUrbanizacion2").val(),
+                        FilterNombre: $("#txtFilter2").val() == "" ? null : $("#txtFilter2").val(),
+                    });
+                },
+                "dataSrc": "data",
+                "responsivePriority": 1,
+                //"pageLength": 10
+            },
+
+            "columns": [
+                { "data":"CodigoCliente" },
+                { "data":"NombreCompleto" },
+                { "data":"DireccionStr" },
+                { "data":"NumeroMedidor" },
+                { "data":"Annio" },
+                { "data":"Mes" },
+                { "data":"CantidadLecturaAntigua" },
+                { "data":"CantidadLectura" },
+                { "data":"Consumo" },
+                { "data":"Promedio" },
+
+            ]
+        });
+
+        tablaMain.draw();
+        $("#txtFilter2").bind("keyup change", function () {
+            tablaMain.draw();
+        })
+
+    }
 
     function ListarLecturaByFilters() {
 
@@ -352,9 +429,9 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
-                console.log(resp);
+
                 if (resp.mensaje = "success") {
-                    tabla.draw();
+                    //tabla.draw();
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -396,7 +473,7 @@
             dataType: "json",
             async: false,
             success: function (resp) {
-                
+
                 validar = resp.mensaje;
                 if (validar != 1) {
                     tabla.draw();
@@ -450,11 +527,32 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
-                console.log(resp);
+
+                if (resp.msg = "success") {
+                    $("#btnProcesarLectura").hide();
+                    $("#btnActualizarLectura").show();
+                    //tabla.draw();
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'La lectura fue procesado correctamente!'
+                    })
+                }
             }
         });
 
-        ClenaCombo();
+        //ClenaCombo();
 
     }
 
@@ -672,6 +770,8 @@
                 var data = dataObject;
                 if (data != null) {
                     comboMes2.html('');
+                    comboMes2.append($("<option />").val("").text('--Seleccione--'));
+
                     $.each(data, function () {
                         comboMes2.append($("<option />").val(this.Value).text(this.Text));
                     });

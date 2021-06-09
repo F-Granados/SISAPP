@@ -64,6 +64,7 @@
     <Compile Include="Entities\Servicio.cs" />
     <Compile Include="Entities\TipoCategoria.cs" />
     <Compile Include="Entities\UpdateLectura.cs" />
+    <Compile Include="Entities\UpdateLecturaProcess.cs" />
     <Compile Include="Entities\Urbanizacion.cs" />
     <Compile Include="Entities\Usuario.cs" />
     <Compile Include="Entities\ValidateLectura.cs" />

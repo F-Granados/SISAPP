@@ -9,6 +9,8 @@ namespace SISAP.Core.Interfaces
 {
 	public interface ILecturaService
 	{
+		void UpdateLecturaProcesada(UpdateLecturaProcess updateLecturaProcess);
+		IEnumerable<Cliente> ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
 		IEnumerable<Lectura> ValidateNextYearUpdateLectura(int? Annio, int? Mes, int? UrbanizacionId);
 		void UpdateProcessLectura(UpdateLectura updateLectura);
 		IEnumerable<Lectura> CheckIfExistLectura(int? Annio, int? Mes, int? UrbanizacionId);

@@ -18,7 +18,7 @@ namespace SISAP.Core.Entities
         public int ClienteId { get; set; }
         public DateTime? FechaRegistro { get; set; }
         public decimal? CantidadLecturaAntigua { get; set; }
-
+        public int Procesado { get; set; }
 
 
     }
