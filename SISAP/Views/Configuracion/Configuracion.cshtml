@@ -34,7 +34,12 @@
                 </div>
                 <div class="col-sm-12mb-12">
                     <label>Rol </label>
-                    <input id="txtRolUsuario" type="text" class="form-control" placeholder="">
+                    <input id="txtRolUsuario" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                </div>
+                <div class="col-sm-12mb-12">
+                    <label>Estado </label>
+                    <input id="txtEstadoUsuario" type="number" class="form-control" placeholder="">
                     <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
                 </div>
 
@@ -82,6 +87,7 @@
                     <th scope="col">Usuario</th>
                     <th scope="col">Contraseña</th>
                     <th scope="col">Rol</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Opciones</th>
                 </tr>
             </thead>
@@ -141,6 +147,7 @@
                 { "data": "usuario" },
                 { "data": "Password" },
                 { "data": "Rol" },
+                {"data": "Estado"},
                 {
                     "data": "id",  "render": function(data, type, row, meta) {
                         return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i> </a>" +
@@ -160,7 +167,7 @@
 
     function Save() {
 
-        if ($('#txtNombreUsuario').val() == "" || $('#txtUsuario').val() == "" || $('#txtContraseñaUsuario').val() == "") {
+        if ($('#txtNombreUsuario').val() == "" || $('#txtUsuario').val() == "" || $('#txtContraseñaUsuario').val() == "" || $('#txtRolUsuario').val() == "" || $('#txtEstadoUsuario').val() == "") {
             $("#MSGvalidacion").show();
 
             return false;
@@ -170,6 +177,16 @@
         objUsuario.Nombre = $("#txtNombreUsuario").val();
         objUsuario.usuario = $("#txtUsuario").val();
         objUsuario.Password = $("#txtContraseñaUsuario").val();
+        objUsuario.Rol = $("#txtRolUsuario").val();
+        objUsuario.Estado = $("#txtEstadoUsuario").val();
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido guardado',
+            showConfirmButton: false,
+            timer: 1500
+        })
 
         $.ajax({
 
@@ -199,6 +216,8 @@
         $("#txtNombreUsuario").val(dUsuario.Nombre);
         $("#txtUsuario").val(dUsuario.usuario);
         $("#txtContraseñaUsuario").val(dUsuario.Password);
+        $("#txtRolUsuario").val(dUsuario.Rol);
+        $("#txtEstadoUsuario").val(dUsuario.Estado);
 
 
     }
@@ -210,6 +229,16 @@
         objUsuario.usuario = $("#txtUsuario").val();
         objUsuario.Nombre = $("#txtNombreUsuario").val();
         objUsuario.Password = $("#txtContraseñaUsuario").val();
+        objUsuario.Rol = $("#txtRolUsuario").val();
+        objUsuario.Estado = $("#txtEstadoUsuario").val();
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido Actualizado',
+            showConfirmButton: false,
+            timer: 1500
+        })
 
         $.ajax({
 
@@ -227,7 +256,10 @@
         Clean();
     }
 
-    function Delete(dUsuario) {
+    @*function Delete(dUsuario) {
+
+
+
         var data = { UsuarioId: dUsuario.UsuarioId };
         $.ajax({
             type: "POST",
@@ -240,12 +272,63 @@
                 console.log("eliminado");
             }
         });
+    }*@
+
+    const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+    })
+    function Delete(dCliente) {
+        swalWithBootstrapButtons.fire({
+            title: 'Estas Seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, Eliminar!',
+            cancelButtonText: 'No, Cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                     var data = { UsuarioId: dUsuario.UsuarioId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Content("~/Usuario/Delete")',
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function () {
+                tabla.draw();
+                console.log("eliminado");
+            }
+        });
+                swalWithBootstrapButtons.fire(
+                    'Eliminado!',
+                    'Urbanizacion a sido eliminado.',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Tu archivo imaginario está seguro : )',
+                    'error'
+                )
+            }
+        })
     }
+
 
     function Clean() {
         $("#txtNombreUsuario").val("");
         $("#txtUsuario").val("");
         $("#txtContraseñaUsuario").val("");
+        $("#txtRolUsuario").val("");
+        $("#txtEstadoUsuario").val("");
     }
 
 </script>

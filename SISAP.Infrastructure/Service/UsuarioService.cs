@@ -27,7 +27,9 @@ namespace SISAP.Infrastructure.Service
                                u.UsuarioId,
                                u.usuario,
                                u.Nombre,
-                               u.Password
+                               u.Password,
+                               u.Rol,
+                               u.Estado
                            });
                 nroTotalRegistros = sql.Count();
                 sql = sql.Skip(skip).Take(pageSize);
@@ -37,7 +39,10 @@ namespace SISAP.Infrastructure.Service
                                      UsuarioId = c.UsuarioId,
                                      usuario = c.usuario,
                                      Nombre = c.Nombre,
-                                     Password = c.Password
+                                     Password = c.Password,
+                                     Rol = c.Rol,
+                                     Estado = c.Estado
+                                   
                                  }).ToList();
                 return ListFinal;
 

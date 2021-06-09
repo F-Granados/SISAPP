@@ -414,6 +414,14 @@
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
         objCliente.Observaciones = $('#ctxtObservaciones').val();
 
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido guardado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         $.ajax({
 
             type: "POST",
@@ -451,6 +459,15 @@
         objCliente.Observaciones = $("#ctxtObservaciones").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
 
+
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido Actualizado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         $.ajax({
 
             type: "POST",
@@ -467,8 +484,20 @@
         Clean();
     }
 
-    function Delete(dCliente) {
-        var data = { ClienteId: dCliente.ClienteId };
+
+
+    @*function Delete(dCliente) {
+        Swal.fire({
+            title: '¿Estas Seguro?',
+            text: "¡Se eliminará este registro!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonColor: 'Si, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var data = { ClienteId: dCliente.ClienteId };
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -480,6 +509,65 @@
                 console.log("eliminado");
             }
         });
+                Swal.fire(
+                    'Eliminado!',
+                    'Cliente Eliminado',
+                    'success'
+                )
+
+            }
+        })
+
+
+    }*@
+
+
+      const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+    })
+    function Delete(dCliente) {
+        swalWithBootstrapButtons.fire({
+            title: 'Estas Seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, Eliminar!',
+            cancelButtonText: 'No, Cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var data = { ClienteId: dCliente.ClienteId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Content("~/Cliente/Delete")',
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function () {
+                tabla.draw();
+                console.log("eliminado");
+            }
+        });
+                swalWithBootstrapButtons.fire(
+                    'Eliminado!',
+                    'Urbanizacion a sido eliminado.',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Tu archivo imaginario está seguro : )',
+                    'error'
+                )
+            }
+        })
     }
 
     function Clean() {
@@ -522,22 +610,4 @@
     }
 
 </script>
-@*<script type="text/javascript" src="~/Scripts/registrocliente/registrocliente.js"></script>*@
-<script>
 
-    function asegurar() {
-        rc = confirm("¿Seguro que desea Eliminar?");
-        return rc;
-    }
-
-    function ValidaLongitud(campo, longitudMaxima) {
-        try {
-            if (campo.value.length > (longitudMaxima - 1))
-                return false;
-            else
-                return true;
-        } catch (e) {
-            return false;
-        }
-    }
-</script>

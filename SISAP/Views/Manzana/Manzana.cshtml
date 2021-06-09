@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-sm-12 mb-4">
                     <label>Manzana </label>
-                    <input id="txtManzana" type="text" class="form-control" placeholder="">
+                    <input id="txtManzana" type="text" class="form-control" onkeypress="return ValidaLongitud(this, 2);" placeholder="">
                     <input hidden id="txtManzanaId" type="text" class="form-control" placeholder="">
                 </div>
 
@@ -156,7 +156,16 @@
         objManzana.NombreManzana = $("#txtManzana").val();
         objManzana.UrbanizacionId = $("#ddUrbanizacion").val();
 
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido guardado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         $.ajax({
+           
 
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -168,6 +177,7 @@
             success: function (resp) {
                 tabla.draw();
             }
+
         });
         Clean();
 
@@ -194,6 +204,14 @@
         objManzana.NombreManzana = $("#txtManzana").val();
 
 
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tu trabajo ha sido Actualizado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+
         $.ajax({
 
             type: "POST",
@@ -210,7 +228,7 @@
         Clean();
     }
 
-    function Delete(dCliente) {
+    @*function Delete(dCliente) {
 
         Swal.fire({
             title: '¿ Estas Seguroo ?',
@@ -242,7 +260,56 @@
         })
 
 
+    }*@
+
+      const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+    })
+    function Delete(dCliente) {
+        swalWithBootstrapButtons.fire({
+            title: 'Estas Seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, Eliminar!',
+            cancelButtonText: 'No, Cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    var data = { ManzanaId: dCliente.ManzanaId };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Content("~/Common/DeleteManzana")',
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function () {
+                        tabla.draw();
+                    }
+                });
+                swalWithBootstrapButtons.fire(
+                    'Eliminado!',
+                    'Urbanizacion a sido eliminado.',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Tu archivo imaginario está seguro : )',
+                    'error'
+                )
+            }
+        })
     }
+
+
 
     function ListUrbanizacion() {
         var comboUrbanizacion = $("#ddUrbanizacion");
