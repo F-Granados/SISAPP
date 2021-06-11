@@ -19,7 +19,7 @@ namespace SISAP.Core.Entities
         public DateTime? FechaRegistro { get; set; }
         public decimal? CantidadLecturaAntigua { get; set; }
         public int Procesado { get; set; }
-
+        public int Actualizado { get; set; }
 
     }
 }

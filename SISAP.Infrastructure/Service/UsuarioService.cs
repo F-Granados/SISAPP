@@ -42,7 +42,7 @@ namespace SISAP.Infrastructure.Service
                                      Password = c.Password,
                                      Rol = c.Rol,
                                      Estado = c.Estado
-                                   
+
                                  }).ToList();
                 return ListFinal;
 

@@ -11,6 +11,18 @@ namespace SISAP.Infrastructure.Service
 {
 	public class LecturaService : _BaseContext, ILecturaService
 	{
+		public IEnumerable<Lectura> ValidateNullRow(int? Annio, int? Mes, int? UrbanizacionId)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var sql = (from l in dbContext.Lecturas
+						   join c in dbContext.Clientes on l.ClienteId equals c.ClienteId
+						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+						   where (l.Annio == Annio && l.Mes == Mes && u.UrbanizacionId == UrbanizacionId && l.Actualizado == 0)
+						   select l).ToList();
+				return sql;
+			}
+		}
 
 		public IEnumerable<Cliente> ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
 		{
@@ -163,11 +175,11 @@ namespace SISAP.Infrastructure.Service
 			return objLectura;
 		}
 
-		public IEnumerable<Lectura> GetFirst6Data()
+		public IEnumerable<Lectura> GetFirst6Data(int? ClienteId)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
-				var top6 = dbContext.Lecturas.OrderByDescending(u => u.Mes).Take(6);
+				var top6 = dbContext.Lecturas.Where(l => l.ClienteId == ClienteId).OrderByDescending(u => u.LecturaId).Take(6);
 				var listadoFinal = top6.ToList();
 				return listadoFinal;
 

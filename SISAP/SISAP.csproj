@@ -157,21 +157,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\administradorsoa.cs" />
-    <Compile Include="Models\categoriasoa.cs" />
-    <Compile Include="Models\ciclosoa.cs" />
-    <Compile Include="Models\lecturasoa.cs" />
-    <Compile Include="Models\tarifasoa.cs" />
-    <Compile Include="Models\urbanizacionsoa.cs" />
-    <Compile Include="Models\usuariosoa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transfers\administradordt.cs" />
-    <Compile Include="Transfers\categoriadt.cs" />
-    <Compile Include="Transfers\ciclosdt.cs" />
-    <Compile Include="Transfers\lecturadt.cs" />
-    <Compile Include="Transfers\tarifadt.cs" />
-    <Compile Include="Transfers\urbanizaciondt.cs" />
-    <Compile Include="Transfers\usuariodt.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker.standalone.css" />

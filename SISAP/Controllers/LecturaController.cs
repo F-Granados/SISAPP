@@ -95,52 +95,67 @@ namespace SISAP.Controllers
             return Json(new { mensaje = nroRegistros }, JsonRequestBehavior.AllowGet);
             
         }
-
+        //EN MODIFICACION
         [HttpPost]
         public JsonResult ProcesarLectura(ValidateLectura objValidate)
 		{
             int Annio = objValidate.Annio;
             int Mes = objValidate.Mes;
             int UrbanizacionId = objValidate.UrbanizacionId;
+            
+            var output = "";
+            var datos = _ciclosService.EnableToNextPrecess(Annio, Mes);
+            var datosnullable = _lecturaService.ValidateNullRow(Annio, Mes, UrbanizacionId);
 
-
-            int nextM = 0;
-            int nextY = 0;
-            decimal? cantAntigua = 0;
-            var netxtYM = _ciclosService.EnableToNextPrecess(Annio, Mes);
-            foreach(var item in netxtYM)
+            if (datos.Count() == 0)
 			{
-                nextY = item.Annio;
-                nextM = item.Mes;
-            }
-            int? ClienteId = 0;
-            var objLectura = _lecturaService.ValidateValueNoNullable(Annio, Mes, UrbanizacionId);
-            foreach(var item in objLectura)
+                output = "10";
+			} else if(datosnullable.Count() != 0)
 			{
-                var updateLecturaProcess = new UpdateLecturaProcess()
+                output = "15";
+			} else 
+			{
+                int nextM = 0;
+                int nextY = 0;
+                decimal? cantAntigua = 0;
+                var netxtYM = _ciclosService.EnableToNextPrecess(Annio, Mes);
+                foreach (var item in netxtYM)
                 {
-                    Annio = Annio,
-                    Mes = Mes,
-                    ClienteId = item.ClienteId,
-                    Procesado = 1
-                };
-                _lecturaService.UpdateLecturaProcesada(updateLecturaProcess);
+                    nextY = item.Annio;
+                    nextM = item.Mes;
+                }
+                int? ClienteId = 0;
+                var objLectura = _lecturaService.ValidateValueNoNullable(Annio, Mes, UrbanizacionId);
+                foreach (var item in objLectura)
+                {
+                    var updateLecturaProcess = new UpdateLecturaProcess()
+                    {
+                        Annio = Annio,
+                        Mes = Mes,
+                        ClienteId = item.ClienteId,
+                        Procesado = 1
+                    };
+                    _lecturaService.UpdateLecturaProcesada(updateLecturaProcess);
 
-                cantAntigua = item.CantidadLectura;
-                item.CantidadLecturaAntigua = cantAntigua;
-                item.Annio = nextY;
-                item.Mes = nextM;
-                item.CantidadLectura = 0;
-                item.Consumo = 0;
-                item.Promedio = 0;
-                item.FechaRegistro = DateTime.Now;
-                _lecturaService.Create(item);
+                    cantAntigua = item.CantidadLectura;
+                    item.CantidadLecturaAntigua = cantAntigua;
+                    item.Annio = nextY;
+                    item.Mes = nextM;
+                    item.CantidadLectura = 0;
+                    item.Consumo = 0;
+                    item.Promedio = 0;
+                    item.FechaRegistro = DateTime.Now;
+                    item.Actualizado = 0;
+                    _lecturaService.Create(item);
 
-            }
-            return Json(new { msg = "success" }, JsonRequestBehavior.AllowGet);
+                }
+                output = "success";
+			}
+            
+            return Json(new { msg = output }, JsonRequestBehavior.AllowGet);
 
 		}
-
+        //EN MODIFICACION
         [HttpPost]
         public JsonResult ValidateEnableNextMonth(int? Annio, int? Mes)
 		{
@@ -149,7 +164,7 @@ namespace SISAP.Controllers
             var count = datos.Count();
             return Json(new { mensaje = count }, JsonRequestBehavior.AllowGet);
 		}
-
+        //EN MODIFICACION
         [HttpPost]
         public JsonResult ValidateNullableRow(ValidateLectura objValidate)
 		{
@@ -171,7 +186,8 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult UpdateDataExistLectura(Lectura objLectura)
 		{
-            var top6 = _lecturaService.GetFirst6Data();
+            int ClienteId = objLectura.ClienteId;
+            var top6 = _lecturaService.GetFirst6Data(ClienteId);
             var top6Count = top6.Count();
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
             objLectura.Consumo = consumo;
@@ -181,7 +197,7 @@ namespace SISAP.Controllers
 			{
                 foreach(var items in top6)
 				{
-                    var value = items.CantidadLectura;
+                    var value = items.Consumo;
                     c += value;
 				}
 
@@ -197,7 +213,8 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult SaveFirstDataLectura(Lectura objLectura)
 		{
-            var top6 = _lecturaService.GetFirst6Data();
+            int ClienteId = objLectura.ClienteId;
+            var top6 = _lecturaService.GetFirst6Data(ClienteId);
             var top6Count = top6.Count();
             var fecchaRegistro = DateTime.Now;
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
@@ -208,7 +225,7 @@ namespace SISAP.Controllers
 			{
                 foreach(var items in top6)
 				{
-                    var value = items.CantidadLectura;
+                    var value = items.Consumo;
                     c += value;
 				}
 

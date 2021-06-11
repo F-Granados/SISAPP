@@ -225,7 +225,7 @@
 
         tabla = $('#allGrilla').DataTable({
             "dom": 'Bfrtip',
-            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "lengthMenu": [[15, 30, 50, -1], [15, 30, 50, "All"]],
             "searching": false,
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
@@ -459,7 +459,6 @@
         objCliente.Observaciones = $("#ctxtObservaciones").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
 
-
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -483,8 +482,6 @@
         });
         Clean();
     }
-
-
 
     @*function Delete(dCliente) {
         Swal.fire({
@@ -554,7 +551,7 @@
         });
                 swalWithBootstrapButtons.fire(
                     'Eliminado!',
-                    'Urbanizacion a sido eliminado.',
+                    'Cliente  a sido eliminado.',
                     'success'
                 )
             } else if (
@@ -610,4 +607,3 @@
     }
 
 </script>
-

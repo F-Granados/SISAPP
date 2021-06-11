@@ -173,23 +173,25 @@
 
 
         </div>
-        <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
-            <thead>
-                <tr class="bg-info text-light">
-                    <th scope="col">Código</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Direccion</th>
-                    <th scope="col">Medidor</th>
-                    <th scope="col">Año</th>
-                    <th scope="col">Mes</th>
-                    <th scope="col">Lec. Anterior</th>
-                    <th scope="col">Lec. Actual</th>
-                    <th scope="col">Consumo</th>
-                    <th scope="col">Promedio</th>
-                    <!--<th scope="col">Opciones</th>-->
-                </tr>
-            </thead>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
+                <thead>
+                    <tr class="bg-info text-light">
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Medidor</th>
+                        <th scope="col">Año</th>
+                        <th scope="col">Mes</th>
+                        <th scope="col">Lec. Anterior</th>
+                        <th scope="col">Lec. Actual</th>
+                        <th scope="col">Consumo</th>
+                        <th scope="col">Promedio</th>
+                        <!--<th scope="col">Opciones</th>-->
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
     <div class="modal-footer p-1">
         <button class="btn btn-success btn-sm" id="enviar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
@@ -455,65 +457,15 @@
 
     function ProcesarLectura() {
 
-        var validar;
-        var validar2;
-
         var objValidate = {};
         objValidate.Annio = $("#ddAnnio").val();
         objValidate.Mes = $("#ddMes").val();
         objValidate.UrbanizacionId = $("#ddUrbanizacion").val();
 
-        $.ajax({
-            type: "POST",
-            url: '@Url.Content("~/Lectura/ValidateNullableRow")',
-            data: JSON.stringify({
-                objValidate: objValidate
-            }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (resp) {
-
-                validar = resp.mensaje;
-                if (validar != 1) {
-                    tabla.draw();
-                }
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            url: '@Url.Content("~/Lectura/ValidateEnableNextMonth")',
-            dataType: "json",
-            data: JSON.stringify({ Annio: $("#ddAnnio").val(), Mes: $("#ddMes").val() }),
-            async: false,
-            success: function (resp) {
-                validar2 = resp.mensaje;
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-
-            }
-        });
-
         if ($("#ddAnnio").val() == "" || $("#ddMes").val() == "" || $("#ddUrbanizacion").val() == "") {
             $("#MSGvalidacionPL").show();
             $("#MSGvalidacionC").hide();
             $("#MSGvalidacionPLE").hide();
-
-            return false;
-        }
-        else if (validar == 1) {
-            $("#MSGvalidacionPL").hide();
-            $("#MSGvalidacionC").hide();
-            $("#MSGvalidacionPLE").show();
-            return false;
-        }
-
-        else if (validar2 <= 0) {
-            $("#MSGvalidacionPL").hide();
-            $("#MSGvalidacionPLE").hide();
-            $("#MSGvalidacionC").show();
 
             return false;
         }
@@ -527,11 +479,18 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
+                if (resp.msg == "10") {
+                    $("#MSGvalidacionPL").hide();
+                    $("#MSGvalidacionC").show();
+                    $("#MSGvalidacionPLE").hide();
+                } else if (resp.msg == "15") {
+                    $("#MSGvalidacionPL").hide();
+                    $("#MSGvalidacionPLE").show();
+                    $("#MSGvalidacionC").hide();
 
-                if (resp.msg = "success") {
+                } else if (resp.msg == "success") {
                     $("#btnProcesarLectura").hide();
                     $("#btnActualizarLectura").show();
-                    //tabla.draw();
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -552,7 +511,6 @@
             }
         });
 
-        //ClenaCombo();
 
     }
 
@@ -576,7 +534,6 @@
             async: false,
             success: function (resp) {
                 ifExists = resp.mensaje;
-                console.log(resp.mensaje +"holas rata")
             }
         });
         if (ifExists > 0) {
@@ -644,6 +601,7 @@
         objLectura.CantidadLectura = $("#txtLecturaActual").val();
         objLectura.ClienteId = $("#txtClienteId").val();
         objLectura.CantidadLecturaAntigua = $("#txtValorAntiguo").val();
+        objLectura.Actualizado = 1;
 
         console.log($("#txtLecturaId").val());
 
@@ -656,7 +614,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
-                console.log(resp);
                 tabla.draw();
             }
         });
@@ -685,6 +642,7 @@
         objLectura.CantidadLectura = $("#txtLecturaActual").val();
         objLectura.ClienteId = $("#txtClienteId").val();
         objLectura.CantidadLecturaAntigua = $("#txtValorAntiguo").val();
+        objLectura.Actualizado = 1;
 
 
         $.ajax({
@@ -696,7 +654,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
-                console.log(resp);
                 tabla.draw();
                 Clean();
 
