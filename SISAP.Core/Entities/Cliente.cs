@@ -65,7 +65,7 @@ namespace SISAP.Core.Entities
         [NotMapped]
         public string DireccionStr
         {
-            get { return string.Format("{0}, {1}, {2},{3}", "Urb. " + this.UrbanizacionNombre, "." + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
+            get { return string.Format("{0}, {1}, {2},{3}", "Urb. " + this.UrbanizacionNombre, "Calle " + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
         }
 
 
