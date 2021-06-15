@@ -11,6 +11,7 @@ namespace SISAP.Infrastructure.Service
 {
 	public class LecturaService : _BaseContext, ILecturaService
 	{
+
 		public IEnumerable<Lectura> ValidateNullRow(int? Annio, int? Mes, int? UrbanizacionId)
 		{
 			using (var dbContext = GetSISAPDBContext())
@@ -195,6 +196,8 @@ namespace SISAP.Infrastructure.Service
 						   from lec in dcl.DefaultIfEmpty()
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
+						   //join fac in dbContext.Facturacions on lec.ClienteId equals fac.ClienteId into cf
+						   //from clfa in cf.DefaultIfEmpty()
 						   where (c.UrbanizacionId == UrbanizacionId || null == UrbanizacionId)
 								&& (lec.Annio == Annio || lec.Annio == null)
 								&& (lec.Mes == Mes || lec.Mes == null)
@@ -220,7 +223,8 @@ namespace SISAP.Infrastructure.Service
 							   Consumo = lec ==null? 00 : lec.Consumo,
 							   Promedio = lec ==null? 00 : lec.Promedio,
 							   Alerta = lec ==null? String.Empty : lec.Alerta,
-							   CantidadLecturaAntigua = lec == null? 00 : lec.CantidadLecturaAntigua
+							   CantidadLecturaAntigua = lec == null? 00 : lec.CantidadLecturaAntigua,
+							   //FacturacionId = clfa == null? 0 : clfa.FacturacionId
 
 						   });
 				nroTotalRegistros = sql.Count();
@@ -247,7 +251,8 @@ namespace SISAP.Infrastructure.Service
 										Consumo = c.Consumo,
 										Promedio = c.Promedio,
 										Alerta = c.Alerta,
-										CantidadLecturaAntigua = c.CantidadLecturaAntigua
+										CantidadLecturaAntigua = c.CantidadLecturaAntigua,
+										//FacturacionId = c.FacturacionId
 									}).ToList();
 				return ListadoFinal;
 			}

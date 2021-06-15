@@ -167,7 +167,7 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-sm  table-striped " id="allGrilla">
+            <table class="table table-sm  table-striped table-responsive-sm" id="allGrilla">
                 <thead>
                     <tr class="bg-info text-light">
                         <th scope="col">Codigo</th>
@@ -225,7 +225,7 @@
 
         tabla = $('#allGrilla').DataTable({
             "dom": 'Bfrtip',
-            "lengthMenu": [[15, 30, 50, -1], [15, 30, 50, "All"]],
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
             "searching": false,
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
@@ -606,4 +606,23 @@
         });
     }
 
+</script>
+@*<script type="text/javascript" src="~/Scripts/registrocliente/registrocliente.js"></script>*@
+<script>
+
+    function asegurar() {
+        rc = confirm("¿Seguro que desea Eliminar?");
+        return rc;
+    }
+
+    function ValidaLongitud(campo, longitudMaxima) {
+        try {
+            if (campo.value.length > (longitudMaxima - 1))
+                return false;
+            else
+                return true;
+        } catch (e) {
+            return false;
+        }
+    }
 </script>

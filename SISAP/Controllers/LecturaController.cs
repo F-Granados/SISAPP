@@ -1,4 +1,5 @@
 ﻿using SISAP.Core.Entities;
+using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
@@ -13,11 +14,17 @@ namespace SISAP.Controllers
     {
         private readonly ILecturaService _lecturaService;
         private readonly ICiclosService _ciclosService;
+        private readonly ITarifarioService _tarifarioService;
+        private readonly IClienteService _clienteService;
+        private readonly IFacturaService _facturaService;
 
         public LecturaController()
 		{
             _lecturaService = new LecturaService();
             _ciclosService = new CiclosService();
+            _tarifarioService = new TarifarioService();
+            _clienteService = new ClienteService();
+            _facturaService = new FacturaService();
 		}
         // GET: Lectura
         public ActionResult Lectura()
@@ -95,7 +102,6 @@ namespace SISAP.Controllers
             return Json(new { mensaje = nroRegistros }, JsonRequestBehavior.AllowGet);
             
         }
-        //EN MODIFICACION
         [HttpPost]
         public JsonResult ProcesarLectura(ValidateLectura objValidate)
 		{
@@ -110,10 +116,12 @@ namespace SISAP.Controllers
             if (datos.Count() == 0)
 			{
                 output = "10";
-			} else if(datosnullable.Count() != 0)
+			} 
+            /*else if(datosnullable.Count() != 0)
 			{
                 output = "15";
-			} else 
+			} */
+            else 
 			{
                 int nextM = 0;
                 int nextY = 0;
@@ -155,7 +163,6 @@ namespace SISAP.Controllers
             return Json(new { msg = output }, JsonRequestBehavior.AllowGet);
 
 		}
-        //EN MODIFICACION
         [HttpPost]
         public JsonResult ValidateEnableNextMonth(int? Annio, int? Mes)
 		{
@@ -164,7 +171,7 @@ namespace SISAP.Controllers
             var count = datos.Count();
             return Json(new { mensaje = count }, JsonRequestBehavior.AllowGet);
 		}
-        //EN MODIFICACION
+
         [HttpPost]
         public JsonResult ValidateNullableRow(ValidateLectura objValidate)
 		{
@@ -183,6 +190,7 @@ namespace SISAP.Controllers
             return Json(new { mensaje = msg }, JsonRequestBehavior.AllowGet);
 		}
 
+        //EN MODIFICACION
         [HttpPost]
         public JsonResult UpdateDataExistLectura(Lectura objLectura)
 		{
@@ -193,6 +201,7 @@ namespace SISAP.Controllers
             objLectura.Consumo = consumo;
             objLectura.FechaRegistro = DateTime.Now;
             decimal? c = 0;
+
             if(top6Count >5)
 			{
                 foreach(var items in top6)
@@ -205,14 +214,832 @@ namespace SISAP.Controllers
 			}
             _lecturaService.UpdateDataExistLectura(objLectura);
 
+            var dataExist = _facturaService.ValidateIfExists(objLectura.Annio, objLectura.Mes, ClienteId);
+            var FacturacionId = 0;
+            foreach(var item in dataExist)
+			{
+                FacturacionId = item.FacturacionId;
+			}
+            var cliente = _clienteService.GetById(ClienteId);
+            var tarifario = _tarifarioService.getTarifario();
+
+            int CategoriaId = 0;
+            int ServicioId = 0;
+            foreach (var item in cliente)
+            {
+                CategoriaId = item.CategoriaId;
+                ServicioId = item.ServicioId;
+            }
+            decimal? CargoFijo = 0;
+            foreach (var item in tarifario)
+            {
+                if (CategoriaId == item.CategoriaId)
+                {
+                    CargoFijo = item.CargoFijo;
+                }
+            }
+            //Reglas de negocio
+
+            if (dataExist.Count() !=0)
+			{
+                if (CategoriaId == (int)CategoriaCliente.Social)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+
+                        }
+                    }
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Domestico)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                    }
+
+
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Comercial)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                    }
+
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Industrial)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                    }
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Estatal)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                    }
+                }
+            } else
+			{
+                if (CategoriaId == (int)CategoriaCliente.Social)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                            };
+                            _facturaService.Create(objFacturacion);
+
+                        }
+                    }
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Domestico)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                    }
+
+
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Comercial)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                    }
+
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Industrial)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                    }
+                }
+                else if (CategoriaId == (int)CategoriaCliente.Estatal)
+                {
+                    if (ServicioId == (int)Servicios.Agua)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                    }
+                    else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                    {
+                        //START
+                        if (objLectura.CantidadLectura < 1)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = CargoFijo,
+                                Total = CargoFijo
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                        else if (objLectura.CantidadLectura > 0)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                            };
+                            _facturaService.Create(objFacturacion);
+                        }
+                    }
+                }
+
+            }
+
             return Json(new { msg = "success" }, JsonRequestBehavior.AllowGet);
 
 
         }
-        
+        //EN MODIFICACION
         [HttpPost]
         public JsonResult SaveFirstDataLectura(Lectura objLectura)
 		{
+
             int ClienteId = objLectura.ClienteId;
             var top6 = _lecturaService.GetFirst6Data(ClienteId);
             var top6Count = top6.Count();
@@ -233,6 +1060,406 @@ namespace SISAP.Controllers
 			}
 
             _lecturaService.Create(objLectura);
+
+            var cliente = _clienteService.GetById(ClienteId);
+            var tarifario = _tarifarioService.getTarifario();
+
+            int CategoriaId = 0;
+            int ServicioId = 0;
+            foreach (var item in cliente)
+            {
+                CategoriaId = item.CategoriaId;
+                ServicioId = item.ServicioId;
+            }
+            decimal? CargoFijo = 0;
+            foreach(var item in tarifario)
+			{
+                if(CategoriaId == item.CategoriaId)
+				{
+                    CargoFijo = item.CargoFijo;
+                }
+            }
+            //Reglas de negocio
+
+            if (CategoriaId == (int)CategoriaCliente.Social)
+            {
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                }
+                else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                        };
+                        _facturaService.Create(objFacturacion);
+
+                    }
+                }
+            }
+            else if (CategoriaId == (int)CategoriaCliente.Domestico)
+            {
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                }
+                else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                }
+
+
+            }
+            else if (CategoriaId == (int)CategoriaCliente.Comercial)
+            {
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                }
+                else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                }
+
+            }
+            else if (CategoriaId == (int)CategoriaCliente.Industrial)
+            {
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                }
+                else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                }
+            }
+            else if (CategoriaId == (int)CategoriaCliente.Estatal)
+            {
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                }
+                else if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    //START
+                    if (objLectura.CantidadLectura < 1)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = CargoFijo,
+                            Total = CargoFijo
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                    else if (objLectura.CantidadLectura > 0)
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+                }
+            }
 
             return Json(new { msg = "success" }, JsonRequestBehavior.AllowGet);
 

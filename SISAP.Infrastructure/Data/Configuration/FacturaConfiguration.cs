@@ -7,7 +7,7 @@ using System.Data.Entity.ModelConfiguration;
 using SISAP.Core.Entities;
 namespace SISAP.Infrastructure.Data.Configuration
 {
-    class FacturaConfiguration : EntityTypeConfiguration<Factura>
+    public class FacturaConfiguration : EntityTypeConfiguration<Factura>
     {
         public FacturaConfiguration()
         {

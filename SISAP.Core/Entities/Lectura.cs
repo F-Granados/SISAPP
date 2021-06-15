@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace SISAP.Core.Entities
         public decimal? CantidadLecturaAntigua { get; set; }
         public int Procesado { get; set; }
         public int Actualizado { get; set; }
+
+        [NotMapped]
+        public int FacturacionId { get; set; }
 
     }
 }

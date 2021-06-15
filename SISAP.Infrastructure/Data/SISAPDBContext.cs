@@ -20,6 +20,8 @@ namespace SISAP.Infrastructure.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Configurations.Add(new UsuarioConfiguration());
+            modelBuilder.Configurations.Add(new FacturacionConfiguration());
+            modelBuilder.Configurations.Add(new TarifarioConfiguration());
             modelBuilder.Configurations.Add(new MesesConfiguration());
             modelBuilder.Configurations.Add(new ClienteConfiguration());
             modelBuilder.Configurations.Add(new OpcionConfiguracion());
@@ -44,7 +46,10 @@ namespace SISAP.Infrastructure.Data
             modelBuilder.Configurations.Add(new CategoriaConfiguration());
 
         }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<Facturacion> Facturacions { get; set; }
         public DbSet<Urbanizacion> Urbanizacions { get; set; }
+        public DbSet<Tarifario> Tarifarios { get; set; }
         public DbSet<Meses> Meses { get; set; }
         public DbSet<TipoCategoria> TipoCategorias { get; set; }
         public DbSet<Servicio> servicios { get; set; }

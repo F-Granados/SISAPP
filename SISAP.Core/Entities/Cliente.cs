@@ -33,6 +33,9 @@ namespace SISAP.Core.Entities
         public int LecturaId { get; set; }
         
         [NotMapped]
+        public int FacturacionId { get; set; }
+        
+        [NotMapped]
         public int Annio { get; set; }
         
         [NotMapped]
@@ -51,6 +54,9 @@ namespace SISAP.Core.Entities
         public decimal? CantidadLecturaAntigua { get; set; }
         
         [NotMapped]
+        public decimal? Total { get; set; }
+        
+        [NotMapped]
         public string Alerta { get; set; }
 
         public virtual EstadoServicio EstadoServicio { get; set; }
@@ -61,14 +67,25 @@ namespace SISAP.Core.Entities
         {
             get { return string.Format("{0}, {1}", this.Apellido, this.Nombre); }
         }
+        
+
 
         [NotMapped]
         public string DireccionStr
         {
-            get { return string.Format("{0}, {1}, {2},{3}", "Urb. " + this.UrbanizacionNombre, "Calle " + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
+            get { return string.Format("{0}, {1}, {2},{3}", "Urb. " + this.UrbanizacionNombre, "." + this.Complemento, "Mz." + this.ManzanaNombre, "Lt. " + this.Direccion); }
         }
 
-
+        [NotMapped]
+        public string Periodo
+        {
+            get { return string.Format("{0} - {1}", this.Mes, this.Annio); }
+        }
+        [NotMapped]
+        public string TotalPagar
+        {
+            get { return string.Format("S/." + this.Total); }
+        }
 
     }
 }

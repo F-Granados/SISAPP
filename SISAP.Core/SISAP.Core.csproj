@@ -54,6 +54,7 @@
     <Compile Include="Entities\EstadoPago.cs" />
     <Compile Include="Entities\EstadoServicio.cs" />
     <Compile Include="Entities\Factura.cs" />
+    <Compile Include="Entities\Facturacion.cs" />
     <Compile Include="Entities\Lectura.cs" />
     <Compile Include="Entities\Manzana.cs" />
     <Compile Include="Entities\Medidor.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Entities\OpcionUsuario.cs" />
     <Compile Include="Entities\Pago.cs" />
     <Compile Include="Entities\Servicio.cs" />
+    <Compile Include="Entities\Tarifario.cs" />
     <Compile Include="Entities\TipoCategoria.cs" />
     <Compile Include="Entities\UpdateLectura.cs" />
     <Compile Include="Entities\UpdateLecturaProcess.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\IClienteService.cs" />
     <Compile Include="Interfaces\IMedidorService.cs" />
+    <Compile Include="Interfaces\ITarifarioService.cs" />
     <Compile Include="Interfaces\IUrbanizacionService.cs" />
     <Compile Include="Interfaces\IUsuarioService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

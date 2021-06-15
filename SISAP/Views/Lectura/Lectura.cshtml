@@ -100,6 +100,7 @@
                         <input hidden type="text" id="txtValorAntiguo" class="form-control" >
                         <input hidden type="text" id="txtLecturaId" class="form-control" >
                         <input hidden type="text" id="txtLecturaAnterior" class="form-control" >
+                        <input hidden type="text" id="txtFacturacionId" class="form-control" >
                     </div>
                 </div>
                 <div class="row mt-2">
@@ -173,8 +174,8 @@
 
 
         </div>
-        <div class="table-responsive-sm">
-            <table class="table table-sm table-striped" id="allGrilla">
+        <div class="table-responsive">
+            <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
                 <thead>
                     <tr class="bg-info text-light">
                         <th scope="col">Código</th>
@@ -194,8 +195,8 @@
         </div>
     </div>
     <div class="modal-footer p-1">
-        <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
-        <button class="btn btn-dark btn-sm" id="printPDF" onclick="window.print()" type="submit"><i class="fas fa-print"></i> Print</button>
+        <button class="btn btn-success btn-sm" id="enviar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
+        <button class="btn btn-dark btn-sm" id="enviar" type="submit"><i class="fas fa-print"></i> Print</button>
     </div>
 </div>
 
@@ -565,6 +566,8 @@
         $("#txtNombreCompleto").val(dLectura.NombreCompleto);
         $("#txtNumeroMedidor").val(dLectura.NumeroMedidor);
         $("#txtLecturaActual").val(dLectura.CantidadLectura);
+        $("#txtFacturacionId").val(dLectura.FacturacionId);
+
         var value = dLectura.LecturaId;
 
         if (value == 0) {
@@ -580,11 +583,12 @@
 
     function UpdateLecturaUpdate() {
 
+        /*
         if ($("#txtLecturaActual").val() == 0) {
             $("#MSGvalidacionVA").show();
             return false;
         }
-
+        */
         UpdateDataLectura();
 
         $("#modal_aside_right").modal('show');
@@ -595,6 +599,7 @@
 
         var objLectura = {};
         objLectura.LecturaId = $("#txtLecturaId").val();
+        objLectura.FacturacionId = $("#txtFacturacionId").val();
         objLectura.CantidadLecturaAntigua = $("#txtLecturaAnterior").val();
         objLectura.Annio = $("#txtAnnio").val();
         objLectura.Mes = $("#txtMes").val();
@@ -603,7 +608,6 @@
         objLectura.CantidadLecturaAntigua = $("#txtValorAntiguo").val();
         objLectura.Actualizado = 1;
 
-        console.log($("#txtLecturaId").val());
 
         $.ajax({
             type: "POST",
@@ -622,10 +626,12 @@
 
     function UpdateLecturaSave() {
 
+        /*
         if ($("#txtLecturaActual").val() == 0) {
             $("#MSGvalidacionVA").show();
             return false;
         }
+        */
 
         SaveFirstDataLectura();
 
@@ -775,6 +781,7 @@
     }
     function Clean() {
         $("#txtLecturaAnterior").val('');
+        $("#txtFacturacionId").val('');
         $("#txtClienteId").val('');
         $("#txtLecturaId").val('');
         $("#txtAnnio").val('');

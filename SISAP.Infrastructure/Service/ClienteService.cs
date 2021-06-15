@@ -13,6 +13,7 @@ namespace SISAP.Infrastructure.Service
 {
     public class ClienteService : _BaseContext, IClienteService
     {
+
         public IEnumerable<Cliente> GetAll(string FilterNombre, string FilterCodigo, string FilterMedidor, int pageSize, int skip, out int nroTotalRegistros)
         {
             using (var dbContext = GetSISAPDBContext())

@@ -18,6 +18,14 @@ namespace SISAP.Core.Enum
         [Description("Levantada")]
         Levantada = 4
     }
+    
+    public enum Clase
+    {
+        [Description("Residencial")]
+        Residencial = 1,
+        [Description("No residencial")]
+        Noresidencial = 2,
+    }
 
 
     public enum Servicios
@@ -26,11 +34,8 @@ namespace SISAP.Core.Enum
         [Description("Agua")]
         Agua = 1,
 
-        [Description("Desague")]
-        Desague = 2,
-
-        [Description("Agua y Desague")]
-        AguaDesague = 3
+        [Description("Agua y Alcantarillado")]
+        AguaAlcantarillado = 2
     }
     public enum CategoriaCliente
     {

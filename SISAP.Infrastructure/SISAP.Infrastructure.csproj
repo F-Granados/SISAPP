@@ -87,6 +87,7 @@
     <Compile Include="Data\Configuration\EstadoConfiguration.cs" />
     <Compile Include="Data\Configuration\EstadoPagoConfiguration.cs" />
     <Compile Include="Data\Configuration\EstadoServicioConfiguration.cs" />
+    <Compile Include="Data\Configuration\FacturacionConfiguration.cs" />
     <Compile Include="Data\Configuration\FacturaConfiguration.cs" />
     <Compile Include="Data\Configuration\LecturaConfiguration.cs" />
     <Compile Include="Data\Configuration\ManzanaConfiguration.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Data\Configuration\OpcionUsuarioConfiguracion.cs" />
     <Compile Include="Data\Configuration\PagoConfiguration.cs" />
     <Compile Include="Data\Configuration\ServicioConfiguration.cs" />
+    <Compile Include="Data\Configuration\TarifarioConfiguration.cs" />
     <Compile Include="Data\Configuration\TipoCategoriaConfiguration.cs" />
     <Compile Include="Data\Configuration\UrbanizacionConfiguration.cs" />
     <Compile Include="Data\Configuration\UsuarioConfiguration.cs" />
@@ -106,9 +108,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CiclosService.cs" />
     <Compile Include="Service\ClienteService.cs" />
+    <Compile Include="Service\FacturaService.cs" />
     <Compile Include="Service\LecturaService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\OpcionService.cs" />
+    <Compile Include="Service\TarifarioService.cs" />
     <Compile Include="Service\UrbanizacionService.cs" />
     <Compile Include="Service\UsuarioService.cs" />
     <Compile Include="Service\_BaseContext.cs" />
