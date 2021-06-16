@@ -15,11 +15,18 @@ namespace SISAP.Core.Entities
 		public int Mes { get; set; }
 		public decimal? SubTotal { get; set; }
 		public decimal? Total { get; set; }
+		public int? NroBoleta { get; set; }
+		public DateTime? FechaEmision { get; set; }
 
 		[NotMapped]
 		public string Periodo
 		{
 			get { return string.Format("{0} - {1}", this.Mes, this.Annio); }
+		}
+		[NotMapped]
+		public string TotalPagar
+		{
+			get { return string.Format("S/." + this.Total); }
 		}
 
 	}

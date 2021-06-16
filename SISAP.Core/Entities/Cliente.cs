@@ -24,7 +24,31 @@ namespace SISAP.Core.Entities
 
         [NotMapped]
         public string UrbanizacionNombre { get; set; }
-
+        
+        [NotMapped]
+        public string ServicioNombre { get; set; }
+        
+        [NotMapped]
+        public string TipoCategoria { get; set; }        
+        
+        [NotMapped]
+        public int ClaseId { get; set; }
+                
+        [NotMapped]
+        public int PagoId { get; set; }
+        
+        [NotMapped]
+        public string Estado { get; set; }
+        
+        [NotMapped]
+        public string ObservacionesPago { get; set; }
+        
+        [NotMapped]
+        public string FechaPago { get; set; }
+        
+        [NotMapped]
+        public int EstadoInt { get; set; }
+        
 
         [NotMapped]
         public string ManzanaNombre { get; set; }

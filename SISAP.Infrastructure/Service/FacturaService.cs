@@ -11,6 +11,43 @@ namespace SISAP.Infrastructure.Service
 {
 	public class FacturaService : _BaseContext, IFacturaService
 	{
+		public IEnumerable<Facturacion> ListDetalleFacturacion(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var sql = (from f in dbContext.Facturacions
+
+						   where f.ClienteId == ClienteId
+						   orderby f.ClienteId
+						   select new
+						   {
+							   f.FacturacionId,
+							   f.ClienteId,
+							   f.Annio,
+							   f.Mes,
+							   f.SubTotal,
+							   f.Total,
+							   f.NroBoleta
+						   });
+				nroTotalRegistros = sql.Count();
+				sql = sql.Skip(skip).Take(pageSize);
+
+				var ListadoFinal = (from c in sql.ToList()
+									select new Facturacion()
+									{
+										FacturacionId = c.FacturacionId,
+										ClienteId = c.ClienteId,
+										Annio = c.Annio,
+										Mes = c.Mes,
+										SubTotal = c.SubTotal,
+										Total = c.Total,
+										NroBoleta = c.NroBoleta
+
+									}).ToList();
+				return ListadoFinal;
+			}
+		}
+
 
 		public IEnumerable<Facturacion> ValidateIfExists(int? Annio, int? Mes, int? ClienteId)
 		{
@@ -26,10 +63,13 @@ namespace SISAP.Infrastructure.Service
 			using (var dbContext = GetSISAPDBContext())
 			{
 				var sql = (from c in dbContext.Clientes
+						   join srv in dbContext.servicios on c.ServicioId equals srv.ServicioId
+						   join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
 						   join l in dbContext.Lecturas on c.ClienteId equals l.ClienteId 
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
 						   join fa in dbContext.Facturacions on c.ClienteId equals fa.ClienteId
+						   
 						   where (c.UrbanizacionId == UrbanizacionId)
 								&& (fa.Annio == Annio )
 								&& (fa.Mes == Mes)
@@ -58,7 +98,12 @@ namespace SISAP.Infrastructure.Service
 							   l.Consumo,
 							   l.CantidadLecturaAntigua,
 							   fa.FacturacionId,
-							   fa.Total
+							   fa.Total,
+							   srv.ServicioId,
+							   srv.ServicioNombre,
+							   cat.CategoriaId,
+							   cat.TipoCategoria,
+							   cat.ClaseId
 							   /*
 							   LecturaId = lec == null ? 0 : lec.LecturaId,
 							   Annio = lec == null ? 00 : lec.Annio,
@@ -96,6 +141,12 @@ namespace SISAP.Infrastructure.Service
 										CantidadLecturaAntigua = c.CantidadLecturaAntigua,
 									    FacturacionId = c.FacturacionId,
 										Total = c.Total,
+										ServicioId = c.ServicioId,
+										ServicioNombre = c.ServicioNombre,
+										CategoriaId = c.CategoriaId,
+										TipoCategoria = c.TipoCategoria,
+										ClaseId = c.ClaseId
+
 									}).ToList();
 				return ListadoFinal;
 			}

@@ -19,6 +19,14 @@ namespace SISAP.Core.Enum
         Levantada = 4
     }
     
+    public enum EstadoPay
+    {
+        [Description("Pendiente")]
+        Pendiente = 0,
+        [Description("Pagado")]
+        Pagado = 1,
+    }
+    
     public enum Clase
     {
         [Description("Residencial")]

@@ -85,6 +85,8 @@
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\IClienteService.cs" />
     <Compile Include="Interfaces\IMedidorService.cs" />
+    <Compile Include="Interfaces\IPagoService.cs" />
+    <Compile Include="Interfaces\IReportesService.cs" />
     <Compile Include="Interfaces\ITarifarioService.cs" />
     <Compile Include="Interfaces\IUrbanizacionService.cs" />
     <Compile Include="Interfaces\IUsuarioService.cs" />

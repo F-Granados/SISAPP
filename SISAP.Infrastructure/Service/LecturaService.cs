@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using SISAP.Core.Enum;
 
 namespace SISAP.Infrastructure.Service
 {
@@ -37,6 +38,7 @@ namespace SISAP.Infrastructure.Service
 						   where (c.UrbanizacionId == UrbanizacionId || UrbanizacionId == null)
 								&& (lec.Annio == Annio || Annio == null)
 								&& (lec.Mes == Mes || Mes == null)
+								&& (c.EstadoServicioId == (int)EstadoServicioMaestro.Activo)
 								&& (String.IsNullOrEmpty(FilterNombre) || c.Nombre.Contains(FilterNombre))
 						   orderby c.Nombre
 						   select new

@@ -299,8 +299,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
 
@@ -324,7 +324,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -383,7 +383,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -649,6 +649,7 @@ namespace SISAP.Controllers
                 }
             } else
 			{
+
                 if (CategoriaId == (int)CategoriaCliente.Social)
                 {
                     if (ServicioId == (int)Servicios.Agua)
@@ -702,8 +703,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
                             };
                             _facturaService.Create(objFacturacion);
 
@@ -726,7 +727,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -781,7 +782,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -1134,8 +1135,8 @@ namespace SISAP.Controllers
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura - Convert.ToDecimal(0.1)))
+                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
                         };
                         _facturaService.Create(objFacturacion);
 
@@ -1158,7 +1159,7 @@ namespace SISAP.Controllers
                         };
                         _facturaService.Create(objFacturacion);
                     }
-                    else if (objLectura.CantidadLectura > 0)
+                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <=25)
                     {
                         var objFacturacion = new Facturacion()
                         {
@@ -1213,7 +1214,7 @@ namespace SISAP.Controllers
                         };
                         _facturaService.Create(objFacturacion);
                     }
-                    else if (objLectura.CantidadLectura > 0)
+                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <=25)
                     {
                         var objFacturacion = new Facturacion()
                         {

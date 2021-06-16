@@ -112,6 +112,8 @@
     <Compile Include="Service\LecturaService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\OpcionService.cs" />
+    <Compile Include="Service\PagoService.cs" />
+    <Compile Include="Service\ReportesService.cs" />
     <Compile Include="Service\TarifarioService.cs" />
     <Compile Include="Service\UrbanizacionService.cs" />
     <Compile Include="Service\UsuarioService.cs" />

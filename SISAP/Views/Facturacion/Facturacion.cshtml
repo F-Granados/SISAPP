@@ -2,120 +2,75 @@
     ViewBag.Title = "Facturacion";
 }
 <!--Modal Historial Recibo-->
-<div class="modal fixed-right fade fuente" id="modal_aside_right1" tabindex="-1" role="dialog" aria-labelledby="EjemploModal" aria-hidden="true">
+<div class="modal fixed-right fade fuente" id="modal_aside_right" tabindex="-1" role="dialog" aria-labelledby="EjemploModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-aside" role="document">
         <div class="modal-content" id="form">
             <div class="modal-body mt-4">
                 <div class="card-header">
                     <h4 class="text-center">Hisorial Lecturas</h4>
                 </div>
-                <form>
-                    <div class="row">
-                        <div class="col">
-                            <label for="email"> Codigo</label>
-                            <input type="email" class="form-control" placeholder="55584">
-                        </div>
-                        <div class="col">
-                            <label for="email">Nombre</label>
-                            <input type="email" class="form-control" placeholder="MAMANI QUISPE NANDO">
-                        </div>
-                        <div class="col">
-                            <label for="email">Direccion</label>
-                            <input type="email" class="form-control" placeholder="URB. MARAVILLA MZ. A2 LT. 3">
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="email"> Servicio</label>
-                            <input type="email" class="form-control" placeholder="Agua y Desague">
-                        </div>
-                        <div class="col">
-                            <label for="email">Tarifa</label>
-                            <input type="email" class="form-control" placeholder="Domestico">
-                        </div>
-                        <div class="col">
-                            <label for="email">Medidor</label>
-                            <input type="email" class="form-control" placeholder="EA-25511225">
-                        </div>
-
-                    </div>
-
-                </form>
-
                 <div class="modal-body">
-                    <table class="table table-sm table-striped table-responsive-sm">
-                        <thead>
-                            <tr class="bg-info text-light ">
-                                <th scope="col">#</th>
-                                <th scope="col">Año</th>
-                                <th scope="col">Mes</th>
-                                <th scope="col">Medidor</th>
-                                <th scope="col">Lectura Anterior</th>
-                                <th scope="col">Lectura Actual</th>
-                                <th scope="col">Consumo</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Numero de recibo</th>
-                                <th scope="col">Peridodo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>2021</td>
-                                <td>1</td>
-                                <td>AE9-99844</td>
-                                <td>30</td>
-                                <td>40</td>
-                                <td>10</td>
-                                <td>S/ 20</td>
-                                <td>00000655988</td>
-                                <td>03-2021</td>
+                    <form class="">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="email"> Codigo</label>
+                                <input disabled type="text" id="txtCodigo" class="form-control" placeholder="">
+                                <input hidden type="text" id="txtClienteId" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="email">Nombre</label>
+                                <input disabled type="text" id="txtNombre" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="email">Direccion</label>
+                                <input disabled type="text" id="txtDireccion" class="form-control" placeholder="">
+                            </div>
 
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>2021</td>
-                                <td>1</td>
-                                <td>AE9-99844</td>
-                                <td>30</td>
-                                <td>40</td>
-                                <td>10</td>
-                                <td>S/ 20</td>
-                                <td>00000655988</td>
-                                <td>03-2021</td>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="email"> Servicio</label>
+                                <input disabled type="text" id="txtServicio" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="email">Tarifa</label>
+                                <input disabled type="text" id="txtTarifa" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="email">Medidor</label>
+                                <input disabled type="text" id="txtMedidor" class="form-control" placeholder="">
+                            </div>
 
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>2021</td>
-                                <td>1</td>
-                                <td>AE9-99844</td>
-                                <td>30</td>
-                                <td>40</td>
-                                <td>10</td>
-                                <td>S/ 20</td>
-                                <td>00000655988</td>
-                                <td>03-2021</td>
+                        </div>
 
-                            </tr>
-                         
-                        </tbody>
-                    </table>
+                    </form>
+
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm  table-striped table-responsive-sm" id="allGrillaDetalle">
+                            <thead>
+                                <tr class="bg-info text-light">
+                                    <th scope="col">Annio</th>
+                                    <th scope="col">Mes</th>
+                                    <th scope="col">Total a Pagar</th>
+                                    <th scope="col">Nro Boleta</th>
+                                    <th scope="col">Periodo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                        Cerrar
-                    </button>
-                </div>
+
+            </div>
+            <div class="modal-footer p-1">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">
+                    Cerrar
+                </button>
             </div>
         </div>
 
     </div>
 </div>
 <!-- Historial Recibo.// -->
-
-
 
 
 <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
@@ -178,6 +133,7 @@
 <script>
 
     var tabla;
+    var tabla2;
 
     $(document).ready(function () {
         $("#ddAnnio").change(function () {
@@ -195,6 +151,7 @@
     });
 
     function ListarFacturacion() {
+
         tabla = $('#allGrilla').DataTable({
             "destroy": true,
             "dom": 'Bfrtip',
@@ -257,8 +214,64 @@
     function Print() {
 
     }
-    function Read() {
+    function Read(dCliente) {
 
+        $("#modal_aside_right").modal('show');
+
+        $("#txtClienteId").val(dCliente.ClienteId);
+        $("#txtCodigo").val(dCliente.CodigoCliente);
+        $("#txtNombre").val(dCliente.NombreCompleto);
+        $("#txtDireccion").val(dCliente.DireccionStr);
+        $("#txtServicio").val(dCliente.ServicioNombre);
+        $("#txtTarifa").val(dCliente.TipoCategoria);
+        $("#txtMedidor").val(dCliente.NumeroMedidor);
+
+        ListHLecturas();
+    }
+
+    function ListHLecturas() {
+        tabla2 = $('#allGrillaDetalle').DataTable({
+            "destroy": true,
+            "dom": 'Bfrtip',
+            //"bPaginate": false,
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "searching": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "drawCallback": function () {
+                $('.page-link').addClass('btn-sm  border-0')
+            },
+
+            "serverSide": true,
+            "processing": true,
+            "orderable": false,
+            "ajax": {
+                "url": '@Url.Content("~/Facturacion/ListDetalleFacturacion")',
+                "type": 'POST',
+                "data": function (d) {
+                    return $.extend({}, d, {
+                        ClienteId: $("#txtClienteId").val() == "" ? null : $("#txtClienteId").val(),
+                    });
+                },
+                "dataSrc": "data",
+                "responsivePriority": 1,
+                //"pageLength": 10
+            },
+
+            "columns": [
+                { "data":"Annio" },
+                { "data":"Mes" },
+                { "data": "TotalPagar", "sClass": "font-weight-bold" },
+                { "data":"NroBoleta" },
+                { "data":"Periodo" },
+            ]
+        });
+
+        tabla2.draw();
+        /*$("#txtFilter").bind("keyup change", function () {
+            tabla2.draw();
+        })*/
     }
 
     function ListarAnnio() {
@@ -334,6 +347,14 @@
         $("#ddAnnio").val('');
         $("#ddMes").val('');
         $("#ddUrbanizacion").val('');
-
+    }
+    function Clena() {
+        $("#txtClienteId").val("");
+        $("#txtCodigo").val("");
+        $("#txtNombre").val("");
+        $("#txtDireccion").val("");
+        $("#txtServicio").val("");
+        $("#txtTarifa").val("");
+        $("#txtMedidor").val("");
     }
 </script>
