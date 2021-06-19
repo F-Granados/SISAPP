@@ -1,4 +1,5 @@
 ﻿using SISAP.Core.Entities;
+using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
@@ -50,6 +51,8 @@ namespace SISAP.Controllers
         public JsonResult Pagar(Pago objPago)
 		{
             objPago.FechaPago = DateTime.Now;
+            objPago.EstadoPago = (int)EstadoPay.Pagado;
+            objPago.EstadoPagoDesc = "Pagado";
 
             _pagoService.Pagar(objPago);
 

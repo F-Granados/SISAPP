@@ -45,22 +45,20 @@
 
                         </div>
                     </form>
-                    <div class="table-responsive-lg mt-3">
-                        <table class="mt-4 table table-sm table-striped" id="allGrilla1">
-                            <thead>
-                                <tr class="bg-info text-light ">
-                                    <th scope="col">Año </th>
-                                    <th scope="col">Mes</th>
-                                    <th scope="col">Concepto</th>
-                                    <th scope="col">Servicio</th>
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Total a Pagar</th>
-                                    <th class="text-center" scope="col"> Pagar</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
 
+                    <table class="mt-4 table table-sm table-striped table-responsive-sm" id="allGrilla1">
+                        <thead>
+                            <tr class="bg-info text-light ">
+                                <th scope="col">Año </th>
+                                <th scope="col">Mes</th>
+                                <th scope="col">Concepto</th>
+                                <th scope="col">Servicio</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Total a Pagar</th>
+                                <th class="text-center" scope="col"> Pagar</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer p-1">
@@ -73,7 +71,7 @@
     </div>
 </div>
 
-<!-- Modal  PAY -->
+<!-- Modal -->
 <div class="modal fade" id="modalPay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -160,22 +158,21 @@
 
                         </div>
                     </form>
-                    <div class="table-responsive-lg mt-3">
-                        <table class="mt-4 table table-sm table-striped" id="allGrilla2">
-                            <thead>
-                                <tr class="bg-info text-light ">
-                                    <th scope="col">Año </th>
-                                    <th scope="col">Mes</th>
-                                    <th scope="col">Concepto</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Observaciones</th>
-                                    <th scope="col">Fecha de Pago</th>
-                                    <th class="text-center" scope="col">Archivos</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+
+                    <table class="mt-4 table table-sm table-striped table-responsive-sm" id="allGrilla2">
+                        <thead>
+                            <tr class="bg-info text-light ">
+                                <th scope="col">Año </th>
+                                <th scope="col">Mes</th>
+                                <th scope="col">Concepto</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Observaciones</th>
+                                <th scope="col">Fecha de Pago</th>
+                                <th class="text-center" scope="col">Archivos</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
 
             </div>
@@ -194,7 +191,7 @@
 <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
     <div class="card-body fuente">
         <div class=" card-header bg-dark text-white">
-            <h5><i class="fas fa-table"> Pagos</i></h5>
+            <h5><i class="fas fa-table"> Facturación</i></h5>
         </div>
         <hr style="border-style: dashed;" />
         <div class="row">
@@ -217,19 +214,17 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive-sm">
-            <table class="table table-sm table-striped" id="allGrilla">
-                <thead>
-                    <tr class="bg-info text-light ">
-                        <th scope="col">Codigo </th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Medidor</th>
-                        <th scope="col"> Opciones</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
+            <thead>
+                <tr class="bg-info text-light ">
+                    <th scope="col">Codigo </th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Medidor</th>
+                    <th scope="col"> Opciones</th>
+                </tr>
+            </thead>
+        </table>
         <!--
     <table class="table table-sm table-striped table-responsive-sm">
         <thead>
@@ -393,7 +388,7 @@
                 { "data": "Mes" },
                 { "data": "TipoCategoria" },
                 { "data": "ServicioNombre" },
-                { "data": "Estado", "sClass": "font-weight-bold "  },
+                { "data": "EstadoPagoDesc", "sClass": "font-weight-bold "  },
                 { "data": "TotalPagar", "sClass": "font-weight-bold" },
                 {
                     "data": "id", "sClass": "ml-4" ,"render": function (data, type, row, meta) {
@@ -424,10 +419,10 @@
         $("#txtMesPago").val(dCliente.Mes);
         $("#txtFacturacionId").val(dCliente.FacturacionId);
         $("#txtObservaciones").val(dCliente.ObservacionesPago);
+        console.log(dCliente.EstadoPagado);
+        var value = dCliente.EstadoPagado;
 
-        var value = dCliente.EstadoInt;
-
-        if (value == 0) {
+        if (value == null) {
             $("#btnPagado").hide();
             $("#btnPagar").show();
 
@@ -444,7 +439,6 @@
 
         var objPago = {};
         objPago.ClienteId = $("#txtClienteIdPay").val();
-        objPago.Estado = 1;
         objPago.Total = $("#txtTotalPagar").val();
         objPago.PeriodoAnnio = $("#txtAnnioPago").val();
         objPago.PeriodoMes = $("#txtMesPago").val();
@@ -559,13 +553,13 @@
             },
 
             "columns": [
-                { "data":"Annio" },
-                { "data": "Mes" },
+                { "data":"PeriodoAnnio" },
+                { "data": "PeriodoMes" },
                 { "data": "TipoCategoria" },
                 { "data": "TotalPagar", "sClass": "font-weight-bold" },
-                { "data": "Estado", "sClass": "font-weight-bold " },
-                { "data": "ObservacionesPago" },
-                { "data": "FechaPago" },
+                { "data": "EstadoStr", "sClass": "font-weight-bold " },
+                { "data": "Observaciones" },
+                { "data": "FechaPagoStr" },
                 {
                     "data": "id", "sClass": "ml-4" ,"render": function (data, type, row, meta) {
                         return "<i class='ml-5 text-center text-success fas fa-file mr-3' onClick='ViewFile(" + JSON.stringify(row) + ")'></i> </a>"

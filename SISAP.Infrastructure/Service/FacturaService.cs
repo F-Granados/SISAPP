@@ -18,7 +18,7 @@ namespace SISAP.Infrastructure.Service
 				var sql = (from f in dbContext.Facturacions
 
 						   where f.ClienteId == ClienteId
-						   orderby f.ClienteId
+						   orderby f.Mes descending
 						   select new
 						   {
 							   f.FacturacionId,

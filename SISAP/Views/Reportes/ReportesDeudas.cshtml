@@ -9,38 +9,34 @@
         <h5>Reporte de Deudores por Ruta</h5>
         <hr style="border-style: dashed;" />
         <div class="row">
-            <div class="row  col-8">
-                <div class="col-sm-2 mb-3">
-                    <label>Año</label>
-                    <select id="ddAnnio" class="form-control form-control-sm ">
-                    </select>
-                </div>
-                <div class="col-sm-3 mb-3 ">
-                    <label>Mes Inicial</label>
-                    <select id="ddMes" class="form-control form-control-sm">
-                    </select>
-                </div>
-                <div class="col-sm-3 mb-3 ">
-                    <label>Mes Final</label>
-                    <select id="ddMes" class="form-control form-control-sm">
-                    </select>
-                </div>
-                <div class="col-sm-3 mb-3 ">
+            <div class="row  col-6">
+                <div class="col-sm-8 mb-3 ">
                     <label>Ruta</label>
-                    <select id="ddUrbanizacion" class="form-control form-control-sm ">
+                    <select class="form-control p-2 bg-info order-3">
+                        <option>110 - MARAVILLA</option>
+                        <option>115 - PARQUE INDUSTRIAL</option>
                     </select>
                 </div>
+
+                <div class="col-8">
+                    <div class="d-flex justify-content-start mb-4">
+
+                        <button type="button" data-toggle="modal" class="btn btn-info"><i class="fas fa-archive"></i> Ver Registro</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-4">
-                <div class="d-flex justify-content-end mt-2">
-                    <div class="searchbar mr-4 mt-2">
-                        <input class="search_input" type="text" id="txtFilter" name="" placeholder="Buscar...">
+
+
+            <div class="col-6">
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="searchbar">
+                        <input class="search_input" type="text" name="" placeholder="Buscar ........">
                         <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                     </div>
-
-                   
                 </div>
             </div>
+
         </div>
 
         <table class="table table-sm table-striped table-responsive-sm">
@@ -69,11 +65,15 @@
                     <td>Activo</td>
                     <td style="width:80px">
                         <div class="btn-group" role="group">
-
+                            <a href="#" class="btn btn-primary text-white">
+                                <i class="fas fa-edit"></i>
+                            </a>
                             <a href="#" class="btn btn-success text-white">
                                 <i class="fas fa-list-alt"></i>
                             </a>
-
+                            <a href="#" class="btn btn-danger text-white">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
 
                         </div>
                     </td>
@@ -89,11 +89,15 @@
                     <td>Activo</td>
                     <td style="width:80px">
                         <div class="btn-group" role="group">
-
+                            <a href="#" class="btn btn-primary text-white">
+                                <i class="fas fa-edit"></i>
+                            </a>
                             <a href="#" class="btn btn-success text-white">
                                 <i class="fas fa-list-alt"></i>
                             </a>
-
+                            <a href="#" class="btn btn-danger text-white">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
 
                         </div>
                     </td>

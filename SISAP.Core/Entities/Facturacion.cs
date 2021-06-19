@@ -17,6 +17,7 @@ namespace SISAP.Core.Entities
 		public decimal? Total { get; set; }
 		public int? NroBoleta { get; set; }
 		public DateTime? FechaEmision { get; set; }
+		public int? EstadoPagado { get; set; }
 
 		[NotMapped]
 		public string Periodo
@@ -28,6 +29,28 @@ namespace SISAP.Core.Entities
 		{
 			get { return string.Format("S/." + this.Total); }
 		}
+
+		[NotMapped]
+		public string EstadoPagoDesc { get; set; }
+
+		[NotMapped]
+		public string TipoCategoria { get; set; }
+		
+		[NotMapped]
+		public string ServicioNombre { get; set; }
+		
+		[NotMapped]
+		public string Nombre { get; set; }
+		
+		[NotMapped]
+		public string Apellido { get; set; }
+
+		[NotMapped]
+		public string NombreCompleto
+		{
+			get { return string.Format("{0}, {1}", this.Apellido, this.Nombre); }
+		}
+
 
 	}
 }

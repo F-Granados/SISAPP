@@ -11,60 +11,45 @@ namespace SISAP.Infrastructure.Service
 {
 	public class PagoService : _BaseContext, IPagoService
 	{
-        public IEnumerable<Cliente> GetPay(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
+        public IEnumerable<Pago> GetPay(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
         {
             using (var dbContest = GetSISAPDBContext())
             {
-                var sql = (from c in dbContest.Clientes
-                           join fa in dbContest.Facturacions on c.ClienteId equals fa.ClienteId
-                           join cat in dbContest.Categorias on c.CategoriaId equals cat.CategoriaId
-                           join serv in dbContest.servicios on c.ServicioId equals serv.ServicioId
-                           join p in dbContest.Pagos on c.ClienteId equals p.ClienteId into bt
-                           from pa in bt.DefaultIfEmpty()
-                           where c.ClienteId == ClienteId
-                                 && pa.Estado == (int)EstadoPay.Pagado
-                           orderby c.Nombre descending
+                var sql = (from p in dbContest.Pagos 
+                           join c in dbContest.Clientes on p.ClienteId equals c.ClienteId into pc
+                           from nc in pc.DefaultIfEmpty()
+                           join cat in dbContest.Categorias on nc.CategoriaId equals cat.CategoriaId
+                           join fa in dbContest.Facturacions on p.FacturacionId equals fa.FacturacionId
+                           where nc.ClienteId == ClienteId
+                                 && p.EstadoPago == (int)EstadoPay.Pagado
+                           orderby fa.Mes descending
                            select new
                            {
-                               c.ClienteId,
-                               fa.FacturacionId,
-                               c.Nombre,
-                               c.Apellido,
-                               fa.Annio,
-                               fa.Mes,
+                               p.PagoId,
+                               p.PeriodoAnnio,
+                               p.PeriodoMes,
                                cat.CategoriaId,
                                cat.TipoCategoria,
-                               serv.ServicioId,
-                               serv.ServicioNombre,
-                               fa.Total,
-                               PagoId = pa == null ? 0 : pa.PagoId,
-                               EstadoInt = pa == null ? 0 : pa.PagoId,
-                               ObservacionesPago = pa == null ? string.Empty : pa.Observaciones,
-                               Estado = (pa.Estado == 1 ? "Pagado" : "Pendiente"),
-                               pa.FechaPago
+                               p.Total,
+                               p.Observaciones,
+                               EstadoStr = (p.EstadoPago == 1 ? "Pagado" : "Pendiente"),
+                               p.FechaPago
 
                            });
                 nroTotalRegistros = sql.Count();
                 sql = sql.Skip(skip).Take(pageSize);
-                var ListadoFinal = (from c in sql.ToList()
-                                    select new Cliente()
+                var ListadoFinal = (from p in sql.ToList()
+                                    select new Pago()
                                     {
-                                        ClienteId = c.ClienteId,
-                                        FacturacionId = c.FacturacionId,
-                                        Apellido = c.Apellido,
-                                        Nombre = c.Nombre,
-                                        Annio = c.Annio,
-                                        Mes = c.Mes,
-                                        CategoriaId = c.CategoriaId,
-                                        TipoCategoria = c.TipoCategoria,
-                                        ServicioId = c.ServicioId,
-                                        ServicioNombre = c.ServicioNombre,
-                                        Total = c.Total,
-                                        PagoId = c.PagoId,
-                                        Estado = c.Estado,
-                                        EstadoInt = c.EstadoInt,
-                                        ObservacionesPago = c.ObservacionesPago,
-                                        FechaPago = string.Format("{0:dd/MM/yyyy}", c.FechaPago),
+                                        PagoId = p.PagoId,
+                                        PeriodoAnnio = p.PeriodoAnnio,
+                                        PeriodoMes = p.PeriodoMes,
+                                        CategoriaId = p.CategoriaId,
+                                        TipoCategoria = p.TipoCategoria,
+                                        Total = p.Total,
+                                        Observaciones = p.Observaciones,
+                                        EstadoStr = p.EstadoStr,
+                                        FechaPagoStr = string.Format("{0:dd/MM/yyyy}", p.FechaPago),
 
                                     }).ToList();
                 return ListadoFinal;
@@ -76,6 +61,11 @@ namespace SISAP.Infrastructure.Service
             using (var dbContext = GetSISAPDBContext())
             {
                 dbContext.Pagos.Add(objPago);
+                dbContext.SaveChanges();
+
+                var data = dbContext.Facturacions.First(f => f.Annio == objPago.PeriodoAnnio && f.Mes == objPago.PeriodoMes && f.ClienteId == objPago.ClienteId);
+
+                data.EstadoPagado = objPago.EstadoPago;
                 dbContext.SaveChanges();
             }
             return objPago;
@@ -150,58 +140,50 @@ namespace SISAP.Infrastructure.Service
             }
         }
 
-		public IEnumerable<Cliente> GetClienteDeudor(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
+		public IEnumerable<Facturacion> GetClienteDeudor(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
 		{
-			using (var dbContest = GetSISAPDBContext())
+			using (var dbContext = GetSISAPDBContext())
 			{
-				var sql = (from c in dbContest.Clientes
-						   join fa in dbContest.Facturacions on c.ClienteId equals fa.ClienteId
-						   join cat in dbContest.Categorias on c.CategoriaId equals cat.CategoriaId
-						   join serv in dbContest.servicios on c.ServicioId equals serv.ServicioId
-                           join p in dbContest.Pagos on c.ClienteId equals p.ClienteId into bt
-                           from pa in bt.DefaultIfEmpty()
+				var sql = (from f in dbContext.Facturacions.Where(o => o.EstadoPagado != (int)EstadoPay.Pagado)
+                           join c in dbContext.Clientes on f.ClienteId equals c.ClienteId
+                           join serv in dbContext.servicios on c.ServicioId equals serv.ServicioId
+                           join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
 						   where c.ClienteId == ClienteId
-                                && pa.Estado !=(int)EstadoPay.Pagado
-						   orderby c.Nombre descending
-						   select new
+						   orderby f.Mes descending
+                           select new
 						   {
 							   c.ClienteId,
-							   fa.FacturacionId,
+							   f.FacturacionId,
                                c.Nombre,
                                c.Apellido,
-                               fa.Annio, 
-							   fa.Mes,
+                               f.Annio, 
+							   f.Mes,
 							   cat.CategoriaId,
 							   cat.TipoCategoria,
 							   serv.ServicioId,
 							   serv.ServicioNombre,
-							   fa.Total,
-                               PagoId = pa == null ? 0 : pa.PagoId,
-                               EstadoInt = pa == null ? 0 : pa.PagoId,
-                               ObservacionesPago = pa == null ? string.Empty : pa.Observaciones,
-                               Estado = (pa.Estado == 1 ? "Pagado" : "Pendiente"),
+							   f.Total,
+                               f.EstadoPagado,
+                               EstadoPagoDesc = (f.EstadoPagado == 1 ? "Pagado" : "Pendiente"),
 
                            });
 				nroTotalRegistros = sql.Count();
 				sql = sql.Skip(skip).Take(pageSize);
-				var ListadoFinal = (from c in sql.ToList()
-									select new Cliente()
+				var ListadoFinal = (from f in sql.ToList()
+									select new Facturacion()
 									{
-										ClienteId = c.ClienteId,
-										FacturacionId = c.FacturacionId,
-                                        Apellido = c.Apellido,
-                                        Nombre = c.Nombre,
-										Annio = c.Annio,
-										Mes = c.Mes,
-										CategoriaId = c.CategoriaId,
-										TipoCategoria = c.TipoCategoria,
-										ServicioId = c.ServicioId,
-										ServicioNombre = c.ServicioNombre,
-										Total = c.Total,
-                                        PagoId = c.PagoId,
-                                        Estado = c.Estado,
-                                        EstadoInt = c.EstadoInt,
-                                        ObservacionesPago = c.ObservacionesPago
+                                        ClienteId = f.ClienteId,
+                                        FacturacionId = f.FacturacionId,
+                                        Annio = f.Annio,
+                                        Mes = f.Mes,
+                                        TipoCategoria = f.TipoCategoria,
+                                        ServicioNombre = f.ServicioNombre,
+                                        Total = f.Total,
+                                        EstadoPagado = f.EstadoPagado,
+                                        EstadoPagoDesc = f.EstadoPagoDesc,
+                                        Nombre = f.Nombre,
+                                        Apellido = f.Apellido
+
                                     }).ToList();
 				return ListadoFinal;
 			}
