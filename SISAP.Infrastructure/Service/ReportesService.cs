@@ -27,7 +27,7 @@ namespace SISAP.Infrastructure.Service
 		}
 		public decimal? getDeudaDistrito(int? Annio)
 		{
-			using (var dbContext = GetSISAPDBContext())
+			using (var dbContext = GetSISAPDBContext()) 
 			{
 
 				var total = dbContext.Pagos.Where(l=>l.PeriodoAnnio == Annio && l.EstadoPago == (int)EstadoPay.Pendiente).Sum(l => l.Total);
@@ -74,6 +74,7 @@ namespace SISAP.Infrastructure.Service
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
 						   join fa in dbContext.Facturacions on c.ClienteId equals fa.ClienteId
+						  
 
 						   where (c.UrbanizacionId == UrbanizacionId)
 								&& (fa.Annio == Annio)
@@ -151,6 +152,55 @@ namespace SISAP.Infrastructure.Service
 										CategoriaId = c.CategoriaId,
 										TipoCategoria = c.TipoCategoria,
 										ClaseId = c.ClaseId
+
+									}).ToList();
+				return ListadoFinal;
+			}
+		}
+
+		public IEnumerable<Facturacion> GetClienteDeudor(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var sql = (from f in dbContext.Facturacions.Where(o => o.EstadoPagado != (int)EstadoPay.Pagado)
+						   join c in dbContext.Clientes on f.ClienteId equals c.ClienteId
+						   join serv in dbContext.servicios on c.ServicioId equals serv.ServicioId
+						   join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
+						   where c.ClienteId == ClienteId
+						   orderby f.Mes descending
+						   select new
+						   {
+							   c.ClienteId,
+							   f.FacturacionId,
+							   c.Nombre,
+							   c.Apellido,
+							   f.Annio,
+							   f.Mes,
+							   cat.CategoriaId,
+							   cat.TipoCategoria,
+							   serv.ServicioId,
+							   serv.ServicioNombre,
+							   f.Total,
+							   f.EstadoPagado,
+							   EstadoPagoDesc = (f.EstadoPagado == 1 ? "Pagado" : "Pendiente"),
+
+						   });
+				nroTotalRegistros = sql.Count();
+				sql = sql.Skip(skip).Take(pageSize);
+				var ListadoFinal = (from f in sql.ToList()
+									select new Facturacion()
+									{
+										ClienteId = f.ClienteId,
+										FacturacionId = f.FacturacionId,
+										Annio = f.Annio,
+										Mes = f.Mes,
+										TipoCategoria = f.TipoCategoria,
+										ServicioNombre = f.ServicioNombre,
+										Total = f.Total,
+										EstadoPagado = f.EstadoPagado,
+										EstadoPagoDesc = f.EstadoPagoDesc,
+										Nombre = f.Nombre,
+										Apellido = f.Apellido
 
 									}).ToList();
 				return ListadoFinal;
