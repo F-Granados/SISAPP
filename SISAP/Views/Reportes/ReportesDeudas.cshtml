@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-sm-3 mb-4 ">
                     <label>Mes Final</label>
-                    <select id="ddMes" class="form-control form-control-sm">
+                    <select id="ddMesF" class="form-control form-control-sm">
                     </select>
                 </div>
                 <div class="col-sm-3 mb-4 ">
@@ -73,13 +73,15 @@
     $(document).ready(function () {
         $("#ddAnnio").change(function () {
             ListaddMeses();
+            ListaddMesesF();
         });
         ListarAnnio();
         ListaddMeses();
+        ListaddMesesF();
         ListUrbanizacion();
-        $(document).on('change', '#ddAnnio, #ddMes, #ddUrbanizacion', function () {
+        $(document).on('change', '#ddAnnio, #ddMes,#ddMesF, #ddUrbanizacion', function () {
 
-            if ($("#ddAnnio").val() > 0 && $("#ddMes").val() > 0 && $("#ddUrbanizacion").val() > 0) {
+            if ($("#ddAnnio").val() > 0 && $("#ddMes").val() > 0 && $("#ddMesF").val() > 0 && $("#ddUrbanizacion").val() > 0) {
                 ListarFacturacion();
             }
         });
@@ -111,6 +113,7 @@
 
                         Annio: $("#ddAnnio").val() == "" ? null : $("#ddAnnio").val(),
                         Mes: $("#ddMes").val() == "" ? null : $("#ddMes").val(),
+                        MesF: $("#ddMesF").val() == "" ? null : $("#ddMesF").val(),
                         UrbanizacionId: $("#ddUrbanizacion").val() == "" ? null : $("#ddUrbanizacion").val(),
                         FilterNombre: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
                     });
@@ -256,6 +259,33 @@
         });
     }
 
+     function ListaddMesesF() {
+        var comboMes = $("#ddMesF");
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: '@Url.Content("~/Common/ListMes")',
+            dataType: "json",
+            data: JSON.stringify({ Annio: $("#ddAnnio").val() }),
+            async: false,
+            success: function (dataObject) {
+                var data = dataObject;
+                if (data != null) {
+                    comboMes.html('');
+                    comboMes.append($("<option />").val("").text('--Seleccione--'));
+
+                    $.each(data, function () {
+                        comboMes.append($("<option />").val(this.Value).text(this.Text));
+                    });
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        });
+    }
+
     function ListUrbanizacion() {
         var comboUrbanizacion = $("#ddUrbanizacion");
         $.ajax({
@@ -281,6 +311,7 @@
 
         $("#ddAnnio").val('');
         $("#ddMes").val('');
+        $("#ddMesF").val('');
         $("#ddUrbanizacion").val('');
     }
     function Clena() {
