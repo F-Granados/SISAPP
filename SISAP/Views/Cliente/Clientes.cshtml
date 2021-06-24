@@ -608,22 +608,3 @@
     }
 
 </script>
-@*<script type="text/javascript" src="~/Scripts/registrocliente/registrocliente.js"></script>*@
-<script>
-
-    function asegurar() {
-        rc = confirm("¿Seguro que desea Eliminar?");
-        return rc;
-    }
-
-    function ValidaLongitud(campo, longitudMaxima) {
-        try {
-            if (campo.value.length > (longitudMaxima - 1))
-                return false;
-            else
-                return true;
-        } catch (e) {
-            return false;
-        }
-    }
-</script>
