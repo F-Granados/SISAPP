@@ -140,38 +140,38 @@ namespace SISAP.Infrastructure.Service
             }
         }
 
-		public IEnumerable<Facturacion> GetClienteDeudor(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
-		{
-			using (var dbContext = GetSISAPDBContext())
-			{
-				var sql = (from f in dbContext.Facturacions.Where(o => o.EstadoPagado != (int)EstadoPay.Pagado)
+        public IEnumerable<Facturacion> GetClienteDeudor(int? ClienteId, int pageSize, int skip, out int nroTotalRegistros)
+        {
+            using (var dbContext = GetSISAPDBContext())
+            {
+                var sql = (from f in dbContext.Facturacions.Where(o => o.EstadoPagado != (int)EstadoPay.Pagado)
                            join c in dbContext.Clientes on f.ClienteId equals c.ClienteId
                            join serv in dbContext.servicios on c.ServicioId equals serv.ServicioId
                            join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
-						   where c.ClienteId == ClienteId
-						   orderby f.Mes descending
+                           where c.ClienteId == ClienteId
+                           orderby f.Mes descending
                            select new
-						   {
-							   c.ClienteId,
-							   f.FacturacionId,
+                           {
+                               c.ClienteId,
+                               f.FacturacionId,
                                c.Nombre,
                                c.Apellido,
-                               f.Annio, 
-							   f.Mes,
-							   cat.CategoriaId,
-							   cat.TipoCategoria,
-							   serv.ServicioId,
-							   serv.ServicioNombre,
-							   f.Total,
+                               f.Annio,
+                               f.Mes,
+                               cat.CategoriaId,
+                               cat.TipoCategoria,
+                               serv.ServicioId,
+                               serv.ServicioNombre,
+                               f.Total,
                                f.EstadoPagado,
                                EstadoPagoDesc = (f.EstadoPagado == 1 ? "Pagado" : "Pendiente"),
 
                            });
-				nroTotalRegistros = sql.Count();
-				sql = sql.Skip(skip).Take(pageSize);
-				var ListadoFinal = (from f in sql.ToList()
-									select new Facturacion()
-									{
+                nroTotalRegistros = sql.Count();
+                sql = sql.Skip(skip).Take(pageSize);
+                var ListadoFinal = (from f in sql.ToList()
+                                    select new Facturacion()
+                                    {
                                         ClienteId = f.ClienteId,
                                         FacturacionId = f.FacturacionId,
                                         Annio = f.Annio,
@@ -185,8 +185,21 @@ namespace SISAP.Infrastructure.Service
                                         Apellido = f.Apellido
 
                                     }).ToList();
-				return ListadoFinal;
-			}
-		}
-	}
+                return ListadoFinal;
+            }
+        }
+        public decimal? GetPagoTotal(int? ClienteId, int? Mes)
+        {
+            using (var dbContext = GetSISAPDBContext())
+            {
+                var sql = (from c in dbContext.Clientes
+                           join p in dbContext.Pagos on c.ClienteId equals p.ClienteId
+                           where p.PeriodoMes == Mes && p.EstadoPago == (int)EstadoPay.Pendiente
+                           select p).Sum(p => p.Total);              
+
+                return sql;
+            }
+        }
+
+    }
 }

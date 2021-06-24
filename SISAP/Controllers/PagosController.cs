@@ -59,6 +59,12 @@ namespace SISAP.Controllers
             return Json(new { mensaje = "success" }, JsonRequestBehavior.AllowGet);
 		}
 
+        [HttpPost]
+        public JsonResult PagosTotales(int? ClienteId, int? Mes)
+        {
+            var cantidad = _pagoService.GetPagoTotal(ClienteId, Mes);
+            return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public JsonResult ListPayByCliente(int? ClienteId)

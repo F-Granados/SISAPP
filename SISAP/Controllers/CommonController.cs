@@ -39,6 +39,7 @@ namespace SISAP.Controllers
                 Select(m => new { Value = m.Key.Month, Text = m.Key.NombreMes }).ToList();
             return Json(resultado, JsonRequestBehavior.AllowGet);
 		}
+       
 
 
         [HttpPost]
