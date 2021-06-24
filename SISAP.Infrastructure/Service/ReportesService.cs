@@ -206,5 +206,75 @@ namespace SISAP.Infrastructure.Service
 				return ListadoFinal;
 			}
 		}
+
+		public IEnumerable<Cliente> GetAllCF(int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var sql = (from c in dbContext.Clientes
+						   join srv in dbContext.servicios on c.ServicioId equals srv.ServicioId
+						   join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
+						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
+						   where (u.UrbanizacionId == UrbanizacionId || UrbanizacionId == null) &&
+								(string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor + "" + c.CodigoCliente + "" + c.DNI).Contains(FilterNombre.ToUpper()))
+						   orderby c.Nombre ascending
+						   select new
+						   {
+							   c.ClienteId,
+							   c.UsuarioCreacion,
+							   c.CodigoCliente,
+							   c.Nombre,
+							   c.Apellido,
+							   c.DNI,
+							   c.Telefono,
+							   c.Direccion,
+							   c.UrbanizacionId,
+							   c.ManzanaId,
+							   c.Complemento,
+							   c.ServicioId,
+							   c.CategoriaId,
+							   c.NumeroMedidor,
+							   c.EstadoServicioId,
+							   c.Observaciones,
+							   u.NombreUrbanizacion,
+							   m.NombreManzana,
+							   srv.ServicioNombre,
+							   cat.TipoCategoria,
+							   cat.ClaseId
+
+						   });
+				nroTotalRegistros = sql.Count();
+				sql = sql.Skip(skip).Take(pageSize);
+
+				var ListadoFinal = (from c in sql.ToList()
+									select new Cliente()
+									{
+										ClienteId = c.ClienteId,
+										CodigoCliente = c.CodigoCliente,
+										Nombre = c.Nombre,
+										Apellido = c.Apellido,
+										DNI = c.DNI,
+										Telefono = c.Telefono,
+										Direccion = c.Direccion,
+										UrbanizacionId = c.UrbanizacionId,
+										ManzanaId = c.ManzanaId,
+										ServicioId = c.ServicioId,
+										CategoriaId = c.CategoriaId,
+										Complemento = c.Complemento,
+										NumeroMedidor = c.NumeroMedidor,
+										EstadoServicioId = c.EstadoServicioId,
+										UrbanizacionNombre = c.NombreUrbanizacion,
+										ManzanaNombre = c.NombreManzana,
+										Observaciones = c.Observaciones,
+										ServicioNombre = c.ServicioNombre,
+										TipoCategoria = c.TipoCategoria,
+										ClaseId = c.ClaseId,
+
+									}).ToList();
+				return ListadoFinal;
+			}
+		}
+
 	}
 }

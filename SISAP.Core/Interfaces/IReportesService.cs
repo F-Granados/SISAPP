@@ -15,5 +15,6 @@ namespace SISAP.Core.Interfaces
 		decimal? getIngresoMensual(int? Annio, int? Mes);
 		decimal? getProcessLectura(int? Annio, int? Mes);
 		IEnumerable<Cliente> ListReporte(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
+		IEnumerable<Cliente> GetAllCF(int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
 	}
 }
