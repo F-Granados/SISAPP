@@ -106,7 +106,7 @@
             "processing": true,
             "orderable": false,
             "ajax": {
-                "url": '@Url.Content("~/Facturacion/ListMainFactura")',
+                "url": '@Url.Content("~/Reportes/ListMainReporte")',
                 "type": 'POST',
                 "data": function (d) {
                     return $.extend({}, d, {
@@ -167,52 +167,7 @@
         ListHLecturas();
     }
 
-    function ListHLecturas() {
-        tabla2 = $('#allGrillaDetalle').DataTable({
-            "destroy": true,
-            "dom": 'Bfrtip',
-            //"bPaginate": false,
-            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-            "searching": false,
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-            },
-            "drawCallback": function () {
-                $('.page-link').addClass('btn-sm  border-0')
-            },
-
-            "serverSide": true,
-            "processing": true,
-            "orderable": false,
-            "ajax": {
-                "url": '@Url.Content("~/Facturacion/ListDetalleFacturacion")',
-                "type": 'POST',
-                "data": function (d) {
-                    return $.extend({}, d, {
-                        ClienteId: $("#txtClienteId").val() == "" ? null : $("#txtClienteId").val(),
-                    });
-                },
-                "dataSrc": "data",
-                "responsivePriority": 1,
-                //"pageLength": 10
-            },
-
-            "columns": [
-                { "data":"Annio" },
-                { "data":"Mes" },
-                { "data": "TotalPagar", "sClass": "font-weight-bold" },
-                { "data":"NroBoleta" },
-                { "data":"Periodo" },
-            ]
-        });
-
-        tabla2.draw();
-        /*$("#txtFilter").bind("keyup change", function () {
-            tabla2.draw();
-        })*/
-    }
-
-    function ListarAnnio() {
+       function ListarAnnio() {
         var comboAnnio = $("#ddAnnio");
         $.ajax({
             type: "POST",
