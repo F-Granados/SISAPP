@@ -131,14 +131,15 @@
                 { "data":"CantidadLectura" },
                 { "data":"Consumo" },
                 { "data": "TotalPagar", "sClass": "font-weight-bold" },
-                { "data":"Periodo" },
-                {
-                    "data": "id", "render": function (data, type, row, meta) {
-                        return "<i class='text-center text-warning fas fa-print mr-3' onClick='Print(" + JSON.stringify(row) + ")'></i> </a>"+
-                            "<i class='text-success fab fa-readme mr-3' onClick='Read(" + JSON.stringify(row) + ")'></i>"
-                        //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
-                    }
-                },
+                { "data": "Periodo" },
+              /*  //*/{ "data": "Total" },
+                //{
+                //    "data": "id", "render": function (data, type, row, meta) {
+                //        return "<i class='text-center text-warning fas fa-print mr-3' onClick='Print(" + JSON.stringify(row) + ")'></i> </a>"+
+                //            "<i class='text-success fab fa-readme mr-3' onClick='Read(" + JSON.stringify(row) + ")'></i>"
+                //        //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
+                //    }
+                //},
 
             ]
         });
