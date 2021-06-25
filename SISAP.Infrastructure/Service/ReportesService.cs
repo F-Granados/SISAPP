@@ -73,7 +73,7 @@ namespace SISAP.Infrastructure.Service
 						   join l in dbContext.Lecturas on c.ClienteId equals l.ClienteId
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
-						   join fa in dbContext.Facturacions on c.ClienteId equals fa.ClienteId
+						   join fa in dbContext.Facturacions on c.ClienteId equals fa.FacturacionId
 						  
 
 						   where (fa.Annio == Annio)
