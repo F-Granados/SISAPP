@@ -72,7 +72,7 @@ namespace SISAP.Controllers
 
 
         [HttpPost]
-        public JsonResult ListMainReporte(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre)
+        public JsonResult ListMainReporte(int? Annio, string FilterNombre)
         {
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
@@ -82,7 +82,7 @@ namespace SISAP.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int nroTotalRegistros = 0;
 
-            var lecturas = _reportesService.ListReporte(Annio, Mes, UrbanizacionId, FilterNombre, pageSize, skip, out nroTotalRegistros);
+            var lecturas = _reportesService.ListReporte(Annio,FilterNombre, pageSize, skip, out nroTotalRegistros);
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
         }

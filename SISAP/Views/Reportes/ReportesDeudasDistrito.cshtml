@@ -6,7 +6,7 @@
 <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
     <div class="card-body fuente">
         <div class=" card-header bg-dark text-white">
-            <h5><i class="fas fa-table"> Reporte de deudas por ruta</i></h5>
+            <h5><i class="fas fa-table"> Reporte de deudas por año</i></h5>
         </div>
         <hr style="border-style: dashed;" />
         <div class="row">
@@ -55,10 +55,17 @@
     var tabla2;
 
     $(document).ready(function () {
-        $("#ddAnnio").change(function () {
-            ListarFacturacion();
+
+
+        $("#ddAnnio").bind("keyup change", function () {
+
+            tabla.draw();
         });
+        //$("#ddAnnio").change(function () {
+        //    ListarFacturacion();
+        //});
         ListarAnnio();
+        ListarFacturacion();
 
     });
 

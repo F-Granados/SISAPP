@@ -63,7 +63,7 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
-		public IEnumerable<Cliente> ListReporte(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
+		public IEnumerable<Cliente> ListReporte(int? Annio, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -76,11 +76,10 @@ namespace SISAP.Infrastructure.Service
 						   join fa in dbContext.Facturacions on c.ClienteId equals fa.ClienteId
 						  
 
-						   where (c.UrbanizacionId == UrbanizacionId)
-								&& (fa.Annio == Annio)
-								&& (fa.Mes == Mes)
+						   where (fa.Annio == Annio)
+						
 								&& (l.Annio == Annio)
-								&& (l.Mes == Mes)
+					
 								&& (String.IsNullOrEmpty(FilterNombre) || c.Nombre.Contains(FilterNombre))
 						   orderby c.Nombre
 						   select new
@@ -217,8 +216,8 @@ namespace SISAP.Infrastructure.Service
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
 						   where (u.UrbanizacionId == UrbanizacionId || UrbanizacionId == null) &&
-								(string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor + "" + c.CodigoCliente + "" + c.DNI).Contains(FilterNombre.ToUpper()))
-						   orderby c.Nombre ascending
+								(string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor + "" + c.CodigoCliente + "" + c.DNI + ""+ m.NombreManzana ).Contains(FilterNombre.ToUpper()))
+						   orderby m.NombreManzana ascending
 						   select new
 						   {
 							   c.ClienteId,
