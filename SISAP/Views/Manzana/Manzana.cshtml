@@ -157,11 +157,12 @@
         objManzana.UrbanizacionId = $("#ddUrbanizacion").val();
 
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido guardado',
+            title: 'Manzana Guardado',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
 
         $.ajax({
@@ -201,13 +202,24 @@
         objManzana.UrbanizacionId = $("#ddUrbanizacion").val();
         objManzana.NombreManzana = $("#txtManzana").val();
 
+        //Swal.fire({
+        //    position: 'center',
+        //    icon: 'success',
+        //    title: 'Tu trabajo ha sido Actualizado',
+        //    showConfirmButton: false,
+        //    timer: 1200
+        //})
+
+
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido Actualizado',
+            title: 'Manzana Actualizada',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
+
         $.ajax({
 
             type: "POST",
@@ -264,7 +276,9 @@
     cancelButton: 'btn btn-danger'
   },
   buttonsStyling: false
-    })
+      })
+
+
     function Delete(dCliente) {
         swalWithBootstrapButtons.fire({
             title: 'Estas Seguro?',

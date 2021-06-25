@@ -145,13 +145,13 @@
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
         objUrbanizacion.Codigo = $("#txtCodigo").val();
 
-
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido guardado',
+            title: 'Urbanizacion Guardado',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
 
         $.ajax({
@@ -193,11 +193,12 @@
 
 
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido Actualizado',
+            title: 'Urbanizacion Actualizada',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
 
         $.ajax({

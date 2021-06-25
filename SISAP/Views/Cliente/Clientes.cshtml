@@ -415,11 +415,12 @@
         objCliente.Observaciones = $('#ctxtObservaciones').val();
 
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido guardado',
+            title: 'Cliente Guardado',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
 
         $.ajax({
@@ -460,11 +461,12 @@
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
 
         Swal.fire({
-            position: 'top-end',
+            toast: true,
+            position: 'center',
             icon: 'success',
-            title: 'Tu trabajo ha sido Actualizado',
+            title: 'Cliente Actualizado',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1200
         })
 
         $.ajax({
