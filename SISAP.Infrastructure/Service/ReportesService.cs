@@ -214,12 +214,17 @@ namespace SISAP.Infrastructure.Service
 						   join srv in dbContext.servicios on c.ServicioId equals srv.ServicioId
 						   join cat in dbContext.Categorias on c.CategoriaId equals cat.CategoriaId
 						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+						   join fa in dbContext.Facturacions on c.ClienteId equals fa.FacturacionId
 						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
 						   where (u.UrbanizacionId == UrbanizacionId || UrbanizacionId == null) &&
 								(string.IsNullOrEmpty(FilterNombre) || (c.Nombre + " " + c.Apellido + c.NumeroMedidor + "" + c.CodigoCliente + "" + c.DNI + ""+ m.NombreManzana ).Contains(FilterNombre.ToUpper()))
 						   orderby m.NombreManzana ascending
 						   select new
 						   {
+							  fa.FacturacionId,
+							   fa.Total,
+							   fa.Mes,
+							   fa.EstadoPagado,
 							   c.ClienteId,
 							   c.UsuarioCreacion,
 							   c.CodigoCliente,
@@ -249,6 +254,9 @@ namespace SISAP.Infrastructure.Service
 				var ListadoFinal = (from c in sql.ToList()
 									select new Cliente()
 									{
+										FacturacionId = c.FacturacionId,
+										Total = c.Total,
+										Mes = c.Mes,
 										ClienteId = c.ClienteId,
 										CodigoCliente = c.CodigoCliente,
 										Nombre = c.Nombre,
