@@ -476,7 +476,12 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (resp) {
-                        if (resp == true) {
+                        console.log("RESPUESTA");
+                        console.log(resp);
+                        if (resp != null && resp.mensaje.length>0) {
+
+
+                          
                             tabla1.draw();
                             $("#txtTotalPagarAllMonths").val('');
                             const Toast = Swal.mixin({
@@ -495,6 +500,10 @@
                                 icon: 'success',
                                 title: 'Pago realizado con éxito !'
                             })
+                            window.open('/Pagos/ReportePago?id=' + 1 + '&idCliente= 1&idPago=' + resp.mensaje.join("|"));
+
+
+                           
                         }
                     }
                 });

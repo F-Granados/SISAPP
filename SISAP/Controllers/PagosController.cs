@@ -1,9 +1,11 @@
-﻿using SISAP.Core.Entities;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using SISAP.Core.Entities;
 using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,6 +49,23 @@ namespace SISAP.Controllers
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = dPagos }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ReportePago(int id, int idCliente, string idPago)
+        {
+            #region "Generacion del Reporte"
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptPagos.rpt"));
+            rd.SetParameterValue("@usuarioId", id);
+            rd.SetParameterValue("@clienteId", idCliente);
+            rd.SetParameterValue("@pagoId", idPago);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf", "pagos" + idCliente + ".pdf");
+            #endregion
+        }
+
         [HttpPost]
         public JsonResult Pagar(Pago objPago)
 		{
@@ -64,6 +83,14 @@ namespace SISAP.Controllers
             var dPagos = _pagoService.PayAllMonth(ClienteId);
 
             var cond = false;
+            int[] retorno = new int[dPagos.Count()];
+            int i = 0;
+            foreach (var item in dPagos)
+            {
+                retorno[i] = item.FacturacionId;
+                i++;
+            }
+
 
             foreach(var item in dPagos)
 			{
@@ -83,7 +110,8 @@ namespace SISAP.Controllers
                 cond = true;
 
             }
-            return Json(cond, JsonRequestBehavior.AllowGet);
+            
+        return Json(new { mensaje = retorno }, JsonRequestBehavior.AllowGet);
 
         }
 
