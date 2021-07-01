@@ -65,6 +65,7 @@ namespace SISAP.Controllers
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
 
+
         [HttpPost]
         public JsonResult ListMainReporte(int? Annio, string FilterNombre)
         {

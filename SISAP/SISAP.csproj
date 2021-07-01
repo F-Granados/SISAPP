@@ -167,19 +167,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportesCR\prueba.cs">
+    <Compile Include="ReportesCR\prueba1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>prueba.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReportesCR\rptFacturas.cs">
+    <Compile Include="ReportesCR\rptFacturas1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptFacturas.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReportesCR\rptPagos.cs">
+    <Compile Include="ReportesCR\rptPagos1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptPagos.rpt</DependentUpon>
@@ -439,17 +439,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="ReportesCR\prueba.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>prueba.cs</LastGenOutput>
+      <LastGenOutput>prueba1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptFacturas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptFacturas.cs</LastGenOutput>
+      <LastGenOutput>rptFacturas1.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptPagos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>rptPagos.cs</LastGenOutput>
+      <LastGenOutput>rptPagos1.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

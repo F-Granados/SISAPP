@@ -194,10 +194,17 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult UpdateDataExistLectura(Lectura objLectura)
 		{
+            
             int ClienteId = objLectura.ClienteId;
             var top6 = _lecturaService.GetFirst6Data(ClienteId);
             var top6Count = top6.Count();
+
+            if (objLectura.CantidadLectura == 0)
+                objLectura.CantidadLectura = objLectura.CantidadLecturaAntigua;
+
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
+
+
             objLectura.Consumo = consumo;
             objLectura.FechaRegistro = DateTime.Now;
             decimal? c = 0;
@@ -246,7 +253,7 @@ namespace SISAP.Controllers
                 {
                     if (ServicioId == (int)Servicios.Agua)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -260,7 +267,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
 
                             var objFacturacion = new Facturacion()
@@ -269,8 +276,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.2),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.2)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -280,7 +287,7 @@ namespace SISAP.Controllers
                     }
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo ==0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -304,8 +311,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -318,7 +325,7 @@ namespace SISAP.Controllers
                 {
                     if (ServicioId == (int)Servicios.Agua)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -333,7 +340,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -341,13 +348,13 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.3),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.3))
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -355,15 +362,15 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.4),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.4)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -371,8 +378,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.5),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.5)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -383,7 +390,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -398,7 +405,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -406,15 +413,15 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -422,15 +429,15 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -438,8 +445,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -455,7 +462,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -470,7 +477,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -478,14 +485,14 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -493,8 +500,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -505,7 +512,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -520,7 +527,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -528,14 +535,14 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30)),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -543,8 +550,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -558,7 +565,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -573,7 +580,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -581,8 +588,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -593,7 +600,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -608,7 +615,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -616,8 +623,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -630,7 +637,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -645,7 +652,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -653,8 +660,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -664,7 +671,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -679,7 +686,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -687,8 +694,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -703,7 +710,7 @@ namespace SISAP.Controllers
                 {
                     if (ServicioId == (int)Servicios.Agua)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -717,7 +724,7 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
 
                             var objFacturacion = new Facturacion()
@@ -725,8 +732,8 @@ namespace SISAP.Controllers
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.2),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.2)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -736,7 +743,7 @@ namespace SISAP.Controllers
                     }
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -751,15 +758,15 @@ namespace SISAP.Controllers
                             _facturaService.Create(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -772,7 +779,7 @@ namespace SISAP.Controllers
                 {
                     if (ServicioId == (int)Servicios.Agua)
                     {
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -786,45 +793,45 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.3),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.3)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.4),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.4)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                                SubTotal = objLectura.Consumo * Convert.ToDecimal(0.5),
+                                Total = (objLectura.Consumo * Convert.ToDecimal(0.5)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -835,7 +842,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -849,45 +856,45 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 25)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 25)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
 
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
+                                Total = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -903,7 +910,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -917,29 +924,29 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -950,7 +957,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -964,29 +971,29 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                        else if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30)),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
+                        else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -1000,7 +1007,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -1014,15 +1021,15 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -1033,7 +1040,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -1047,15 +1054,15 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -1068,7 +1075,7 @@ namespace SISAP.Controllers
                     if (ServicioId == (int)Servicios.Agua)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -1082,15 +1089,15 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
+                                Total = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -1100,7 +1107,7 @@ namespace SISAP.Controllers
                     else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                     {
                         //START
-                        if (objLectura.CantidadLectura < 1)
+                        if (objLectura.Consumo == 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
@@ -1114,15 +1121,15 @@ namespace SISAP.Controllers
                             };
                             _facturaService.Create(objFacturacion);
                         }
-                        else if (objLectura.CantidadLectura > 0)
+                        else if (objLectura.Consumo > 0)
                         {
                             var objFacturacion = new Facturacion()
                             {
                                 ClienteId = ClienteId,
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
-                                SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
+                                Total = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
                                 EstadoPagado = (int)EstadoPay.Pendiente
 
                             };
@@ -1187,30 +1194,30 @@ namespace SISAP.Controllers
             {
                 if (ServicioId == (int)Servicios.Agua)
                 {
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0)
                     {
+
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0)
-                    {
-
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                            SubTotal = objLectura.Consumo * Convert.ToDecimal(0.2),
+                            Total = (objLectura.Consumo * Convert.ToDecimal(0.2)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1220,30 +1227,30 @@ namespace SISAP.Controllers
                 }
                 else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                 {
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.Consumo == 0)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+
+                    if (objLectura.Consumo > 0)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-
-                    else if (objLectura.CantidadLectura > 0)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                            SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
+                            Total = ((objLectura.Consumo * Convert.ToDecimal(0.2)) + (objLectura.Consumo * Convert.ToDecimal(0.1))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1256,59 +1263,59 @@ namespace SISAP.Controllers
             {
                 if (ServicioId == (int)Servicios.Agua)
                 {
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0 && objLectura.Consumo <=25)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <=25)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3)),
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                            SubTotal = objLectura.Consumo * Convert.ToDecimal(0.3),
+                            Total = (objLectura.Consumo * Convert.ToDecimal(0.3)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
                         _facturaService.Create(objFacturacion);
                     }
 
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                    else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                            SubTotal = objLectura.Consumo * Convert.ToDecimal(0.4),
+                            Total = (objLectura.Consumo * Convert.ToDecimal(0.4)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = objLectura.Consumo * Convert.ToDecimal(0.5),
+                            Total = (objLectura.Consumo * Convert.ToDecimal(0.5)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1319,59 +1326,59 @@ namespace SISAP.Controllers
                 else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0 && objLectura.Consumo <=25)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <=25)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(25.00) && objLectura.CantidadLectura <= Convert.ToDecimal(30.00))
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                            SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                            Total = ((objLectura.Consumo * Convert.ToDecimal(0.3)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
                         _facturaService.Create(objFacturacion);
                     }
 
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.10))
+                    else if (objLectura.Consumo >= Convert.ToDecimal(25.00) && objLectura.Consumo <= Convert.ToDecimal(30.00))
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                            SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                            Total = ((objLectura.Consumo * Convert.ToDecimal(0.4)) + (objLectura.Consumo * Convert.ToDecimal(0.2))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
+                        };
+                        _facturaService.Create(objFacturacion);
+                    }
+
+                    else if (objLectura.Consumo >= Convert.ToDecimal(30.10))
+                    {
+                        var objFacturacion = new Facturacion()
+                        {
+                            ClienteId = ClienteId,
+                            Annio = objLectura.Annio,
+                            Mes = objLectura.Mes,
+                            SubTotal = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
+                            Total = ((objLectura.Consumo * Convert.ToDecimal(0.5)) + (objLectura.Consumo * Convert.ToDecimal(0.3))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1387,43 +1394,43 @@ namespace SISAP.Controllers
                 if (ServicioId == (int)Servicios.Agua)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
+                            SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
+                            Total = ((objLectura.Consumo) * Convert.ToDecimal(0.70)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
                         _facturaService.Create(objFacturacion);
                     }
-                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                    else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                            SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
+                            Total = ((objLectura.Consumo) * Convert.ToDecimal(0.80)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1434,43 +1441,43 @@ namespace SISAP.Controllers
                 else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0 && objLectura.Consumo <= 30)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
+                            SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30)),
+                            Total = (((objLectura.Consumo) * Convert.ToDecimal(0.70)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
                         _facturaService.Create(objFacturacion);
                     }
-                    else if (objLectura.CantidadLectura > 0 && objLectura.CantidadLectura <= 30)
+                    else if (objLectura.Consumo >= Convert.ToDecimal(30.1))
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                            EstadoPagado = (int)EstadoPay.Pendiente
-
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura >= Convert.ToDecimal(30.1))
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                            SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
+                            Total = (((objLectura.Consumo) * Convert.ToDecimal(0.80)) + ((objLectura.Consumo) * Convert.ToDecimal(0.30))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1484,29 +1491,29 @@ namespace SISAP.Controllers
                 if (ServicioId == (int)Servicios.Agua)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0)
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                            SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
+                            Total = ((objLectura.Consumo) * Convert.ToDecimal(1.0)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1517,29 +1524,29 @@ namespace SISAP.Controllers
                 else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0)
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                            SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
+                            Total = (((objLectura.Consumo) * Convert.ToDecimal(1.0)) + ((objLectura.Consumo) * Convert.ToDecimal(0.4))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1552,29 +1559,29 @@ namespace SISAP.Controllers
                 if (ServicioId == (int)Servicios.Agua)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0)
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                            SubTotal = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
+                            Total = ((objLectura.Consumo) * Convert.ToDecimal(0.3)),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };
@@ -1584,29 +1591,29 @@ namespace SISAP.Controllers
                 else if (ServicioId == (int)Servicios.AguaAlcantarillado)
                 {
                     //START
-                    if (objLectura.CantidadLectura < 1)
-                    {
-                        var objFacturacion = new Facturacion()
-                        {
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = CargoFijo,
-                            Total = CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                    //if (objLectura.CantidadLectura < 1)
+                    //{
+                    //    var objFacturacion = new Facturacion()
+                    //    {
+                    //        ClienteId = ClienteId,
+                    //        Annio = objLectura.Annio,
+                    //        Mes = objLectura.Mes,
+                    //        SubTotal = CargoFijo,
+                    //        Total = CargoFijo,
+                    //        EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.Create(objFacturacion);
-                    }
-                    else if (objLectura.CantidadLectura > 0)
+                    //    };
+                    //    _facturaService.Create(objFacturacion);
+                    //}
+                    if (objLectura.Consumo > 0)
                     {
                         var objFacturacion = new Facturacion()
                         {
                             ClienteId = ClienteId,
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
-                            SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                            SubTotal = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
+                            Total = (((objLectura.Consumo) * Convert.ToDecimal(0.3)) + ((objLectura.Consumo) * Convert.ToDecimal(0.1))),
                             EstadoPagado = (int)EstadoPay.Pendiente
 
                         };

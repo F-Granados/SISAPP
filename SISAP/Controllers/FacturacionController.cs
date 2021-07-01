@@ -79,6 +79,5 @@ namespace SISAP.Controllers
             return File(stream, "application/pdf", "facturas.pdf");
         }
         #endregion
-
     }
 }

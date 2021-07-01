@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SISAP.Infrastructure.Service
 {
 	public class ReportesService : _BaseContext, IReportesService
@@ -281,5 +282,6 @@ namespace SISAP.Infrastructure.Service
 				return ListadoFinal;
 			}
 		}
+
 	}
 }
