@@ -206,12 +206,15 @@
         });
 
         tabla.draw();
-        $("#txtFilter").bind("keyup change", function () {
+        $("#txtFilter").bind("keyup change", function (row) {
             tabla.draw();
         })
     }
 
-    function Print() {
+    function Print(row) {
+
+        window.open('/Facturacion/ReporteFactura?idCliente=' + row["CodigoCliente"] + '&mes=' + row["Mes"] + ' &annio=' + row["Annio"]);
+
 
     }
     function Read(dCliente) {

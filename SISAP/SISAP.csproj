@@ -173,6 +173,12 @@
       <DependentUpon>prueba.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ReportesCR\rptFacturas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFacturas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ReportesCR\rptPagos.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -436,6 +442,10 @@
     <EmbeddedResource Include="ReportesCR\prueba.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>prueba.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesCR\rptFacturas.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFacturas.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptPagos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
