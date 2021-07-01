@@ -13,7 +13,7 @@ namespace SISAP.Infrastructure.Service
 	public class ReportesService : _BaseContext, IReportesService
 	{
 
-		public decimal? getDeudaRuta(int? Annio, int? Mes, int? UrbanizacionId)
+		public decimal? GetDeudaRuta(int? Annio, int? Mes, int? UrbanizacionId)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -26,7 +26,7 @@ namespace SISAP.Infrastructure.Service
 				return sql;
 			}
 		}
-		public decimal? getDeudaDistrito(int? Annio)
+		public decimal? GetDeudaDistrito(int? Annio)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -36,7 +36,7 @@ namespace SISAP.Infrastructure.Service
 				return total;
 			}
 		}
-		public decimal? getIngresoAnual(int? Annio)
+		public decimal? GetIngresoAnual(int? Annio)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -45,7 +45,7 @@ namespace SISAP.Infrastructure.Service
 				return total;
 			}
 		}
-		public decimal? getIngresoMensual(int? Annio, int? Mes)
+		public decimal? GetIngresoMensual(int? Annio, int? Mes)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -54,7 +54,7 @@ namespace SISAP.Infrastructure.Service
 				return total;
 			}
 		}
-		public decimal? getProcessLectura(int? Annio, int? Mes)
+		public decimal? GetProcessLectura(int? Annio, int? Mes)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{

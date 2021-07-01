@@ -9,11 +9,11 @@ namespace SISAP.Core.Interfaces
 {
 	public interface IReportesService
 	{
-		decimal? getDeudaDistrito(int? Annio);
-		decimal? getDeudaRuta(int? Annio, int? Mes, int? UrbanizacionId);
-		decimal? getIngresoAnual(int? Annio);
-		decimal? getIngresoMensual(int? Annio, int? Mes);
-		decimal? getProcessLectura(int? Annio, int? Mes);
+		decimal? GetDeudaDistrito(int? Annio);
+		decimal? GetDeudaRuta(int? Annio, int? Mes, int? UrbanizacionId);
+		decimal? GetIngresoAnual(int? Annio);
+		decimal? GetIngresoMensual(int? Annio, int? Mes);
+		decimal? GetProcessLectura(int? Annio, int? Mes);
 		IEnumerable<Cliente> ListReporte(int? Annio, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
 		IEnumerable<Cliente> GetAllCF(int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
 	}
