@@ -77,7 +77,7 @@ namespace SISAP.Controllers
                     FechaPago = DateTime.Now,
                     EstadoPago = (int)EstadoPay.Pagado,
                     EstadoPagoDesc = "Pagado",
-                    Observaciones = "Paga masivo",
+                    Observaciones = "Pago masivo",
                 };
                 _pagoService.Pagar(objPago);
                 cond = true;

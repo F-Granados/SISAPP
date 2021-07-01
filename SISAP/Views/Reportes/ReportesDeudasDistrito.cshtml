@@ -38,11 +38,10 @@
                         <th scope="col">Direccion</th>
                         <th scope="col">Medidor</th>
                         <th scope="col">Meses</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Servicio</th>
-                        <th scope="col">Total a Pagar</th>
-                        <th scope="col">Periodo</th>
-                        @*<th scope="col">Opciones</th>*@
+                        <th scope="col">Cancelado</th>
+                        <th scope="col">Deuda Total</th>
+                     
+                   
                     </tr>
                 </thead>
             </table>
@@ -62,9 +61,6 @@
 
             tabla.draw();
         });
-        //$("#ddAnnio").change(function () {
-        //    ListarFacturacion();
-        //});
         ListarAnnio();
         ListarFacturacion();
 
@@ -89,7 +85,7 @@
             "processing": true,
             "orderable": false,
             "ajax": {
-                "url": '@Url.Content("~/Reportes/ListMainReporte")',
+                "url": '@Url.Content("~/Reportes/ListMain")',
                 "type": 'POST',
                 "data": function (d) {
                     return $.extend({}, d, {
@@ -110,18 +106,9 @@
                 { "data":"NumeroMedidor" },
                 { "data":"Mes" },
                 { "data":"Total" },
-                { "data":"ServicioNombre" },
                 { "data": "TotalPagar", "sClass": "font-weight-bold" },
-                { "data": "Periodo" },
-              /*  //*/
-                //{
-                //    "data": "id", "render": function (data, type, row, meta) {
-                //        return "<i class='text-center text-warning fas fa-print mr-3' onClick='Print(" + JSON.stringify(row) + ")'></i> </a>"+
-                //            "<i class='text-success fab fa-readme mr-3' onClick='Read(" + JSON.stringify(row) + ")'></i>"
-                //        //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
-                //    }
-                //},
-
+   
+            
             ]
         });
 
@@ -131,23 +118,6 @@
         })
     }
 
-    function Print() {
-
-    }
-    function Read(dCliente) {
-
-        $("#modal_aside_right").modal('show');
-
-        $("#txtClienteId").val(dCliente.ClienteId);
-        $("#txtCodigo").val(dCliente.CodigoCliente);
-        $("#txtNombre").val(dCliente.NombreCompleto);
-        $("#txtDireccion").val(dCliente.DireccionStr);
-        $("#txtServicio").val(dCliente.ServicioNombre);
-        $("#txtTarifa").val(dCliente.TipoCategoria);
-        $("#txtMedidor").val(dCliente.NumeroMedidor);
-
-        ListHLecturas();
-    }
 
        function ListarAnnio() {
         var comboAnnio = $("#ddAnnio");
