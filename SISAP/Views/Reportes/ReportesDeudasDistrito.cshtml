@@ -3,183 +3,120 @@
     ViewBag.Title = "Reportes";
 }
 
+
 <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
     <div class="card-body fuente">
-        <div class=" card-header bg-dark text-white">
-            <h5><i class="fas fa-table"> Reporte de deudas por año</i></h5>
-        </div>
+        <h5>Reporte de deudores por mes</h5>
         <hr style="border-style: dashed;" />
         <div class="row">
             <div class="row  col-6">
                 <div class="col-sm-3 mb-3">
                     <label>Año</label>
-                    <select id="ddAnnio" class="form-control form-control-sm ">
+                    <select class="form-control p-2 bg-info order-3">
+
+                        <option>2020</option>
+                        <option>2021</option>
                     </select>
                 </div>
-                
+                <div class="col-sm-4 mb-3 ">
+                    <label>Mes</label>
+                    <select class="form-control p-2 bg-info order-3">
+                        <option>ENERO</option>
+                        <option>FEBRERO</option>
+                    </select>
+                </div>
+
+
+                <div class="col-8">
+                    <div class="d-flex justify-content-start mb-4">
+
+                        <button type="button" data-toggle="modal" class="btn btn-info"><i class="fas fa-archive"></i> Ver Registro</button>
+                    </div>
+                </div>
+
+
             </div>
+
+
             <div class="col-6">
-                <div class="d-flex justify-content-end mt-2">
-                    <div class="searchbar mr-4 mt-2">
-                        <input class="search_input" type="text" id="txtFilter" name="" placeholder="Buscar...">
+                <div class="d-flex justify-content-end mb-2">
+                    <div class="searchbar">
+                        <input class="search_input" type="text" name="" placeholder="Buscar ........">
                         <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
                     </div>
-
                 </div>
             </div>
+
+
+
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-sm  table-striped table-responsive-sm" id="allGrilla">
-                <thead>
-                    <tr class="bg-info text-light">
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Direccion</th>
-                        <th scope="col">Medidor</th>
-                        <th scope="col">Meses</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Servicio</th>
-                        <th scope="col">Total a Pagar</th>
-                        <th scope="col">Periodo</th>
-                        @*<th scope="col">Opciones</th>*@
-                    </tr>
-                </thead>
-            </table>
-        </div>
+        <table class="table table-sm table-striped table-responsive-sm">
+            <thead>
+                <tr class="bg-info text-light ">
+                    <th scope="col">#</th>
+                    <th scope="col">Codigo </th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Medidor</th>
+                    <th scope="col">Pendiente</th>
+                    <th scope="col">Deuda</th>
+                    <th scope="col"> Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>0063821</td>
+                    <td>MAMANI NANDO</td>
+                    <td>URB. MIRAFLORES MZ. B2 LT. 3B</td>
+                    <td>EA18-462011</td>
+                    <td>4</td>
+                    <td> 18.00</td>
+
+                    <td style="width:80px">
+                        <div class="btn-group" role="group">
+                            <a href="#" class="btn btn-primary text-white">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-success text-white">
+                                <i class="fas fa-list-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger text-white">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>0063821</td>
+                    <td>MAMANI NANDO</td>
+                    <td>URB. MIRAFLORES MZ. B2 LT. 3B</td>
+                    <td>EA18-462011</td>
+                    <td>5</td>
+                    <td> 18.00</td>
+
+                    <td style="width:80px">
+                        <div class="btn-group" role="group">
+                            <a href="#" class="btn btn-primary text-white">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-success text-white">
+                                <i class="fas fa-list-alt"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger text-white">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 </div>
 
-<script>
 
-    var tabla;
-    var tabla2;
-
-    $(document).ready(function () {
-
-
-        $("#ddAnnio").bind("keyup change", function () {
-
-            tabla.draw();
-        });
-        //$("#ddAnnio").change(function () {
-        //    ListarFacturacion();
-        //});
-        ListarAnnio();
-        ListarFacturacion();
-
-    });
-
-    function ListarFacturacion() {
-
-        tabla = $('#allGrilla').DataTable({
-            "destroy": true,
-            "dom": 'Bfrtip',
-            //"bPaginate": false,
-            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
-            "searching": false,
-            "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-            },
-            "drawCallback": function () {
-                $('.page-link').addClass('btn-sm  border-0')
-            },
-
-            "serverSide": true,
-            "processing": true,
-            "orderable": false,
-            "ajax": {
-                "url": '@Url.Content("~/Reportes/ListMainReporte")',
-                "type": 'POST',
-                "data": function (d) {
-                    return $.extend({}, d, {
-
-                        Annio: $("#ddAnnio").val() == "" ? null : $("#ddAnnio").val(),
-                     
-                        FilterNombre: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
-                    });
-                },
-                "dataSrc": "data",
-                "responsivePriority": 1,
-                //"pageLength": 10
-            },
-
-            "columns": [
-                { "data":"NombreCompleto" },
-                { "data":"DireccionStr" },
-                { "data":"NumeroMedidor" },
-                { "data":"Mes" },
-                { "data":"Total" },
-                { "data":"ServicioNombre" },
-                { "data": "TotalPagar", "sClass": "font-weight-bold" },
-                { "data": "Periodo" },
-              /*  //*/
-                //{
-                //    "data": "id", "render": function (data, type, row, meta) {
-                //        return "<i class='text-center text-warning fas fa-print mr-3' onClick='Print(" + JSON.stringify(row) + ")'></i> </a>"+
-                //            "<i class='text-success fab fa-readme mr-3' onClick='Read(" + JSON.stringify(row) + ")'></i>"
-                //        //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
-                //    }
-                //},
-
-            ]
-        });
-
-        tabla.draw();
-        $("#txtFilter").bind("keyup change", function () {
-            tabla.draw();
-        })
-    }
-
-    function Print() {
-
-    }
-    function Read(dCliente) {
-
-        $("#modal_aside_right").modal('show');
-
-        $("#txtClienteId").val(dCliente.ClienteId);
-        $("#txtCodigo").val(dCliente.CodigoCliente);
-        $("#txtNombre").val(dCliente.NombreCompleto);
-        $("#txtDireccion").val(dCliente.DireccionStr);
-        $("#txtServicio").val(dCliente.ServicioNombre);
-        $("#txtTarifa").val(dCliente.TipoCategoria);
-        $("#txtMedidor").val(dCliente.NumeroMedidor);
-
-        ListHLecturas();
-    }
-
-       function ListarAnnio() {
-        var comboAnnio = $("#ddAnnio");
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: '@Url.Content("~/Common/ListAnnio")',
-            async: false,
-            success: function (dataObject) {
-                var data = dataObject;
-                if (data != null) {
-                    comboAnnio.html('');
-                    comboAnnio.append($("<option />").val("").text('--Seleccione--'));
-                    $.each(data, function () {
-                        comboAnnio.append($("<option />").val(this.Value).text(this.Text));
-                    })
-                }
-            }
-        });
-    }
-
-    function ClenaCombo() {
-
-        $("#ddAnnio").val('');
-  
-    }
-    function Clena() {
-        $("#txtClienteId").val("");
-        $("#txtCodigo").val("");
-        $("#txtNombre").val("");
-        $("#txtDireccion").val("");
-        $("#txtServicio").val("");
-        $("#txtTarifa").val("");
-        $("#txtMedidor").val("");
-    }
-</script>

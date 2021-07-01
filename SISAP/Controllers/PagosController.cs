@@ -58,12 +58,47 @@ namespace SISAP.Controllers
 
             return Json(new { mensaje = "success" }, JsonRequestBehavior.AllowGet);
 		}
-
         [HttpPost]
-        public JsonResult PagosTotales(int? ClienteId, int? Mes)
-        {
-            var cantidad = _pagoService.GetPagoTotal(ClienteId, Mes);
-            return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
+        public JsonResult PayAllMonths(int? ClienteId)
+		{
+            var dPagos = _pagoService.PayAllMonth(ClienteId);
+
+            var cond = false;
+
+            foreach(var item in dPagos)
+			{
+                var objPago = new Pago()
+                {
+                    ClienteId = item.ClienteId,
+                    Total = item.Total,
+                    PeriodoAnnio = item.Annio,
+                    PeriodoMes = item.Mes,
+                    FacturacionId = item.FacturacionId,
+                    FechaPago = DateTime.Now,
+                    EstadoPago = (int)EstadoPay.Pagado,
+                    EstadoPagoDesc = "Pagado",
+                    Observaciones = "Paga masivo",
+                };
+                _pagoService.Pagar(objPago);
+                cond = true;
+
+            }
+            return Json(cond, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost] 
+        public JsonResult TotalPagar(int? ClienteId)
+		{
+            var dPagos = _pagoService.PayAllMonth(ClienteId);
+            decimal? deudaT = 0;
+
+            foreach(var item in dPagos)
+			{
+                deudaT += item.Total;
+			}
+
+            return Json(deudaT, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

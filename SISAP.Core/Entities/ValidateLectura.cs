@@ -14,4 +14,3 @@ namespace SISAP.Core.Entities
 		public int UrbanizacionId { get; set; }
 	}
 }
-   

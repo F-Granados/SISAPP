@@ -255,7 +255,8 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -269,7 +270,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -286,7 +289,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -300,7 +305,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
 
@@ -320,7 +327,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -347,7 +356,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -361,7 +372,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -379,7 +392,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -392,7 +407,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -406,7 +423,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -420,7 +439,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -443,7 +464,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -456,7 +479,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -469,7 +494,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -487,7 +514,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -500,7 +529,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -513,7 +544,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -534,7 +567,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -547,7 +582,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -565,7 +602,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -578,7 +617,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -598,7 +639,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -611,7 +654,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -628,7 +673,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -641,7 +688,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.UpdateDataExistFactura(objFacturacion);
                         }
@@ -662,7 +711,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -675,7 +726,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -691,7 +744,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -704,7 +759,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
 
@@ -723,7 +780,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -735,7 +794,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -748,7 +809,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -761,7 +824,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                                Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -778,7 +843,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -790,7 +857,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -803,7 +872,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -816,7 +887,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                                Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -838,7 +911,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -850,7 +925,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -862,7 +939,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -879,7 +958,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -891,7 +972,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -903,7 +986,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -923,7 +1008,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -935,7 +1022,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -952,7 +1041,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -964,7 +1055,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -983,7 +1076,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -995,7 +1090,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                                Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -1011,7 +1108,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = CargoFijo,
-                                Total = CargoFijo
+                                Total = CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -1023,7 +1122,9 @@ namespace SISAP.Controllers
                                 Annio = objLectura.Annio,
                                 Mes = objLectura.Mes,
                                 SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                                Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
                             };
                             _facturaService.Create(objFacturacion);
                         }
@@ -1094,7 +1195,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1107,7 +1210,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.2),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2))
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.2)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1123,7 +1228,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1136,7 +1243,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1)))
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.2)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.1))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
 
@@ -1155,7 +1264,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1167,7 +1278,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.3),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3))
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.3)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1180,7 +1293,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.4),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4))
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.4)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1193,7 +1308,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = objLectura.CantidadLectura * Convert.ToDecimal(0.5),
-                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5))
+                            Total = (objLectura.CantidadLectura * Convert.ToDecimal(0.5)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1210,7 +1327,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1222,7 +1341,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.3)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1235,7 +1356,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2)))
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.4)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.2))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1248,7 +1371,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
-                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3)))
+                            Total = ((objLectura.CantidadLectura * Convert.ToDecimal(0.5)) + (objLectura.CantidadLectura * Convert.ToDecimal(0.3))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1270,7 +1395,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1282,7 +1409,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70))
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1294,7 +1423,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80))
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1311,7 +1442,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1323,7 +1456,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.70)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1335,7 +1470,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30)))
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.80)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.30))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1355,7 +1492,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1367,7 +1506,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0))
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1384,7 +1525,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1396,7 +1539,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4)))
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(1.0)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.4))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1415,7 +1560,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1427,7 +1574,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
-                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3))
+                            Total = ((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1443,7 +1592,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = CargoFijo,
-                            Total = CargoFijo
+                            Total = CargoFijo,
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }
@@ -1455,7 +1606,9 @@ namespace SISAP.Controllers
                             Annio = objLectura.Annio,
                             Mes = objLectura.Mes,
                             SubTotal = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
-                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1)))
+                            Total = (((objLectura.CantidadLectura) * Convert.ToDecimal(0.3)) + ((objLectura.CantidadLectura) * Convert.ToDecimal(0.1))),
+                            EstadoPagado = (int)EstadoPay.Pendiente
+
                         };
                         _facturaService.Create(objFacturacion);
                     }

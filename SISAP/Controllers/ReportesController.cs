@@ -29,10 +29,6 @@ namespace SISAP.Controllers
         {
             return View();
         }
-        public ActionResult ReportesRuta()
-        {
-            return View();
-        }
 
         [HttpPost]
         public JsonResult DeudaRuta(int? Annio, int? Mes, int? UrbanizacionId)
@@ -68,38 +64,5 @@ namespace SISAP.Controllers
              var cantidad = _reportesService.getProcessLectura(Annio, Mes);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
-
-
-
-        [HttpPost]
-        public JsonResult ListMainReporte(int? Annio, string FilterNombre)
-        {
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int nroTotalRegistros = 0;
-
-            var lecturas = _reportesService.ListReporte(Annio,FilterNombre, pageSize, skip, out nroTotalRegistros);
-
-            return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public JsonResult ListMain(int? UrbanizacionId, string FilterNombre)
-        {
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int nroTotalRegistros = 0;
-
-            var dPagos = _reportesService.GetAllCF(UrbanizacionId, FilterNombre, pageSize, skip, out nroTotalRegistros);
-
-            return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = dPagos }, JsonRequestBehavior.AllowGet);
-        }
     }
 }

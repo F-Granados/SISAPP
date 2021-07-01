@@ -385,7 +385,6 @@
     <Content Include="Views\Configuracion\Permisos.cshtml" />
     <Content Include="Views\Configuracion\Perfil.cshtml" />
     <Content Include="Views\Cliente\Clientes.cshtml" />
-    <Content Include="Views\Reportes\ReportesRuta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

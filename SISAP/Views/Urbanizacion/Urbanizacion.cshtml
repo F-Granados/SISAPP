@@ -56,17 +56,17 @@
                 </div>
             </div>
         </div>
-
-        <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
-            <thead>
-                <tr class="bg-info text-light">
-                    <th scope="col">Código</th>
-                    <th scope="col">Urbanizacion</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-        </table>
-
+        <div class="table-responsive-lg">
+            <table class="table table-sm table-striped " id="allGrilla">
+                <thead>
+                    <tr class="bg-info text-light">
+                        <th scope="col">Código</th>
+                        <th scope="col">Urbanizacion</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -145,6 +145,7 @@
         objUrbanizacion.NombreUrbanizacion = $("#txtUrbanizacion").val();
         objUrbanizacion.Codigo = $("#txtCodigo").val();
 
+
         Swal.fire({
             toast: true,
             position: 'center',
@@ -216,41 +217,6 @@
         });
         Clean();
     }
-
-     @*function Delete(dCliente) {
-        Swal.fire({
-            title: '¿ Estas Seguro?',
-            text: "¡ Se eliminará este registro !",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, eliminar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-          var data = { UrbanizacionId: dCliente.UrbanizacionId };
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: '@Url.Content("~/Common/DeleteUrbanizacion")',
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function () {
-                tabla.draw();
-                console.log("eliminado");
-            }
-        });
-                Swal.fire(
-                    'Eliminado',
-                    'Urbanizacion Eliminado.',
-                    'success'
-                )
-
-            }
-        })
-
-    }*@
-
 
 
     const swalWithBootstrapButtons = Swal.mixin({
