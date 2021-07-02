@@ -76,7 +76,37 @@ namespace SISAP.Controllers
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf", "facturas.pdf");
+            return File(stream, "application/pdf");
+
+            //ReportDocument rpt = new ReportDocument();
+            //rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
+            //rpt.SetParameterValue("@usuarioId", id);
+            //rpt.SetParameterValue("@clienteId", idCliente);
+            //if (mes == 1)
+            //{
+            //    mes = 12;
+            //    annio--;
+            //}
+            //rpt.SetParameterValue("@mes", mes);
+            //rpt.SetParameterValue("@annio", annio);
+
+
+            //Response.Buffer = false;
+            //Response.ClearContent();
+            //Response.ClearHeaders();
+
+            //try
+            //{
+            //    Stream stream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
+            //    stream.Seek(0, SeekOrigin.Begin);
+            //    return File(stream, "application/vnd.ms-excel", "eNtsaRegistrationForm.xls");
+            //}
+            //catch
+            //{
+            //    throw;
+            //    //return View();
+            //}
+
         }
         #endregion
     }
