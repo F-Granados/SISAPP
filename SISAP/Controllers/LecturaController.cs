@@ -1,9 +1,11 @@
-﻿using SISAP.Core.Entities;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using SISAP.Core.Entities;
 using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,6 +33,7 @@ namespace SISAP.Controllers
         {
             return View();
         }
+
 
         [HttpPost]
         public JsonResult ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre)
