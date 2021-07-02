@@ -167,10 +167,28 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportesCR\rptDeudaAnual.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptDeudaAnual.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportesCR\rptDeudaRuta.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptDeudaRuta.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ReportesCR\rptFacturas1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rptFacturas.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportesCR\rptLectura.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptLectura.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ReportesCR\rptPagos1.cs">
@@ -436,9 +454,21 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReportesCR\rptDeudaAnual.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDeudaAnual.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesCR\rptDeudaRuta.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptDeudaRuta.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptFacturas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptFacturas1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesCR\rptLectura.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptLectura.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptPagos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

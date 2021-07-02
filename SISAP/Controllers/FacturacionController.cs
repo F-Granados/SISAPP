@@ -56,7 +56,7 @@ namespace SISAP.Controllers
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
         }
 
-        #region "Facturacion"
+        #region "Reporte Facturacion"
 
         public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio)
         {
