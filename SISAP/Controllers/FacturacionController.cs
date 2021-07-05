@@ -56,10 +56,11 @@ namespace SISAP.Controllers
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
         }
 
-        #region "Reporte Facturacion"
+        #region "Facturacion"
 
         public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio)
         {
+
 
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
@@ -76,7 +77,7 @@ namespace SISAP.Controllers
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf");
+            return File(stream, "application/pdf"/*"facturas.pdf"*/);
 
             //ReportDocument rpt = new ReportDocument();
             //rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));

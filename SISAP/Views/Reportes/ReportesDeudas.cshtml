@@ -57,12 +57,7 @@
                     </tr>
                 </thead>
             </table>
-            <div class="modal-footer p-1">
-                <button class="btn btn-success btn-sm" id="btnExportar" type="submit"><i class="fas fa-file-excel"></i> Excel</button>
-                <button class="btn btn-dark btn-sm" id="printPDF" onclick="window.print()" type="submit"><i class="fas fa-print"></i> Print</button>
-            </div>
         </div>
-
 
     </div>
 </div>
@@ -128,8 +123,14 @@
                 { "data":"DireccionStr" },
                 { "data": "NumeroMedidor" },
                 { "data": "Mes" },
-                { "data": "TotalPagar", "sClass": "font-weight-bold" },
-   
+                { "data": "Total" },
+                //{
+                //    "data": "id", "render": function (data, type, row, meta) {
+                //        return "<i class='text-center text-success fas fa-shopping-cart mr-3' onClick='Pay(" + JSON.stringify(row) + ")'></i> </a>"+
+                //        "<i class='text-info fas fa-list  mr-3' onClick='PayList(" + JSON.stringify(row) + ")'></i>"
+                //        //"<i class='text-danger fas fa-trash-alt ' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
+                //    }
+                //},
             ]
         });
 
@@ -138,6 +139,61 @@
             tabla.draw();
         })
 
+    }
+
+    function Pay(dCliente) {
+
+        $("#modal_aside_right").modal('show');
+
+        $("#txtClienteId").val(dCliente.ClienteId);
+        $("#txtCodigo").val(dCliente.CodigoCliente);
+        $("#txtNombre").val(dCliente.NombreCompleto);
+        $("#txtDireccion").val(dCliente.DireccionStr);
+        $("#txtServicio").val(dCliente.ServicioNombre);
+        $("#txtTarifa").val(dCliente.TipoCategoria);
+        $("#txtMedidor").val(dCliente.NumeroMedidor);
+        ListPayDetail();
+    }
+
+
+
+
+
+    function CajaPay(dCliente) {
+
+        $("#modalPay").modal('show');
+        $("#modal_aside_right").modal('hide');
+
+        $("#txtClienteNombre").val(dCliente.NombreCompleto);
+        $("#txtClienteIdPay").val(dCliente.ClienteId);
+        $("#txtTotalPagar").val(dCliente.Total);
+        $("#txtTotalPagar1").val(dCliente.Total);
+        $("#txtAnnioPago").val(dCliente.Annio);
+        $("#txtMesPago").val(dCliente.Mes);
+        $("#txtFacturacionId").val(dCliente.FacturacionId);
+        $("#txtObservaciones").val(dCliente.ObservacionesPago);
+        console.log(dCliente.EstadoPagado);
+        var value = dCliente.EstadoPagado;
+
+        if (value == null) {
+            $("#btnPagado").hide();
+            $("#btnPagar").show();
+            $("#btnPagara").show();
+
+        }
+        else {
+
+            $("#btnPagado").show();
+            $("#btnPagar").hide();
+            $("#btnPagara").show();
+        }
+
+    }
+
+
+
+
+    function Delete() {
     }
 
     function ListUrbanizacion() {

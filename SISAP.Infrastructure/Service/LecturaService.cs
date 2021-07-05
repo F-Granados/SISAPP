@@ -107,6 +107,7 @@ namespace SISAP.Infrastructure.Service
 				dbContext.SaveChanges();
 			}
 		}
+
 		public void UpdateProcessLectura(UpdateLectura updateLectura)
 		{
 			using (var dbContext = GetSISAPDBContext())
@@ -162,9 +163,29 @@ namespace SISAP.Infrastructure.Service
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
+
+				var dat= getLecturaPr(objLectura);
+
+				var proc = 0;
+				foreach(var item in dat)
+				{
+					proc = item.Procesado;
+				}
+
+				objLectura.Procesado = proc;
+
 				dbContext.Lecturas.Attach(objLectura);
 				dbContext.Entry(objLectura).State = EntityState.Modified;
 				dbContext.SaveChanges();
+
+			}
+		}
+
+		public IEnumerable<Lectura> getLecturaPr(Lectura objLectura)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				return dbContext.Lecturas.Where(l => objLectura.Annio == l.Annio && objLectura.Mes == l.Mes && objLectura.ClienteId == l.ClienteId).ToList();
 			}
 		}
 

@@ -33,35 +33,35 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult DeudaRuta(int? Annio, int? Mes, int? UrbanizacionId)
 		{
-             var cantidad = _reportesService.GetDeudaRuta(Annio, Mes, UrbanizacionId);
+             var cantidad = _reportesService.getDeudaRuta(Annio, Mes, UrbanizacionId);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
         
         [HttpPost]
         public JsonResult DeudaDistrito(int? Annio)
 		{
-             var cantidad = _reportesService.GetDeudaDistrito(Annio);
+             var cantidad = _reportesService.getDeudaDistrito(Annio);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
         
         [HttpPost]
         public JsonResult IngresosAnuales(int? Annio)
 		{
-             var cantidad = _reportesService.GetIngresoAnual(Annio);
+             var cantidad = _reportesService.getIngresoAnual(Annio);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
                 
         [HttpPost]
         public JsonResult IngresosMensuales(int? Annio, int? Mes)
 		{
-             var cantidad = _reportesService.GetIngresoMensual(Annio, Mes);
+             var cantidad = _reportesService.getIngresoMensual(Annio, Mes);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
         
         [HttpPost]
         public JsonResult AllLecturas(int? Annio, int? Mes)
 		{
-             var cantidad = _reportesService.GetProcessLectura(Annio, Mes);
+             var cantidad = _reportesService.getProcessLectura(Annio, Mes);
             return Json(new { respuesta = cantidad }, JsonRequestBehavior.AllowGet);
 		}
 

@@ -62,16 +62,16 @@ namespace SISAP.Controllers
 		}
         [HttpPost]
         public JsonResult PayAllMonths(int? ClienteId)
-		{
+        {
             var dPagos = _pagoService.PayAllMonth(ClienteId);
- 
+
 
             int[] retorno = new int[dPagos.Count()];
-           
+
 
             int i = 0;
             foreach (var item in dPagos)
-			{
+            {
                 var objPago = new Pago()
                 {
                     ClienteId = item.ClienteId,
@@ -136,7 +136,6 @@ namespace SISAP.Controllers
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = dPagos }, JsonRequestBehavior.AllowGet);
         }
-            
         #region "Reporte Pago"
 
         public ActionResult ReportePago(int id, int idCliente, string idPago)
@@ -151,7 +150,7 @@ namespace SISAP.Controllers
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf", "pagos" + idCliente + ".pdf");
+            return File(stream, "application/pdf" /*"pagos" + idCliente + ".pdf"*/);
 
 
         }

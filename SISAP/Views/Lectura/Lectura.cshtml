@@ -68,15 +68,15 @@
                     Falta registrar ciclo para el siguiente mes
                 </div>
                 <div class="alert alert-danger" id="MSGvalidacionPLE" role="alert" style="display:none">
-                    Falta digitar la lectura actual de algunos clientes
+                    La Lectura Actual debe ser Mayor o igual a la Lectura antigua
                 </div>
                 <div class="alert alert-secondary" id="MSGvalidacionPL" role="alert" style="display:none">
                     Debe seleccionar Año, Mes y Ruta a Procesar
                 </div>
-                <button class="btn btn-dark btn-sm" id="btnExportar" type="button"><i class="fas fa-file-pdf"></i> PDF</button>
+
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
-                <button style="display:none;" class="btn btn-success btn-sm" id="btnProcesarLectura" type="submit"><i class="fas fa-save"></i> Procesar Lectura</button>
-                <button style="display:none;" class="btn btn-warning btn-sm" id="btnActualizarLectura" type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
+                <button style="display:none;" class="btn btn-success btn-sm" id="btnProcesarLectura"  type="submit"><i class="fas fa-save"></i> Procesar Lectura</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnActualizarLectura"  type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
                 <button style="display:none;" class="btn btn-warning btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
             </div>
         </div>
@@ -411,7 +411,6 @@
 
     }
 
-
     function ProcesarLecturaUpdate() {
 
         var objValidate = {};
@@ -511,12 +510,6 @@
 
     }
 
-    function Print(row) {
-        window.open('/Facturacion/ReporteFactura?idCliente=' + row["ClienteId"] + '&mes=' + row["Mes"] + ' &annio=' + row["Annio"]);
-
-    }
-
-
     function ExistLectura() {
 
         var ifExists;
@@ -585,12 +578,12 @@
 
     function UpdateLecturaUpdate() {
 
-        /*
+        
         if ($("#txtLecturaActual").val() == 0) {
             $("#MSGvalidacionVA").show();
             return false;
         }
-        */
+        
         UpdateDataLectura();
 
         $("#modal_aside_right").modal('show');
@@ -608,6 +601,8 @@
         objLectura.CantidadLectura = $("#txtLecturaActual").val();
         objLectura.ClienteId = $("#txtClienteId").val();
         objLectura.CantidadLecturaAntigua = $("#txtValorAntiguo").val();
+        objLectura.Procesado = 1;
+        
         objLectura.Actualizado = 1;
 
 
@@ -628,12 +623,12 @@
 
     function UpdateLecturaSave() {
 
-        /*
+        
         if ($("#txtLecturaActual").val() == 0) {
             $("#MSGvalidacionVA").show();
             return false;
         }
-        */
+        
 
         SaveFirstDataLectura();
 

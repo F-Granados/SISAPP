@@ -1,11 +1,9 @@
-﻿using CrystalDecisions.CrystalReports.Engine;
-using SISAP.Core.Entities;
+﻿using SISAP.Core.Entities;
 using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -33,7 +31,6 @@ namespace SISAP.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public JsonResult ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre)
@@ -119,12 +116,12 @@ namespace SISAP.Controllers
             if (datos.Count() == 0)
 			{
                 output = "10";
-			} 
-            /*else if(datosnullable.Count() != 0)
+			}
+			else if (datosnullable.Count() != 0)
 			{
-                output = "15";
-			} */
-            else 
+				output = "15";
+			}
+			else
 			{
                 int nextM = 0;
                 int nextY = 0;
@@ -200,6 +197,7 @@ namespace SISAP.Controllers
             
             int ClienteId = objLectura.ClienteId;
             var top6 = _lecturaService.GetFirst6Data(ClienteId);
+            
             var top6Count = top6.Count();
 
             if (objLectura.CantidadLectura == 0)
