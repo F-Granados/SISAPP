@@ -111,14 +111,6 @@ namespace SISAP.ReportesCR {
                 return this.DataDefinition.ParameterFields[2];
             }
         }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_urbanizacionId {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
