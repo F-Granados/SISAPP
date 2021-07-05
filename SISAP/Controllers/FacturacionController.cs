@@ -63,7 +63,7 @@ namespace SISAP.Controllers
 
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturasMasivo.rpt"));
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
             rd.SetParameterValue("@usuarioId", id);
             rd.SetParameterValue("@clienteId", idCliente);
             if (mes == 1)
