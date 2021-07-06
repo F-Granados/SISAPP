@@ -83,7 +83,7 @@ namespace SISAP.Controllers
         #endregion
 
 
-        #region "Facturacion"
+        #region "Facturacion Masivo"
 
         public ActionResult ReporteFacturaMasivo(int mes, int annio, int urb)
         {
@@ -98,7 +98,7 @@ namespace SISAP.Controllers
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf"/*"facturas.pdf"*/);
+            return File(stream, "application/pdf","facturas.pdf");
 
         }
         #endregion
