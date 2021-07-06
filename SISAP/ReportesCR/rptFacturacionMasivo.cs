@@ -16,14 +16,14 @@ namespace SISAP.ReportesCR {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class rptDeudaRuta : ReportClass {
+    public class rptFacturacionMasivo : ReportClass {
         
-        public rptDeudaRuta() {
+        public rptFacturacionMasivo() {
         }
         
         public override string ResourceName {
             get {
-                return "rptDeudaRuta.rpt";
+                return "rptFacturacionMasivo.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace SISAP.ReportesCR {
         
         public override string FullResourceName {
             get {
-                return "SISAP.ReportesCR.rptDeudaRuta.rpt";
+                return "SISAP.ReportesCR.rptFacturacionMasivo.rpt";
             }
             set {
                 // Do nothing
@@ -90,17 +90,33 @@ namespace SISAP.ReportesCR {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_urbanizacionId {
+        public CrystalDecisions.Shared.IParameterField Parameter_UrbanizacionId {
             get {
                 return this.DataDefinition.ParameterFields[0];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_mes {
+            get {
+                return this.DataDefinition.ParameterFields[1];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.Shared.IParameterField Parameter_annio {
+            get {
+                return this.DataDefinition.ParameterFields[2];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedrptDeudaRuta : Component, ICachedReport {
+    public class CachedrptFacturacionMasivo : Component, ICachedReport {
         
-        public CachedrptDeudaRuta() {
+        public CachedrptFacturacionMasivo() {
         }
         
         [Browsable(false)]
@@ -137,7 +153,7 @@ namespace SISAP.ReportesCR {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            rptDeudaRuta rpt = new rptDeudaRuta();
+            rptFacturacionMasivo rpt = new rptFacturacionMasivo();
             rpt.Site = this.Site;
             return rpt;
         }
