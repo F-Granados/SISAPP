@@ -60,7 +60,7 @@
         </div>
         <div class="modal-footer p-1">
 
-            <button type="button" class="btn btn-dark btn-sm mt-2"><i class="fas fa-file-pdf"></i> Reporte</button>
+            <button type="button" class="btn btn-dark btn-sm mt-2" onclick="ReporteRuta()"><i class="fas fa-file-pdf"></i> Reporte</button>
             <button type="button" class="btn btn-success btn-sm mt-2"><i class="fas fa-file-excel"></i> Reporte</button>
 
         </div>
@@ -83,12 +83,7 @@
 
         ListMain();
 
-        $("#btnModalUpdateLecturaDismiss").on('click', function () {
-            $("#modal_aside_right").modal('show');
 
-        });
-
-        $("#btnPagar").click(PayFinal);
 
     });
 
@@ -147,62 +142,19 @@
 
     }
 
-    function Pay(dCliente) {
 
-        $("#modal_aside_right").modal('show');
-
-        $("#txtClienteId").val(dCliente.ClienteId);
-        $("#txtCodigo").val(dCliente.CodigoCliente);
-        $("#txtNombre").val(dCliente.NombreCompleto);
-        $("#txtDireccion").val(dCliente.DireccionStr);
-        $("#txtServicio").val(dCliente.ServicioNombre);
-        $("#txtTarifa").val(dCliente.TipoCategoria);
-        $("#txtMedidor").val(dCliente.NumeroMedidor);
-        ListPayDetail();
-    }
+    function ReporteRuta() {
 
 
+        $("#ddUrbanizacion").val()
 
+        window.open('/Reportes/ReporteRuta?&urb='+ $("#ddUrbanizacion").val());
 
-
-    function CajaPay(dCliente) {
-
-        $("#modalPay").modal('show');
-        $("#modal_aside_right").modal('hide');
-
-        $("#txtClienteNombre").val(dCliente.NombreCompleto);
-        $("#txtClienteIdPay").val(dCliente.ClienteId);
-        $("#txtTotalPagar").val(dCliente.Total);
-        $("#txtTotalPagar1").val(dCliente.Total);
-        $("#txtAnnioPago").val(dCliente.Annio);
-        $("#txtMesPago").val(dCliente.Mes);
-        $("#txtFacturacionId").val(dCliente.FacturacionId);
-        $("#txtObservaciones").val(dCliente.ObservacionesPago);
-        console.log(dCliente.EstadoPagado);
-        var value = dCliente.EstadoPagado;
-
-        if (value == null) {
-            $("#btnPagado").hide();
-            $("#btnPagar").show();
-            $("#btnPagara").show();
-
-        }
-        else {
-
-            $("#btnPagado").show();
-            $("#btnPagar").hide();
-            $("#btnPagara").show();
-        }
 
     }
 
 
-
-
-    function Delete() {
-    }
-
-    function ListUrbanizacion() {
+        function ListUrbanizacion() {
         var comboUrbanizacion = $("#ddUrbanizacion");
         $.ajax({
             type: "POST",

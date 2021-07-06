@@ -79,36 +79,62 @@ namespace SISAP.Controllers
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "application/pdf"/*"facturas.pdf"*/);
 
-            //ReportDocument rpt = new ReportDocument();
-            //rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
-            //rpt.SetParameterValue("@usuarioId", id);
-            //rpt.SetParameterValue("@clienteId", idCliente);
-            //if (mes == 1)
-            //{
-            //    mes = 12;
-            //    annio--;
-            //}
-            //rpt.SetParameterValue("@mes", mes);
-            //rpt.SetParameterValue("@annio", annio);
+        }
+        #endregion
 
 
-            //Response.Buffer = false;
-            //Response.ClearContent();
-            //Response.ClearHeaders();
+        #region "Facturacion"
 
-            //try
-            //{
-            //    Stream stream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
-            //    stream.Seek(0, SeekOrigin.Begin);
-            //    return File(stream, "application/vnd.ms-excel", "eNtsaRegistrationForm.xls");
-            //}
-            //catch
-            //{
-            //    throw;
-            //    //return View();
-            //}
+        public ActionResult ReporteFacturaMasivo(int mes, int annio, int urb)
+        {
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturacionMasivo.rpt"));
+            rd.SetParameterValue("@mes", mes);
+            rd.SetParameterValue("@annio", annio);
+            rd.SetParameterValue("@urbanizacionId", urb);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf"/*"facturas.pdf"*/);
 
         }
+        #endregion
+
+
+
+        #region Ejemplo de reporte en excel 
+
+        //ReportDocument rpt = new ReportDocument();
+        //rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
+        //rpt.SetParameterValue("@usuarioId", id);
+        //rpt.SetParameterValue("@clienteId", idCliente);
+        //if (mes == 1)
+        //{
+        //    mes = 12;
+        //    annio--;
+        //}
+        //rpt.SetParameterValue("@mes", mes);
+        //rpt.SetParameterValue("@annio", annio);
+
+
+        //Response.Buffer = false;
+        //Response.ClearContent();
+        //Response.ClearHeaders();
+
+        //try
+        //{
+        //    Stream stream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
+        //    stream.Seek(0, SeekOrigin.Begin);
+        //    return File(stream, "application/vnd.ms-excel", "eNtsaRegistrationForm.xls");
+        //}
+        //catch
+        //{
+        //    throw;
+        //    //return View();
+        //}
         #endregion
     }
 }

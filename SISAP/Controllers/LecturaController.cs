@@ -1,9 +1,11 @@
-﻿using SISAP.Core.Entities;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using SISAP.Core.Entities;
 using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,6 +33,27 @@ namespace SISAP.Controllers
         {
             return View();
         }
+
+        #region "Lectura"
+
+        public ActionResult ReporteLectura(int urb)
+        {
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptLectura.rpt"));
+            rd.SetParameterValue("@urbanizacionId", urb);
+         
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf"/*"facturas.pdf"*/);
+
+        }
+        #endregion
+
+
 
         [HttpPost]
         public JsonResult ListLecturaMain(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre)

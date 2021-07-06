@@ -1,7 +1,9 @@
-﻿using SISAP.Core.Interfaces;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -96,5 +98,46 @@ namespace SISAP.Controllers
 
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = dPagos }, JsonRequestBehavior.AllowGet);
         }
+
+
+        #region "ReporteRuta"
+
+        public ActionResult ReporteRuta(int urb)
+        {
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptDeudaRuta.rpt"));
+            rd.SetParameterValue("@urbanizacionId", urb);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf"/*"facturas.pdf"*/);
+
+        }
+        #endregion
+
+
+
+        #region "ReporteDistrito"
+
+        public ActionResult ReporteAnnio(int urb)
+        {
+
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptLectura.rpt"));
+            rd.SetParameterValue("@urbanizacionId", urb);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf"/*"facturas.pdf"*/);
+
+        }
+        #endregion
     }
 }
