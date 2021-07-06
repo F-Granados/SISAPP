@@ -179,6 +179,12 @@
       <DependentUpon>rptFacturas.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ReportesCR\rptFacturasMasivo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptFacturasMasivo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ReportesCR\rptPagos1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -449,6 +455,10 @@
     <EmbeddedResource Include="ReportesCR\rptFacturas.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>rptFacturas1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesCR\rptFacturasMasivo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptFacturasMasivo.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportesCR\rptPagos.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

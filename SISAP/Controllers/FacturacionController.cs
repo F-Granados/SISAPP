@@ -58,14 +58,15 @@ namespace SISAP.Controllers
 
         #region "Facturacion"
 
-        public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio)
+        public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio, int urb)
         {
 
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturasMasivas.rpt"));
             rd.SetParameterValue("@usuarioId", id);
             rd.SetParameterValue("@clienteId", idCliente);
+            rd.SetParameterValue("@urbanizacionId", urb);
             if (mes == 1)
             {
                 mes = 12;
@@ -79,36 +80,66 @@ namespace SISAP.Controllers
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "application/pdf"/*"facturas.pdf"*/);
 
-            //ReportDocument rpt = new ReportDocument();
-            //rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
-            //rpt.SetParameterValue("@usuarioId", id);
-            //rpt.SetParameterValue("@clienteId", idCliente);
-            //if (mes == 1)
-            //{
-            //    mes = 12;
-            //    annio--;
-            //}
-            //rpt.SetParameterValue("@mes", mes);
-            //rpt.SetParameterValue("@annio", annio);
+
+        }
+        // pasos para insertar el reporte
+        //1.- Crear el controlador como ejemplo ReporteFacturaMasivo
+        //2.- Cambiar los parametros de acuerdo al SP.
+        //3.- Enviar de la vista al controlador la cantidad de parametos necesarios ejemplo id,idCliente,Param1,param3,eetc
+        //4.- agregar en la vista la siguiente funcionaldiad , tomar como ejemplo "PrintMasivo"
+        public ActionResult ReporteFacturaMasivo( int mes, int annio, int urb)
+        {
 
 
-            //Response.Buffer = false;
-            //Response.ClearContent();
-            //Response.ClearHeaders();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturasMasivo.rpt"));
 
-            //try
-            //{
-            //    Stream stream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
-            //    stream.Seek(0, SeekOrigin.Begin);
-            //    return File(stream, "application/vnd.ms-excel", "eNtsaRegistrationForm.xls");
-            //}
-            //catch
-            //{
-            //    throw;
-            //    //return View();
-            //}
+            rd.SetParameterValue("@mes", mes);
+            rd.SetParameterValue("@annio", annio);
+            rd.SetParameterValue("@urbanizacionId", urb);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "application/pdf" ,"facturas.pdf");
+
+            
 
         }
         #endregion
     }
 }
+
+
+#region Ejemplo de reporte en excel 
+
+//ReportDocument rpt = new ReportDocument();
+//rpt.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
+//rpt.SetParameterValue("@usuarioId", id);
+//rpt.SetParameterValue("@clienteId", idCliente);
+//if (mes == 1)
+//{
+//    mes = 12;
+//    annio--;
+//}
+//rpt.SetParameterValue("@mes", mes);
+//rpt.SetParameterValue("@annio", annio);
+
+
+//Response.Buffer = false;
+//Response.ClearContent();
+//Response.ClearHeaders();
+
+//try
+//{
+//    Stream stream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.Excel);
+//    stream.Seek(0, SeekOrigin.Begin);
+//    return File(stream, "application/vnd.ms-excel", "eNtsaRegistrationForm.xls");
+//}
+//catch
+//{
+//    throw;
+//    //return View();
+//}
+#endregion
