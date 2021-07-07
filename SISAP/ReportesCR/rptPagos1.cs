@@ -106,7 +106,7 @@ namespace SISAP.ReportesCR {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_pagoId {
+        public CrystalDecisions.Shared.IParameterField Parameter_facturacionId {
             get {
                 return this.DataDefinition.ParameterFields[2];
             }

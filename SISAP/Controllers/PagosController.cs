@@ -139,14 +139,14 @@ namespace SISAP.Controllers
         }
         #region "Reporte Pago"
 
-        public ActionResult ReportePago(int id, int idCliente, string idPago)
+        public ActionResult ReportePago(int id, int idCliente, string idFactura)
         {
             ConnectionInfo crConnectionInfo = new ConnectionInfo();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptPagos.rpt"));
             rd.SetParameterValue("@usuarioId", id);
             rd.SetParameterValue("@clienteId", idCliente);
-            rd.SetParameterValue("@pagoId", idPago);
+            rd.SetParameterValue("@facturacionId", idFactura);
 
             rd.DataSourceConnections[0].IntegratedSecurity = true;
             rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
