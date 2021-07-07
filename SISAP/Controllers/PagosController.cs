@@ -150,7 +150,7 @@ namespace SISAP.Controllers
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf" /*"pagos" + idCliente + ".pdf"*/);
+            return File(stream, "application/pdf" ,"pagos" + idCliente + ".pdf");
 
 
         }
