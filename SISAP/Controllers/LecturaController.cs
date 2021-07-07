@@ -1,4 +1,5 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SISAP.Core.Entities;
 using SISAP.Core.Enum;
 using SISAP.Core.Interfaces;
@@ -39,11 +40,12 @@ namespace SISAP.Controllers
         public ActionResult ReporteLectura(int urb)
         {
 
-
+            ConnectionInfo crConnectionInfo = new ConnectionInfo();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptLectura.rpt"));
             rd.SetParameterValue("@urbanizacionId", urb);
-         
+            rd.DataSourceConnections[0].IntegratedSecurity = true;
+            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);

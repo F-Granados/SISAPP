@@ -1,4 +1,5 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
@@ -105,11 +106,12 @@ namespace SISAP.Controllers
         public ActionResult ReporteRuta(int urb)
         {
 
-
+            ConnectionInfo crConnectionInfo = new ConnectionInfo();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptDeudaRuta.rpt"));
             rd.SetParameterValue("@urbanizacionId", urb);
-
+            rd.DataSourceConnections[0].IntegratedSecurity = true;
+            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
@@ -126,11 +128,12 @@ namespace SISAP.Controllers
         public ActionResult ReporteAnnio(int urb)
         {
 
-
+            ConnectionInfo crConnectionInfo = new ConnectionInfo();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptLectura.rpt"));
             rd.SetParameterValue("@urbanizacionId", urb);
-
+            rd.DataSourceConnections[0].IntegratedSecurity = true;
+            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);

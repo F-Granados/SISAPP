@@ -1,4 +1,5 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
@@ -61,7 +62,7 @@ namespace SISAP.Controllers
         public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio)
         {
 
-
+            ConnectionInfo crConnectionInfo = new ConnectionInfo();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
             rd.SetParameterValue("@usuarioId", id);
@@ -73,11 +74,14 @@ namespace SISAP.Controllers
             }
             rd.SetParameterValue("@mes", mes);
             rd.SetParameterValue("@annio", annio);
+
+            rd.DataSourceConnections[0].IntegratedSecurity = true;
+            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf","facturas.pdf");
+            return File(stream, "application/pdf"/*,"facturas.pdf"*/);
 
         }
         #endregion
@@ -85,20 +89,42 @@ namespace SISAP.Controllers
 
         #region "Facturacion Masivo"
 
+        //public ActionResult ReporteFacturaMasivo(int mes, int annio, int urb)
+        //{
+
+
+        //    ReportDocument rd = new ReportDocument();
+        //    rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturacionMasivo.rpt"));
+        //    rd.SetParameterValue("@mes", mes);
+        //    rd.SetParameterValue("@annio", annio);
+        //    rd.SetParameterValue("@urbanizacionId", urb);
+        //    Response.Buffer = false;
+        //    Response.ClearContent();
+        //    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //    stream.Seek(0, SeekOrigin.Begin);
+        //    return File(stream, "application/pdf","facturasMasivo.pdf");
+
+        //}
         public ActionResult ReporteFacturaMasivo(int mes, int annio, int urb)
         {
 
 
             ReportDocument rd = new ReportDocument();
+            //System.Configuration.ConfigurationManager.ConnectionStrings["connectionStringName"].ConnectionString
+            ConnectionInfo crConnectionInfo = new ConnectionInfo();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturacionMasivo.rpt"));
             rd.SetParameterValue("@mes", mes);
             rd.SetParameterValue("@annio", annio);
             rd.SetParameterValue("@urbanizacionId", urb);
+
+            rd.DataSourceConnections[0].IntegratedSecurity = true;
+            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "application/pdf","facturasMasivo.pdf");
+            return File(stream, "application/pdf"/*, "facturasMasivo.pdf"*/);
 
         }
         #endregion
