@@ -77,6 +77,7 @@ namespace SISAP.Controllers
 
             rd.DataSourceConnections[0].IntegratedSecurity = true;
             rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+            //rd.DataSourceConnections[0].SetConnection(".", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
@@ -119,6 +120,7 @@ namespace SISAP.Controllers
 
             rd.DataSourceConnections[0].IntegratedSecurity = true;
             rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+            //rd.DataSourceConnections[0].SetConnection(".", "SISAP-DEV", true);
 
             Response.Buffer = false;
             Response.ClearContent();
