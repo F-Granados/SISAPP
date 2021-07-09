@@ -4,6 +4,8 @@ using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -62,7 +64,7 @@ namespace SISAP.Controllers
         public ActionResult ReporteFactura(int? id, int idCliente, int mes, int annio)
         {
 
-            ConnectionInfo crConnectionInfo = new ConnectionInfo();
+            string connectionString = ConfigurationManager.ConnectionStrings["SISAPDBContext"].ConnectionString;
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturas.rpt"));
             rd.SetParameterValue("@usuarioId", id);
@@ -75,8 +77,8 @@ namespace SISAP.Controllers
             rd.SetParameterValue("@mes", mes);
             rd.SetParameterValue("@annio", annio);
 
-            rd.DataSourceConnections[0].IntegratedSecurity = true;
-            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+            //rd.DataSourceConnections[0].IntegratedSecurity = true;
+            //rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             //rd.DataSourceConnections[0].SetConnection(".", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
@@ -109,8 +111,9 @@ namespace SISAP.Controllers
         public ActionResult ReporteFacturaMasivo(int mes, int annio, int urb)
         {
 
-
+            //SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SISAPDBContext"].ConnectionString);
             ReportDocument rd = new ReportDocument();
+            string connectionString = ConfigurationManager.ConnectionStrings["SISAPDBContext"].ConnectionString;
             //System.Configuration.ConfigurationManager.ConnectionStrings["connectionStringName"].ConnectionString
             ConnectionInfo crConnectionInfo = new ConnectionInfo();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptFacturacionMasivo.rpt"));
@@ -118,8 +121,9 @@ namespace SISAP.Controllers
             rd.SetParameterValue("@annio", annio);
             rd.SetParameterValue("@urbanizacionId", urb);
 
-            rd.DataSourceConnections[0].IntegratedSecurity = true;
-            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+         
+            //rd.DataSourceConnections[0].IntegratedSecurity = true;
+            //rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             //rd.DataSourceConnections[0].SetConnection(".", "SISAP-DEV", true);
 
             Response.Buffer = false;

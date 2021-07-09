@@ -6,6 +6,7 @@ using SISAP.Core.Interfaces;
 using SISAP.Infrastructure.Service;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -141,15 +142,15 @@ namespace SISAP.Controllers
 
         public ActionResult ReportePago(int id, int idCliente, string idFactura)
         {
-            ConnectionInfo crConnectionInfo = new ConnectionInfo();
+            string connectionString = ConfigurationManager.ConnectionStrings["SISAPDBContext"].ConnectionString;
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/ReportesCR"), "rptPagos.rpt"));
             rd.SetParameterValue("@usuarioId", id);
             rd.SetParameterValue("@clienteId", idCliente);
             rd.SetParameterValue("@facturacionId", idFactura);
 
-            rd.DataSourceConnections[0].IntegratedSecurity = true;
-            rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
+            //rd.DataSourceConnections[0].IntegratedSecurity = true;
+            //rd.DataSourceConnections[0].SetConnection("DESKTOP-KTMHKON", "SISAP-DEV", true);
             Response.Buffer = false;
             Response.ClearContent();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
