@@ -1,13 +1,14 @@
 ﻿
 @{
-    ViewBag.Title = "Configuracion";
+    ViewBag.Title = "Tarifas";
 }
+
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalCenterTitle">Crear Urbanizacion</h6>
+                <h6 class="modal-title" id="exampleModalCenterTitle">Crear Tarifa</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -16,33 +17,42 @@
 
 
                 <div class="col-sm-12mb-12">
-                    <label>Nombre </label>
-                    <input id="txtNombreUsuario" type="text" class="form-control" placeholder="">
-                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                    <label>Categoria </label>
+                    <input id="txtCategoria" type="text" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
                 </div>
 
 
                 <div class="col-sm-12mb-12">
-                    <label>Usuario </label>
-                    <input id="txtUsuario" type="text" class="form-control" placeholder="">
-                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                    <label>RangoMin </label>
+                    <input id="txtRangoMin" type="text" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
                 </div>
                 <div class="col-sm-12mb-12">
-                    <label>Contraseña </label>
-                    <input id="txtContraseñaUsuario" type="password" class="form-control" placeholder="">
-                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                    <label>RangoMax </label>
+                    <input id="txtRangoMax" type="text" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
                 </div>
                 <div class="col-sm-12mb-12">
-                    <label>Rol </label>
-                    <input id="txtRolUsuario" type="number" class="form-control" placeholder="">
-                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                    <label>TarifaAgua </label>
+                    <input id="txtTarifaAgua" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
                 </div>
                 <div class="col-sm-12mb-12">
-                    <label>Estado </label>
-                    <input id="txtEstadoUsuario" type="number" class="form-control" placeholder="">
-                    <input hidden id="txtUsuarioId" type="text" class="form-control" placeholder="">
+                    <label>TarifaAlcantarillado </label>
+                    <input id="txtTarifaAlcantarillado" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
                 </div>
-
+                <div class="col-sm-12mb-12">
+                    <label>Cargo Fijo </label>
+                    <input id="txtCargoFijo" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
+                </div>
+                <div class="col-sm-12mb-12">
+                    <label>Clase </label>
+                    <input id="txtClase" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
+                </div>
 
             </div>
             <br />
@@ -59,7 +69,7 @@
 <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
     <div class="card-body fuente">
         <div class=" card-header bg-dark text-white">
-            <h5><i class="fas fa-table"> Usuarios</i></h5>
+            <h5><i class="fas fa-table"> Tarifario</i></h5>
         </div>
 
         <hr style="border-style: dashed;" />
@@ -82,35 +92,33 @@
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
                 <tr class="bg-info text-light">
-                    <th scope="col">N</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Contraseña</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Opciones</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">RangoMin</th>
+                    <th scope="col">RangoMax</th>
+                    <th scope="col">TarifaAgua</th>
+                    <th scope="col">TarifaAlcantarillado</th>
+                    <th scope="col">CargoFijo</th>
+                    <th scope="col">ClaseId</th>
+                    <th scope="col">Opcion</th>
                 </tr>
             </thead>
         </table>
 
     </div>
 </div>
-
 <script>
     var tabla;
     $(document).ready(function () {
-
         $("#openModal").on('click', function () {
-            console.log("siii")
+            console.log('sii')
             $("#MSGvalidacion").hide();
             $("#btnSave").show();
             $("#btnUpdate").hide();
             Clean();
         })
-
-
         $("#btnSave").click(Save);
         $("#btnUpdate").click(Update);
+
 
         tabla = $('#allGrilla').DataTable({
             "dom": 'Bfrtip',
@@ -120,65 +128,66 @@
                 "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
             },
             "drawCallback": function () {
-                $('.page-link').addClass('btn-sm  border-0')
+                $('.page-link').addClass('btn-sm border-0')
             },
-
             "serverSide": true,
             "processing": true,
             "orderable": false,
             "ajax": {
-                "url": '@Url.Content("~/Usuario/ListarUsuarios")',
+                "url": '@Url.Content("~/Tarifas/ListarTarifas")',
                 "type": 'POST',
                 "data": function (d) {
                     return $.extend({}, d, {
-
-                        usuario: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
-
+                        CategoriaId: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
                     });
                 },
                 "dataSrc": "data",
                 "responsivePriority": 1,
-                //"pageLength": 10
-            },
 
+            },
             "columns": [
-                { "data": "UsuarioId" },
-                { "data": "Nombre"},
-                { "data": "usuario" },
-                { "data": "Password" },
-                { "data": "Rol" },
-                {"data": "Estado"},
+                { "data": "CategoriaId" },
+                { "data": "RangoMin" },
+                { "data": "RangoMax" },
+                { "data": "TarifaAgua" },
+                { "data": "TarifaAlcantarillado" },
+                { "data": "CargoFijo" },
+                { "data": "ClaseId" },
                 {
-                    "data": "id",  "render": function(data, type, row, meta) {
-                        return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i> </a>" +
-                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
-                            //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
+                    "data": "id", "render": function (data, type, row, meta) {
+                        return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i></a>" +
+                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>" 
+                   /*         "<i class='text-warning fas fa-lightbulb' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"*/
                     }
                 },
             ]
         });
-
         tabla.draw();
-
         $("#txtFilter").bind("keyup change", function () {
             tabla.draw();
         })
+
     })
+
+
+
 
     function Save() {
 
-        if ($('#txtNombreUsuario').val() == "" || $('#txtUsuario').val() == "" || $('#txtContraseñaUsuario').val() == "" || $('#txtRolUsuario').val() == "" || $('#txtEstadoUsuario').val() == "") {
+        if ($('#txtCategoria').val() == "" || $('#txtRangoMin').val() == "" || $('#txtRangoMax').val() == "" || $('#txtTarifaAgua').val() == "" || $('#txtTarifaAlcantarillado').val() == "" || $('#txtCargoFijo').val() == "" || $('#txtClase').val() == "") {
             $("#MSGvalidacion").show();
 
             return false;
         }
 
-        var objUsuario = {};
-        objUsuario.Nombre = $("#txtNombreUsuario").val();
-        objUsuario.usuario = $("#txtUsuario").val();
-        objUsuario.Password = $("#txtContraseñaUsuario").val();
-        objUsuario.Rol = $("#txtRolUsuario").val();
-        objUsuario.Estado = $("#txtEstadoUsuario").val();
+        var objTarifario = {};
+        objTarifario.CategoriaId = $("#txtCategoria").val();
+        objTarifario.RangoMin = $("#txtRangoMin").val();
+        objTarifario.RangoMax = $("#txtRangoMax").val();
+        objTarifario.TarifaAgua = $("#txtTarifaAgua").val();
+        objTarifario.TarifaAlcantarillado = $("#txtTarifaAlcantarillado").val();
+        objTarifario.CargoFijo = $("#txtCargoFijo").val();
+        objTarifario.ClaseId = $("#txtClase").val();
 
         Swal.fire({
             position: 'top-end',
@@ -192,10 +201,10 @@
 
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: '@Url.Content("~/Usuario/RegistrarUsuario")',
+            url: '@Url.Content("~/Tarifas/RegistrarTarifario")',
             dataType: "json",
             data: JSON.stringify({
-                objUsuario: objUsuario
+                objTarifario: objTarifario
             }),
             success: function (resp) {
                 tabla.draw();
@@ -205,32 +214,34 @@
 
     }
 
-    function Edit(dUsuario) {
+    function Edit(dTarifario) {
 
         $("#MSGvalidacion").hide();
         $("#btnSave").hide();
         $("#btnUpdate").show();
         $("#exampleModalCenter").modal('show');
 
-        $("#txtUsuarioId").val(dUsuario.UsuarioId);
-        $("#txtNombreUsuario").val(dUsuario.Nombre);
-        $("#txtUsuario").val(dUsuario.usuario);
-        $("#txtContraseñaUsuario").val(dUsuario.Password);
-        $("#txtRolUsuario").val(dUsuario.Rol);
-        $("#txtEstadoUsuario").val(dUsuario.Estado);
+        $("#txtCategoria").val(dTarifario.CategoriaId);
+        $("#txtRangoMin").val(dTarifario.RangoMin);
+        $("#txtRangoMax").val(dTarifario.RangoMax);
+        $("#txtTarifaAgua").val(dTarifario.TarifaAgua);
+        $("#txtTarifaAlcantarillado").val(dTarifario.TarifaAlcantarillado);
+        $("#txtCargoFijo").val(dTarifario.CargoFijo);
+        $("#txtClase").val(dTarifario.ClaseId);
 
 
     }
 
-    function Update() {
-        var objUsuario = {};
+        function Update() {
+        var objTarifario = {};
 
-        objUsuario.UsuarioId = $("#txtUsuarioId").val();
-        objUsuario.usuario = $("#txtUsuario").val();
-        objUsuario.Nombre = $("#txtNombreUsuario").val();
-        objUsuario.Password = $("#txtContraseñaUsuario").val();
-        objUsuario.Rol = $("#txtRolUsuario").val();
-        objUsuario.Estado = $("#txtEstadoUsuario").val();
+            objTarifario.CategoriaId = $("#txtCategoria").val();
+            objTarifario.RangoMin = $("#txtRangoMin").val();
+            objTarifario.RangoMax = $("#txtRangoMax").val();
+            objTarifario.TarifaAgua = $("#txtTarifaAgua").val();
+            objTarifario.TarifaAlcantarillado = $("#txtTarifaAlcantarillado").val();
+            objTarifario.CargoFijo = $("#txtCargoFijo").val();
+            objTarifario.ClaseId = $("#txtClase").val();
 
         Swal.fire({
             position: 'top-end',
@@ -244,10 +255,10 @@
 
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: '@Url.Content("~/Usuario/Update")',
+            url: '@Url.Content("~/Tarifas/Update")',
             dataType: "json",
             data: JSON.stringify({
-                objUsuario: objUsuario
+                objTarifario: objTarifario
             }),
             success: function (resp) {
                 tabla.draw();
@@ -265,7 +276,7 @@
   },
   buttonsStyling: false
     })
-    function Delete(dUsuario) {
+    function Delete(dTarifario) {
         swalWithBootstrapButtons.fire({
             title: 'Estas Seguro?',
             text: "No podrás revertir esto!",
@@ -276,11 +287,11 @@
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                     var data = { UsuarioId: dUsuario.UsuarioId };
+                var data = { TarifarioId: dTarifario.TarifarioId };
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: '@Url.Content("~/Usuario/Delete")',
+            url: '@Url.Content("~/Tarifas/Delete")',
             dataType: "json",
             data: JSON.stringify(data),
             success: function () {
@@ -308,13 +319,14 @@
 
 
     function Clean() {
-        $("#txtNombreUsuario").val("");
-        $("#txtUsuario").val("");
-        $("#txtContraseñaUsuario").val("");
-        $("#txtRolUsuario").val("");
-        $("#txtEstadoUsuario").val("");
+        $("#txtCategoria").val("");
+        $("#txtRangoMin").val("");
+        $("#txtRangoMax").val("");
+        $("#txtTarifaAlcantarillado").val("");
+        $("#txtCargoFijo").val("");
+        $("#txtClase").val("");
+
     }
 
+
 </script>
-
-

@@ -25,6 +25,15 @@ namespace SISAP.Controllers
         {
             return View();
         }
+        public ActionResult LecturasProcesadas()
+        {
+            return View();
+        }
+
+        public ActionResult CriticaLectura()
+        {
+            return View();
+        }
         public ActionResult ReportesDeudas()
         {
             return View();
