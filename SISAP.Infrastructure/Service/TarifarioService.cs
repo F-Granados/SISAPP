@@ -68,16 +68,15 @@ namespace SISAP.Infrastructure.Service
             }
 			return objTarifario;
         }
-
-		public void Update(Tarifario objTarifario)
-        {
+		public void Update(Tarifario tarifario)
+		{
 			using (var dbContext = GetSISAPDBContext())
-            {
-				dbContext.Tarifarios.Attach(objTarifario);
-				dbContext.Entry(objTarifario).State = EntityState.Modified;
+			{
+				dbContext.Tarifarios.Attach(tarifario);
+				dbContext.Entry(tarifario).State = EntityState.Modified;
 				dbContext.SaveChanges();
-            }
-        }
+			}
+		}
 
 
 		public void Delete(int TarifarioId)
@@ -90,5 +89,22 @@ namespace SISAP.Infrastructure.Service
 				dbContext.SaveChanges();
             }
         }
+
+		public IEnumerable<Categoria> GetAllCategoria()
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				return dbContext.Categorias.OrderBy(o => o.CategoriaId).ToList();
+			}
+		}
+
+
+		public IEnumerable<Clase> GetAllCategoria()
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				return dbContext.Categorias.OrderBy(o => o.CategoriaId).ToList();
+			}
+		}
 	}
 }

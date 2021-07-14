@@ -47,9 +47,9 @@ namespace SISAP.Controllers
         public JsonResult Update(Tarifario objTarifario)
         {
             _tarifarioService.Update(objTarifario);
+
             return Json(new { msg = "success" }, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult Delete(int TarifarioId)
         {
             _tarifarioService.Delete(TarifarioId);

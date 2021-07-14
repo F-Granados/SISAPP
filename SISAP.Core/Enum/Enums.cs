@@ -27,7 +27,7 @@ namespace SISAP.Core.Enum
         Pagado = 1,
     }
     
-    public enum Clase
+    public enum Clases
     {
         [Description("Residencial")]
         Residencial = 1,

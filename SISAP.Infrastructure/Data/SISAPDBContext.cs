@@ -45,6 +45,7 @@ namespace SISAP.Infrastructure.Data
             modelBuilder.Configurations.Add(new CiclosConfiguration());
             modelBuilder.Configurations.Add(new CategoriaConfiguration());
 
+
         }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Facturacion> Facturacions { get; set; }

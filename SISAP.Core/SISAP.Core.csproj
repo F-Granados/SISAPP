@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Ciclos.cs" />
+    <Compile Include="Entities\Clase.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\ConsumoServicio.cs" />
     <Compile Include="Entities\DetalleEstadoPago.cs" />

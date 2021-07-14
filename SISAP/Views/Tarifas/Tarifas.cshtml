@@ -60,7 +60,7 @@
                 <label id="MSGvalidacion" class=" text-danger" style="display:none">Debe LLenar todos los campos</label>
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnSave" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Guardar</button>
-                <button style="display:none;" class="btn btn-success btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
             </div>
         </div>
     </div>
@@ -221,6 +221,8 @@
         $("#btnUpdate").show();
         $("#exampleModalCenter").modal('show');
 
+
+        $("#txtCategoriaId").val(dTarifario.TarifarioId);
         $("#txtCategoria").val(dTarifario.CategoriaId);
         $("#txtRangoMin").val(dTarifario.RangoMin);
         $("#txtRangoMax").val(dTarifario.RangoMax);
@@ -233,8 +235,9 @@
     }
 
         function Update() {
-        var objTarifario = {};
+            var objTarifario = {};
 
+            objTarifario.TarifarioId = $("#txtCategoriaId").val();
             objTarifario.CategoriaId = $("#txtCategoria").val();
             objTarifario.RangoMin = $("#txtRangoMin").val();
             objTarifario.RangoMax = $("#txtRangoMax").val();
@@ -243,13 +246,7 @@
             objTarifario.CargoFijo = $("#txtCargoFijo").val();
             objTarifario.ClaseId = $("#txtClase").val();
 
-        Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: 'Tu trabajo ha sido Actualizado',
-            showConfirmButton: false,
-            timer: 1500
-        })
+
 
         $.ajax({
 
@@ -264,6 +261,14 @@
                 tabla.draw();
             }
         });
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Tu trabajo ha sido Actualizado',
+                showConfirmButton: false,
+                timer: 1500
+            })
         Clean();
     }
 
@@ -319,6 +324,7 @@
 
 
     function Clean() {
+        $("#txtCategoriaId").val("");
         $("#txtCategoria").val("");
         $("#txtRangoMin").val("");
         $("#txtRangoMax").val("");
