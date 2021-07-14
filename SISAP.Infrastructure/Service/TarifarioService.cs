@@ -98,13 +98,5 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
-
-		public IEnumerable<Clase> GetAllCategoria()
-		{
-			using (var dbContext = GetSISAPDBContext())
-			{
-				return dbContext.Categorias.OrderBy(o => o.CategoriaId).ToList();
-			}
-		}
 	}
 }

@@ -73,21 +73,25 @@
         </div>
 
         <hr style="border-style: dashed;" />
+
         <div class="row">
-            <div class="col-6">
-                <div class="d-flex justify-content-start mb-2">
-                    <button id="openModal" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalCenter" onclick="Edit(0)"><i class="fas fa-plus"></i> Registrar</button>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="d-flex justify-content-end mb-2">
-                    <div class="searchbar">
-                        <input class="search_input" type="text" id="txtFilter" name="" placeholder="Buscar...">
-                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    <div class="row  col-6">
+                        <div class="col-sm-4 mb-3 ">
+                            <label>Categoria</label>
+                            <select id="ddCategoria" class="form-control form-control-sm ">
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                    <div class="row  col-6 ">
+                        <div class="col-sm-12  mb-3 ">
+                            <div class="d-flex justify-content-end mt-4">
+                                <div class="mr-4 mt-2">
+                                    <button id="openModal" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalCenter" onclick="Edit(0)"><i class="fas fa-plus"></i> Registrar</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
         <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
             <thead>
@@ -156,7 +160,7 @@
                 {
                     "data": "id", "render": function (data, type, row, meta) {
                         return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i></a>" +
-                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>" 
+                            "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
                    /*         "<i class='text-warning fas fa-lightbulb' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"*/
                     }
                 },
@@ -222,6 +226,7 @@
         $("#exampleModalCenter").modal('show');
 
 
+        $("#ddCategoria").val(dTarifario.CategoriaId);
         $("#txtCategoriaId").val(dTarifario.TarifarioId);
         $("#txtCategoria").val(dTarifario.CategoriaId);
         $("#txtRangoMin").val(dTarifario.RangoMin);
@@ -323,7 +328,32 @@
     }
 
 
+
+    function ListarCategoria() {
+
+        var comboCategoria = $("#ddCategoria");
+
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: '@Url.Content("~/Common/ListarCategoria")',
+            success: function (dataObject) {
+                var data = dataObject;
+                if (data != null) {
+                    comboCategoria.html('');
+                    comboCategoria.append($("<option />").val("").text("--Seleccione--"));
+                    $.each(data, function () {
+                        comboCategoria.append($("<option />").val(this.CategoriaId).text(this.TipoCategoria));
+                    })
+                }
+            }
+        });
+    }
+
+
     function Clean() {
+        
+        $("#ddCategoria").val("");
         $("#txtCategoriaId").val("");
         $("#txtCategoria").val("");
         $("#txtRangoMin").val("");
