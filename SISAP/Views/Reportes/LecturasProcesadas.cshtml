@@ -3,5 +3,299 @@
     ViewBag.Title = "LecturasProcesadas";
 }
 
-<h2>LecturasProcesadas</h2>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalCenterTitle">Planta</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="col-sm-4 mb-3">
+                    <label>Año</label>
+                    <select id="ddAnnio" class="form-control form-control-sm">
+                    </select>
+                </div>
+
+
+                <div class="col-sm-4 mb-3 ">
+                    <label>Mes</label>
+                    <select id="ddMes" class="form-control form-control-sm">
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3">
+                    <label>Producción M3 </label>
+                    <input id="txtRangoMax" type="number" class="form-control" placeholder="">
+                    <input hidden id="txtCategoriaId" type="text" class="form-control" placeholder="">
+                </div>
+               
+            </div>
+            <br />
+            <div class="modal-footer p-1">
+                <label id="MSGvalidacion" class=" text-danger" style="display:none">Debe LLenar todos los campos</label>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
+                <button style="display:none;" class="btn btn-success btn-sm" id="btnSave" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Guardar</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
+    <div class="card-body fuente">
+        <div class=" card-header bg-dark text-white">
+            <h5><i class="fas fa-table"> Reporte Lecturas Procesadas</i></h5>
+        </div>
+        <hr style="border-style: dashed;" />
+        <div class="row">
+            <div class="row  col-7">
+                <div class="col-sm-2 mb-3">
+                    <label>Año</label>
+                    <select id="ddAnnio" class="form-control form-control-sm ">
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 ">
+                    <label> Mes</label>
+                    <select id="ddMes" class="form-control form-control-sm">
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 ">
+                    <label>Ruta</label>
+                    <select id="ddUrbanizacion" class="form-control form-control-sm ">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="col-sm-12  mb-3 ">
+                    <div class="d-flex justify-content-end mt-4">
+                        <div class="mr-4 mt-2">
+                            <button id="openModal" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModalCenter" onclick="Edit(0)"><i class="fas fa-plus"></i> Registrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                LECTURA PROCESADA
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="txtIngresosMensuales"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Annual) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                URBANIZACIÓN
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="txtIngresosAnuales"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURAS -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                PRODUCCIÓN DE AGUA
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="txtLProcesadas"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-sort-amount-up fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Deudas por Ruta -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                PÉRDIDA
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="txtDeudaRuta"></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-credit-card fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+        <div class="modal-footer p-1">
+
+            <button type="button" class="btn btn-dark btn-sm mt-2" onclick="ReporteRuta()"><i class="fas fa-file-pdf"></i> Reporte</button>
+            <button type="button" class="btn btn-success btn-sm mt-2"><i class="fas fa-file-excel"></i> Reporte</button>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var tabla;
+    var tabla1;
+    var tabla2;
+    $(document).ready(function () {
+
+        $("#ddUrbanizacion").bind("keyup change", function () {
+
+            tabla.draw();
+        });
+
+        ListUrbanizacion();
+
+        ListMain();
+
+
+
+    });
+
+    function ListMain() {
+        tabla = $('#allGrilla').DataTable({
+            "destroy": true,
+            "dom": 'Bfrtip',
+            //"bPaginate": false,
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "searching": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "drawCallback": function () {
+                $('.page-link').addClass('btn-sm  border-0')
+            },
+
+            "serverSide": true,
+            "processing": true,
+            "orderable": false,
+            "ajax": {
+                "url": '@Url.Content("~/Reportes/ListMain")',
+                "type": 'POST',
+                "data": function (d) {
+                    return $.extend({}, d, {
+                        UrbanizacionId: $("#ddUrbanizacion").val() == "" ? null : $("#ddUrbanizacion").val(),
+                        FilterNombre: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
+                    });
+                },
+                "dataSrc": "data",
+                "responsivePriority": 1,
+                //"pageLength": 10
+            },
+
+            "columns": [
+                { "data":"CodigoCliente" },
+                { "data":"NombreCompleto" },
+                { "data":"DireccionStr" },
+                { "data": "NumeroMedidor" },
+                { "data": "Mes" },
+                { "data": "Total" },
+                //{
+                //    "data": "id", "render": function (data, type, row, meta) {
+                //        return "<i class='text-center text-success fas fa-shopping-cart mr-3' onClick='Pay(" + JSON.stringify(row) + ")'></i> </a>"+
+                //        "<i class='text-info fas fa-list  mr-3' onClick='PayList(" + JSON.stringify(row) + ")'></i>"
+                //        //"<i class='text-danger fas fa-trash-alt ' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
+                //    }
+                //},
+            ]
+        });
+
+        tabla.draw();
+        $("#txtFilter").bind("keyup change", function () {
+            tabla.draw();
+        })
+
+    }
+
+
+    function ReporteRuta() {
+
+
+        $("#ddUrbanizacion").val()
+
+        window.open('/Reportes/ReporteRuta?&urb='+ $("#ddUrbanizacion").val());
+
+
+    }
+
+
+        function ListUrbanizacion() {
+        var comboUrbanizacion = $("#ddUrbanizacion");
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: '@Url.Content("~/Common/ListarUrbanizacion")',
+            async: false,
+            success: function (dataObject) {
+                var data = dataObject;
+                if (data != null) {
+                    comboUrbanizacion.html('');
+                    comboUrbanizacion.append($("<option />").val("").text('--Seleccione--'));
+
+                    $.each(data, function () {
+                        comboUrbanizacion.append($("<option />").val(this.UrbanizacionId).text(this.NombreUrbanizacion));
+                    })
+                }
+            }
+        });
+    }
+    function ClenaCombo() {
+        $("#ddUrbanizacion").val('');
+    }
+    function Clena() {
+        $("#txtClienteId").val("");
+        $("#txtCodigo").val("");
+        $("#txtNombre").val("");
+        $("#txtDireccion").val("");
+        $("#txtServicio").val("");
+        $("#txtTarifa").val("");
+        $("#txtMedidor").val("");
+        $("#txtObservaciones").val("");
+
+    }
+
+</script>
+
 

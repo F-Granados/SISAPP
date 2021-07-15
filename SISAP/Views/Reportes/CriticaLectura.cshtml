@@ -3,5 +3,185 @@
     ViewBag.Title = "CriticaLectura";
 }
 
-<h2>CriticaLectura</h2>
 
+<div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
+    <div class="card-body fuente">
+        <div class=" card-header bg-dark text-white">
+            <h5><i class="fas fa-table"> Reporte por ruta</i></h5>
+        </div>
+        <hr style="border-style: dashed;" />
+        <div class="row">
+            <div class="row  col-7">
+                <div class="col-sm-2 mb-3">
+                    <label>Año</label>
+                    <select id="ddAnnio" class="form-control form-control-sm ">
+                    </select>
+                </div>
+                <div class="col-sm-3 mb-3 ">
+                    <label> Mes</label>
+                    <select id="ddMes" class="form-control form-control-sm">
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 ">
+                    <label>Ruta</label>
+                    <select id="ddUrbanizacion" class="form-control form-control-sm ">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="d-flex justify-content-end mt-2">
+                    <div class="searchbar mr-4 mt-2">
+                        <input class="search_input" type="text" id="txtFilter" name="" placeholder="Buscar...">
+                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive-xl">
+            <table class="table table-sm table-striped" id="allGrilla">
+                <thead>
+                    <tr class="bg-info text-light ">
+                        <th scope="col">Codigo </th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Direccion</th>
+                        <th scope="col">Medidor</th>
+                        <th scope="col"> Meses</th>
+                        <th scope="col">Deuda Total</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="modal-footer p-1">
+
+            <button type="button" class="btn btn-dark btn-sm mt-2" onclick="ReporteRuta()"><i class="fas fa-file-pdf"></i> Reporte</button>
+            <button type="button" class="btn btn-success btn-sm mt-2"><i class="fas fa-file-excel"></i> Reporte</button>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var tabla;
+    var tabla1;
+    var tabla2;
+    $(document).ready(function () {
+
+        $("#ddUrbanizacion").bind("keyup change", function () {
+
+            tabla.draw();
+        });
+
+        ListUrbanizacion();
+
+        ListMain();
+
+
+
+    });
+
+    function ListMain() {
+        tabla = $('#allGrilla').DataTable({
+            "destroy": true,
+            "dom": 'Bfrtip',
+            //"bPaginate": false,
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "searching": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "drawCallback": function () {
+                $('.page-link').addClass('btn-sm  border-0')
+            },
+
+            "serverSide": true,
+            "processing": true,
+            "orderable": false,
+            "ajax": {
+                "url": '@Url.Content("~/Reportes/ListMain")',
+                "type": 'POST',
+                "data": function (d) {
+                    return $.extend({}, d, {
+                        UrbanizacionId: $("#ddUrbanizacion").val() == "" ? null : $("#ddUrbanizacion").val(),
+                        FilterNombre: $("#txtFilter").val() == "" ? null : $("#txtFilter").val(),
+                    });
+                },
+                "dataSrc": "data",
+                "responsivePriority": 1,
+                //"pageLength": 10
+            },
+
+            "columns": [
+                { "data":"CodigoCliente" },
+                { "data":"NombreCompleto" },
+                { "data":"DireccionStr" },
+                { "data": "NumeroMedidor" },
+                { "data": "Mes" },
+                { "data": "Total" },
+                //{
+                //    "data": "id", "render": function (data, type, row, meta) {
+                //        return "<i class='text-center text-success fas fa-shopping-cart mr-3' onClick='Pay(" + JSON.stringify(row) + ")'></i> </a>"+
+                //        "<i class='text-info fas fa-list  mr-3' onClick='PayList(" + JSON.stringify(row) + ")'></i>"
+                //        //"<i class='text-danger fas fa-trash-alt ' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
+                //    }
+                //},
+            ]
+        });
+
+        tabla.draw();
+        $("#txtFilter").bind("keyup change", function () {
+            tabla.draw();
+        })
+
+    }
+
+
+    function ReporteRuta() {
+
+
+        $("#ddUrbanizacion").val()
+
+        window.open('/Reportes/ReporteRuta?&urb='+ $("#ddUrbanizacion").val());
+
+
+    }
+
+
+        function ListUrbanizacion() {
+        var comboUrbanizacion = $("#ddUrbanizacion");
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: '@Url.Content("~/Common/ListarUrbanizacion")',
+            async: false,
+            success: function (dataObject) {
+                var data = dataObject;
+                if (data != null) {
+                    comboUrbanizacion.html('');
+                    comboUrbanizacion.append($("<option />").val("").text('--Seleccione--'));
+
+                    $.each(data, function () {
+                        comboUrbanizacion.append($("<option />").val(this.UrbanizacionId).text(this.NombreUrbanizacion));
+                    })
+                }
+            }
+        });
+    }
+    function ClenaCombo() {
+        $("#ddUrbanizacion").val('');
+    }
+    function Clena() {
+        $("#txtClienteId").val("");
+        $("#txtCodigo").val("");
+        $("#txtNombre").val("");
+        $("#txtDireccion").val("");
+        $("#txtServicio").val("");
+        $("#txtTarifa").val("");
+        $("#txtMedidor").val("");
+        $("#txtObservaciones").val("");
+
+    }
+
+</script>
