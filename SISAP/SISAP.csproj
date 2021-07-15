@@ -233,6 +233,7 @@
     <Content Include="Img\2019.png" />
     <Content Include="Img\DistantMountain.jpg" />
     <Content Include="Img\dis_pichari.png" />
+    <Content Include="Img\Gestion.png" />
     <Content Include="Img\logo.png" />
     <Content Include="lib\datatables.net\dataTables.bootstrap4.min.css" />
     <Content Include="lib\datatables.net\dataTables.bootstrap4.min.js" />
