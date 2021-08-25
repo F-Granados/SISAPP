@@ -45,7 +45,8 @@ namespace SISAP.Infrastructure.Service
                                s.EstadoDescripcion,
                                c.Observaciones,
                                u.NombreUrbanizacion,
-                               m.NombreManzana
+                               m.NombreManzana ,
+                               c.CapacidadMaxima
 
                            });
                 nroTotalRegistros = sql.Count();
@@ -75,7 +76,9 @@ namespace SISAP.Infrastructure.Service
                                         {
                                             EstadoServicioId = c.EstadoServicioId,
                                             EstadoDescripcion = c.EstadoDescripcion
-                                        }
+                                        },
+                                        CapacidadMaxima = c.CapacidadMaxima
+
 
                                     }).ToList();
                 return ListadoFinal;

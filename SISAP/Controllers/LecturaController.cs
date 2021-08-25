@@ -83,7 +83,7 @@ namespace SISAP.Controllers
 
             int newY = Annio;
             int newM = Mes + 1;
-
+        
             var dataNextYar = _lecturaService.ValidateNextYearUpdateLectura(Annio, Mes, UrbanizacionId);
             var existNextYear = dataNextYar.Count();
             var dataFromLecturaActually = _lecturaService.ValidateValueNoNullable(Annio, Mes, UrbanizacionId);
@@ -99,12 +99,17 @@ namespace SISAP.Controllers
 			{
                 value = item.CantidadLectura;
                 ClienteId = item.ClienteId;
-
+                //var dataCliente = _clienteService.GetById(item.ClienteId);
+                //if (dataCliente.Count()>0)
+                //{
+                    
+                //}
                 var updateLectura = new UpdateLectura()
                 {
                     Annio = newY,
                     Mes = newM,
                     ClienteId = ClienteId,
+                   
                     CantidadLecturaActualizar = value
                 };
 
@@ -131,6 +136,8 @@ namespace SISAP.Controllers
         [HttpPost]
         public JsonResult ProcesarLectura(ValidateLectura objValidate)
 		{
+
+            //Modificar este metodo , que de acuerdo al cliente , si llega al tope maximo reiniciar a 0
             int Annio = objValidate.Annio;
             int Mes = objValidate.Mes;
             int UrbanizacionId = objValidate.UrbanizacionId;
@@ -138,6 +145,7 @@ namespace SISAP.Controllers
             var output = "";
             var datos = _ciclosService.EnableToNextPrecess(Annio, Mes);
             var datosnullable = _lecturaService.ValidateNullRow(Annio, Mes, UrbanizacionId);
+            
 
             if (datos.Count() == 0)
 			{
@@ -170,8 +178,13 @@ namespace SISAP.Controllers
                         Procesado = 1
                     };
                     _lecturaService.UpdateLecturaProcesada(updateLecturaProcess);
-
+                    //var dataCliente = _clienteService.GetById(item.ClienteId);
                     cantAntigua = item.CantidadLectura;
+                    //validar 
+                    //if (cantAntigua > dataCliente.First().CapacidadMaxima)
+                    //{
+                    //    cantAntigua = item.CantidadLectura - dataCliente.First().CapacidadMaxima;
+                    //}
                     item.CantidadLecturaAntigua = cantAntigua;
                     item.Annio = nextY;
                     item.Mes = nextM;
@@ -223,14 +236,17 @@ namespace SISAP.Controllers
             
             int ClienteId = objLectura.ClienteId;
             var top6 = _lecturaService.GetFirst6Data(ClienteId);
-            
+            var cliente = _clienteService.GetById(ClienteId);
             var top6Count = top6.Count();
 
             if (objLectura.CantidadLectura == 0)
                 objLectura.CantidadLectura = objLectura.CantidadLecturaAntigua;
 
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
-
+            if (consumo<0)
+            {
+                consumo= cliente.First().CapacidadMaxima- objLectura.CantidadLecturaAntigua+ objLectura.CantidadLectura;
+            }
 
             objLectura.Consumo = consumo;
             objLectura.FechaRegistro = DateTime.Now;
@@ -254,7 +270,7 @@ namespace SISAP.Controllers
 			{
                 FacturacionId = item.FacturacionId;
 			}
-            var cliente = _clienteService.GetById(ClienteId);
+           
             var tarifario = _tarifarioService.getTarifario();
 
             int CategoriaId = 0;

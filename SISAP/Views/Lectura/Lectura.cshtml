@@ -57,6 +57,7 @@
                             <th scope="col">Consumo</th>
                             <th scope="col">Promedio</th>
                             <th scope="col">Opciones</th>
+                            
                         </tr>
                     </thead>
                 </table>
@@ -203,6 +204,15 @@
     var AnnioActual = "@DateTime.Now.ToString("yyyy")";
 
     $(document).ready(function () {
+
+
+        //$('#allGrilla2').dataTable({
+        //    "createdRow": function (row, data, dataIndex) {
+        //        if (true) {
+        //            $(row).addClass("background-color": "red");
+        //        }
+        //    }
+        //});
 
 
         $("#openModal").on('click', function () {
@@ -362,6 +372,13 @@
             "drawCallback": function () {
                 $('.page-link').addClass('btn-sm  border-0')
             },
+            "createdRow": function (row, data, dataIndex) {
+ 
+                if (data.Consumo>=100) {
+                   /* $(row).addClass('redClass');*/
+                    $(row).css({ "background-color": "yellow" })
+                }
+            },
 
             "serverSide": true,
             "processing": true,
@@ -399,7 +416,7 @@
                            // "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
                         //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
                     }
-                },
+                }
 
             ]
         });

@@ -21,7 +21,7 @@ namespace SISAP.Core.Entities
         public string NumeroMedidor { get; set; }
         public int EstadoServicioId { get; set; }
         public string Observaciones { get; set; }
-
+        public int CapacidadMaxima { get; set; }
         [NotMapped]
         public string UrbanizacionNombre { get; set; }
         

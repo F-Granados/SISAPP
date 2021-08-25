@@ -118,6 +118,10 @@
                                 </div>
 
                                 <div class="col-sm-3 mb-3">
+                                    <label>Capacidad maxima medidor </label>
+                                    <input type="number" required id="ctxtCapacidadMaxima"  class="form-control"   placeholder="9999">
+                                </div>
+                                <div class="col-sm-3 mb-3">
                                     <label>Observaciones</label>
                                     <textarea class="form-control" id="ctxtObservaciones" rows="3"></textarea>
                                 </div>
@@ -262,7 +266,10 @@
                             "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) +")'></i>"
                             //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
                     }
-                },
+                }
+                
+
+                ,
             ]
         });
 
@@ -383,6 +390,7 @@
         $("#ctxtNumeroMedidor").val(dCliente.NumeroMedidor);
         $("#ctxtObservaciones").val(dCliente.Observaciones);
         $("#ddEstadoServicio").val(dCliente.EstadoServicioId);
+        $("#ctxtCapacidadMaxima").val(dCliente.CapacidadMaxima);
 
     }
 
@@ -391,7 +399,7 @@
         if ($('#ctxtCodigo').val() == "" || $('#ctxtNombre').val() == "" || $('#ctxtApellido').val() == "" ||
             $('#ctxtDNI').val() == ""|| $('#ctxtTelefono').val() == "" || $('#ctxtDireccion').val() == "" ||
             $('#ddUrbanizacion').val() == "" || $('#ctxtComplemento').val() =="" || $('#ddServicios').val() == "" || $('#ddCategoria').val() == "" ||
-            $('#ctxtNumeroMedidor').val() == "" || $('#ctxtObservaciones').val() =="") {
+            $('#ctxtNumeroMedidor').val() == "" || $('#ctxtObservaciones').val() == "" || $('#ctxtCapacidadMaxima').val() == "" ) {
             $("#MSGvalidacion").show();
 
             return false;
@@ -413,7 +421,7 @@
         objCliente.NumeroMedidor = $("#ctxtNumeroMedidor").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
         objCliente.Observaciones = $('#ctxtObservaciones').val();
-
+        objCliente.CapacidadMaxima = $('#ctxtCapacidadMaxima').val();
         Swal.fire({
             toast: true,
             position: 'center',
@@ -459,7 +467,7 @@
         objCliente.NumeroMedidor = $("#ctxtNumeroMedidor").val();
         objCliente.Observaciones = $("#ctxtObservaciones").val();
         objCliente.EstadoServicioId = $("#ddEstadoServicio").val();
-
+        objCliente.CapacidadMaxima = $('#ctxtCapacidadMaxima').val();
         Swal.fire({
             toast: true,
             position: 'center',
@@ -553,6 +561,7 @@
         $("#ddCategoria").val("");
         $("#ctxtObservaciones").val("");
         $("#ctxtNumeroMedidor").val("");
+        $('#ctxtCapacidadMaxima').val("");
     }
 
     function ListarEstadoServicio() {
