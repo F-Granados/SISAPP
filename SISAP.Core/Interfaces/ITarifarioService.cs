@@ -14,5 +14,7 @@ namespace SISAP.Core.Interfaces
 		void Delete(int TarifarioId);
 		Tarifario Save(Tarifario objTarifario);
 		IEnumerable<Tarifario> ListarTarifario(int pageSize, int skip, out int nroTotalRegistros);
+
+		Tarifario GetDataTarifario(int categoriaID, decimal? consumo);
 	}
 }

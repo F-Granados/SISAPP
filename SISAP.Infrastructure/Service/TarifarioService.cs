@@ -98,5 +98,31 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
+		public  Tarifario GetDataTarifario(int categoriaID , decimal? consumo)
+        {
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var data = dbContext.Tarifarios.Where(t => t.CategoriaId == categoriaID).Where(d=> consumo>=d.RangoMin && consumo<=d.RangoMax).FirstOrDefault();
+
+
+				//Tarifario tarifario = new Tarifario();
+				//foreach (var item in data)
+    //            {
+				 
+    //                if (consumo>=item.RangoMin && consumo<= item.RangoMax)
+    //                {
+				//		tarifario.TarifaAgua = item.TarifaAgua;
+				//		tarifario.TarifaAlcantarillado = item.TarifaAlcantarillado;
+    //                }
+    //            }
+				
+				
+
+
+				return data;
+			 
+			}
+		}
+
 	}
 }
