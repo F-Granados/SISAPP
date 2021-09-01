@@ -593,7 +593,7 @@
         $("#txtFacturacionId").val(dLectura.FacturacionId);
 
         var value = dLectura.LecturaId;
-
+        
         if (value == 0) {
             $("#btnModalUpdateLecturaUpdate").hide();
             $("#btnModalUpdateLecturaSave").show();
@@ -615,7 +615,7 @@
         
         UpdateDataLectura();
 
-        $("#modal_aside_right").modal('show');
+       $("#modal_aside_right").modal('show');
 
     }
 
@@ -644,6 +644,24 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (resp) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                
+                Toast.fire({
+                    icon: resp.errorCode === "00" ? 'success' : "warning",
+                        title: resp.msg
+                    })
+                   
+               
                 tabla.draw();
             }
         });

@@ -234,7 +234,8 @@ namespace SISAP.Controllers
         public JsonResult UpdateDataExistLectura(Lectura objLectura)
 		{
             // Cuando procesa la lectura
-            
+            string error = "";
+            string mensaje = "";
             int ClienteId = objLectura.ClienteId;
             var top6 = _lecturaService.GetFirst6Data(ClienteId);
             var cliente = _clienteService.GetById(ClienteId);
@@ -263,59 +264,131 @@ namespace SISAP.Controllers
 
                 objLectura.Promedio = (c / 6);
 			}
-            _lecturaService.UpdateDataExistLectura(objLectura);
-
             var facturaExistente = _facturaService.ValidateIfExists(objLectura.Annio, objLectura.Mes, ClienteId);
-            var FacturacionId = facturaExistente.First().FacturacionId;
-            
-            int CategoriaId = cliente.First().CategoriaId;
-            int ServicioId = cliente.First().ServicioId;
-
-            //Reglas de negocio
-            var tarifarioItem = _tarifarioService.GetDataTarifario(CategoriaId, objLectura.Consumo);
-            if (facturaExistente != null && facturaExistente.Count()!=0)
+            if (facturaExistente != null && facturaExistente.Count() == 0)
             {
-                    if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                objLectura.Consumo = consumo;
+                objLectura.FechaRegistro = DateTime.Now; 
+                _lecturaService.UpdateDataExistLectura(objLectura);                 
+                int CategoriaId = cliente.First().CategoriaId;
+                int ServicioId = cliente.First().ServicioId;
+                var tarifarioItem = _tarifarioService.GetDataTarifario(CategoriaId, objLectura.Consumo);
+
+
+                if (ServicioId == (int)Servicios.AguaAlcantarillado)
+                {
+                    var objFacturacion = new Facturacion()
                     {
-                        var objFacturacion = new Facturacion()
-                        {
-                            FacturacionId = FacturacionId,
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
-                            Total = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                        ClienteId = ClienteId,
+                        Annio = objLectura.Annio,
+                        Mes = objLectura.Mes,
+                        SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
+                        Total = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
+                        EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.UpdateDataExistFactura(objFacturacion);
-                    }
-                    if (ServicioId == (int)Servicios.Agua)
+                    };
+                    _facturaService.Create(objFacturacion);
+                }
+                if (ServicioId == (int)Servicios.Agua)
+                {
+                    var objFacturacion = new Facturacion()
                     {
-                        var objFacturacion = new Facturacion()
+                        ClienteId = ClienteId,
+                        Annio = objLectura.Annio,
+                        Mes = objLectura.Mes,
+                        SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
+                        Total = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
+                        EstadoPagado = (int)EstadoPay.Pendiente
+
+                    };
+                    _facturaService.Create(objFacturacion);
+                }
+                error = "00";
+                mensaje = "Se Guardo correctamente";
+            }
+            else
+            {
+                
+
+                if ( facturaExistente.First().EstadoPagado != 1)
+                {
+                    DateTime fechaActual = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+                    DateTime fechaFactura = new DateTime(facturaExistente.First().Annio, facturaExistente.First().Mes, 01);
+                    decimal restaFechas = MonthDifference(fechaActual, fechaFactura);
+                    if (restaFechas <= 5)
+                    {
+
+                        _lecturaService.UpdateDataExistLectura(objLectura);
+
+                        var FacturacionId = facturaExistente.First().FacturacionId;
+
+                        int CategoriaId = cliente.First().CategoriaId;
+                        int ServicioId = cliente.First().ServicioId;
+
+                        //Reglas de negocio
+                        var tarifarioItem = _tarifarioService.GetDataTarifario(CategoriaId, objLectura.Consumo);
+
+                        if (ServicioId == (int)Servicios.AguaAlcantarillado)
                         {
-                            FacturacionId = FacturacionId,
-                            ClienteId = ClienteId,
-                            Annio = objLectura.Annio,
-                            Mes = objLectura.Mes,
-                            SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
-                            Total = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
-                            EstadoPagado = (int)EstadoPay.Pendiente
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
+                                Total = (objLectura.Consumo * tarifarioItem.TarifaAgua + objLectura.Consumo * tarifarioItem.TarifaAlcantarillado) + tarifarioItem.CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
 
-                        };
-                        _facturaService.UpdateDataExistFactura(objFacturacion);
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+                        if (ServicioId == (int)Servicios.Agua)
+                        {
+                            var objFacturacion = new Facturacion()
+                            {
+                                FacturacionId = FacturacionId,
+                                ClienteId = ClienteId,
+                                Annio = objLectura.Annio,
+                                Mes = objLectura.Mes,
+                                SubTotal = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
+                                Total = (objLectura.Consumo * tarifarioItem.TarifaAgua) + tarifarioItem.CargoFijo,
+                                EstadoPagado = (int)EstadoPay.Pendiente
+
+                            };
+                            _facturaService.UpdateDataExistFactura(objFacturacion);
+                        }
+
+                        error = "00";
+                        mensaje = "Se Modifico correctamente";
                     }
-
+                    else
+                    {
+                        error = "01";
+                        mensaje = "No se puede modificar una factura con mas de 5 meses de antiguedad";
+                    }
+                }
+                else
+                {
+                    error = "01";
+                    mensaje = "No se puede modificar una factura en estado pagado";
+                }
             }
 
-  
+            
 
-            return Json(new { msg = "success" }, JsonRequestBehavior.AllowGet);
+            return Json(new { msg =mensaje,errorCode= error }, JsonRequestBehavior.AllowGet);
 
 
         }
+
+        public decimal MonthDifference(DateTime FechaFin, DateTime FechaInicio)
+        {
+            return Math.Abs((FechaFin.Month - FechaInicio.Month) + 12 * (FechaFin.Year - FechaInicio.Year));
+
+        }
         //EN MODIFICACION
-        
+
 
         [HttpPost]
         public JsonResult SaveFirstDataLectura(Lectura objLectura)
