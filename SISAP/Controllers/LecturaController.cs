@@ -472,7 +472,12 @@ namespace SISAP.Controllers
             int nroTotalRegistros = 0;
 
             var lecturas = _lecturaService.ListarClienteLectura(Annio, Mes, UrbanizacionId, FilterNombre, pageSize, skip, out nroTotalRegistros);
-
+            decimal? cantidadLectura=0;
+            foreach (var item in lecturas)
+            {
+                cantidadLectura = _lecturaService.ObtenerLecturaAnterior(item.ClienteId, item.LecturaId);
+                item.CantidadLecturaAntigua = cantidadLectura == null ? 0 : cantidadLectura;
+            }
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
         }
     }

@@ -281,5 +281,16 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
+		public decimal? ObtenerLecturaAnterior(int clienteId , int lecturaId)
+        {
+			using (var dbContext = GetSISAPDBContext())
+			{
+				
+				decimal? resultado = dbContext.Lecturas.Where(l=> l.ClienteId==clienteId && l.LecturaId<lecturaId ).Sum(c=>c.Consumo);
+
+
+				return resultado;
+			}
+		}
 	}
 }

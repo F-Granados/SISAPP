@@ -74,7 +74,8 @@
                 <div class="alert alert-secondary" id="MSGvalidacionPL" role="alert" style="display:none">
                     Debe seleccionar Año, Mes y Ruta a Procesar
                 </div>
-                <button  type="button" onclick="ReporteLectura()" class="btn btn-dark btn-sm mt-2"><i class="fas fa-file-pdf"></i> Lecturas</button>
+ 
+                <button type="button" onclick="ReporteLectura()" class="btn btn-dark btn-sm mt-2"><i class="fas fa-file-pdf"></i> Lecturas</button>
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
                 <button style="display:none;" class="btn btn-success btn-sm" id="btnProcesarLectura" type="submit"><i class="fas fa-save"></i> Procesar Lectura</button>
                 <button style="display:none;" class="btn btn-warning btn-sm" id="btnActualizarLectura" type="submit"><i class="fas fa-save"></i> Actualizar Lectura</button>
@@ -572,37 +573,64 @@
 
     function Edit(dLectura) {
 
-        $("#MSGvalidacionPL").hide();
-        $("#MSGvalidacionC").hide();
-        $("#MSGvalidacionPLE").hide();
+        var estadoBotonActualiza = $("#btnActualizarLectura").is(":visible");
 
-        $("#modalUpdateLectura").modal('show');
-        $("#modal_aside_right").modal('hide');
-        $("#MSGvalidacionVA").hide();
+        if (!estadoBotonActualiza) {
+
+            $("#MSGvalidacionPL").hide();
+            $("#MSGvalidacionC").hide();
+            $("#MSGvalidacionPLE").hide();
+
+            $("#modalUpdateLectura").modal('show');
+            $("#modal_aside_right").modal('hide');
+            $("#MSGvalidacionVA").hide();
 
 
-        $("#txtLecturaAnterior").val(dLectura.CantidadLecturaAntigua);
-        $("#txtClienteId").val(dLectura.ClienteId);
-        $("#txtLecturaId").val(dLectura.LecturaId);
-        $("#txtAnnio").val(dLectura.Annio);
-        $("#txtMes").val(dLectura.Mes);
-        $("#txtValorAntiguo").val(dLectura.CantidadLecturaAntigua);
-        $("#txtNombreCompleto").val(dLectura.NombreCompleto);
-        $("#txtNumeroMedidor").val(dLectura.NumeroMedidor);
-        $("#txtLecturaActual").val(dLectura.CantidadLectura);
-        $("#txtFacturacionId").val(dLectura.FacturacionId);
+            $("#txtLecturaAnterior").val(dLectura.CantidadLecturaAntigua);
+            $("#txtClienteId").val(dLectura.ClienteId);
+            $("#txtLecturaId").val(dLectura.LecturaId);
+            $("#txtAnnio").val(dLectura.Annio);
+            $("#txtMes").val(dLectura.Mes);
+            $("#txtValorAntiguo").val(dLectura.CantidadLecturaAntigua);
+            $("#txtNombreCompleto").val(dLectura.NombreCompleto);
+            $("#txtNumeroMedidor").val(dLectura.NumeroMedidor);
+            $("#txtLecturaActual").val(dLectura.CantidadLectura);
+            $("#txtFacturacionId").val(dLectura.FacturacionId);
 
-        var value = dLectura.LecturaId;
-        
-        if (value == 0) {
-            $("#btnModalUpdateLecturaUpdate").hide();
-            $("#btnModalUpdateLecturaSave").show();
+            var value = dLectura.LecturaId;
 
+            if (value == 0) {
+                $("#btnModalUpdateLecturaUpdate").hide();
+                $("#btnModalUpdateLecturaSave").show();
+
+            }
+            else {
+                $("#btnModalUpdateLecturaUpdate").show();
+                $("#btnModalUpdateLecturaSave").hide();
+            }
         }
         else {
-            $("#btnModalUpdateLecturaUpdate").show();
-            $("#btnModalUpdateLecturaSave").hide();
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'error',
+                title: 'No se puede modificar la lectura!'
+            })
+
+
         }
+       
     }
 
     function UpdateLecturaUpdate() {
