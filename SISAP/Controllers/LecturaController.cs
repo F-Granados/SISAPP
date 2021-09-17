@@ -70,7 +70,12 @@ namespace SISAP.Controllers
             int nroTotalRegistros = 0;
 
             var lecturas = _lecturaService.ListLecturaMain(Annio, Mes, UrbanizacionId, FilterNombre, pageSize, skip, out nroTotalRegistros);
-
+            decimal? cantidadLectura = 0;
+            foreach (var item in lecturas)
+            {
+                cantidadLectura = _lecturaService.ObtenerLecturaAnterior(item.ClienteId, item.LecturaId);
+                item.CantidadLecturaAntigua = cantidadLectura == null ? 0 : cantidadLectura;
+            }
             return Json(new { draw = draw, recordsFiltered = nroTotalRegistros, recordsTotal = nroTotalRegistros, data = lecturas }, JsonRequestBehavior.AllowGet);
         }
 
@@ -178,14 +183,9 @@ namespace SISAP.Controllers
                         Procesado = 1
                     };
                     _lecturaService.UpdateLecturaProcesada(updateLecturaProcess);
-                    //var dataCliente = _clienteService.GetById(item.ClienteId);
+ 
                     cantAntigua = item.CantidadLectura;
-                    //validar 
-                    //if (cantAntigua > dataCliente.First().CapacidadMaxima)
-                    //{
-                    //    cantAntigua = item.CantidadLectura - dataCliente.First().CapacidadMaxima;
-                    //}
-                    item.CantidadLecturaAntigua = cantAntigua;
+      
                     item.Annio = nextY;
                     item.Mes = nextM;
                     item.CantidadLectura = 0;
@@ -245,9 +245,9 @@ namespace SISAP.Controllers
                 objLectura.CantidadLectura = objLectura.CantidadLecturaAntigua;
 
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
-            if (consumo<0)
+            if (consumo < 0)
             {
-                consumo= cliente.First().CapacidadMaxima- objLectura.CantidadLecturaAntigua+ objLectura.CantidadLectura;
+                consumo = cliente.First().CapacidadMaxima - objLectura.CantidadLecturaAntigua + objLectura.CantidadLectura;
             }
 
             objLectura.Consumo = consumo;
@@ -399,7 +399,7 @@ namespace SISAP.Controllers
             var top6Count = top6.Count();
             var fecchaRegistro = DateTime.Now;
             var consumo = objLectura.CantidadLectura - objLectura.CantidadLecturaAntigua;
-            objLectura.Consumo = consumo;
+            objLectura.Consumo =consumo;
             objLectura.FechaRegistro = fecchaRegistro;
             decimal? c = 0;
             if(top6Count >5)

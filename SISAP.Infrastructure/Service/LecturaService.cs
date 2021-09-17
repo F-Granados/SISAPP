@@ -62,7 +62,7 @@ namespace SISAP.Infrastructure.Service
 							   Consumo = lec == null ? 00 : lec.Consumo,
 							   Promedio = lec == null ? 00 : lec.Promedio,
 							   Alerta = lec == null ? String.Empty : lec.Alerta,
-							   CantidadLecturaAntigua = lec == null ? 00 : lec.CantidadLecturaAntigua
+							   //CantidadLecturaAntigua = lec == null ? 00 : lec.CantidadLecturaAntigua
 
 						   });
 				nroTotalRegistros = sql.Count();
@@ -90,7 +90,7 @@ namespace SISAP.Infrastructure.Service
 										Consumo = c.Consumo,
 										Promedio = c.Promedio,
 										Alerta = c.Alerta,
-										CantidadLecturaAntigua = c.CantidadLecturaAntigua
+								//CantidadLecturaAntigua = c.CantidadLecturaAntigua
 									}).ToList();
 				return ListadoFinal;
 			}
@@ -114,7 +114,7 @@ namespace SISAP.Infrastructure.Service
 			{
 				var data = dbContext.Lecturas.First(l =>l.Annio == updateLectura.Annio && l.Mes == updateLectura.Mes && l.ClienteId == updateLectura.ClienteId);
 
-				data.CantidadLecturaAntigua = updateLectura.CantidadLecturaActualizar;
+				//data.CantidadLecturaAntigua = updateLectura.CantidadLecturaActualizar;
 				dbContext.SaveChanges();
 			}
 		}
@@ -246,7 +246,7 @@ namespace SISAP.Infrastructure.Service
 							   Consumo = lec ==null? 00 : lec.Consumo,
 							   Promedio = lec ==null? 00 : lec.Promedio,
 							   Alerta = lec ==null? String.Empty : lec.Alerta,
-							   CantidadLecturaAntigua = lec == null? 00 : lec.CantidadLecturaAntigua,
+							   //CantidadLecturaAntigua = lec == null? 00 : lec.CantidadLecturaAntigua,
 							   //FacturacionId = clfa == null? 0 : clfa.FacturacionId
 
 						   });
@@ -274,7 +274,7 @@ namespace SISAP.Infrastructure.Service
 										Consumo = c.Consumo,
 										Promedio = c.Promedio,
 										Alerta = c.Alerta,
-										CantidadLecturaAntigua = c.CantidadLecturaAntigua,
+										//CantidadLecturaAntigua = c.CantidadLecturaAntigua,
 										//FacturacionId = c.FacturacionId
 									}).ToList();
 				return ListadoFinal;

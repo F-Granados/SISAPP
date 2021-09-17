@@ -18,6 +18,8 @@ namespace SISAP.Core.Entities
         public string Alerta { get; set; }
         public int ClienteId { get; set; }
         public DateTime? FechaRegistro { get; set; }
+       
+        [NotMapped]
         public decimal? CantidadLecturaAntigua { get; set; }
         public int Procesado { get; set; }
         public int Actualizado { get; set; }
