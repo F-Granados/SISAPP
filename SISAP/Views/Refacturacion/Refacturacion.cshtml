@@ -8,20 +8,52 @@
         <div class="card-header bg-dark text-white">
             <h5><i class="fas fa-table"> Refacturacion</i> </h5>
         </div>
-        <hr  style="border-style: dashed"/>
-        <div class="row">
+        <hr style="border-style: dashed" />
+        @*<div class="row">
             <div class="col-12">
-                <div class="d-flex justify-content-end mb-2">
-                    <div class="searchbar">
-                        <input type="text" name="name" class="search_input" value=""  placeholder="Buscar......"/>
-                        <a href="#" class="search_icon"> <i class="fas fa-search"></i> </a>
+                <div class="col-sm-6 mb-3">
+                    <label>Codigo Cliente</label>
+                    <input type="text" name="name" value="" placeholder="Introducir codigo" />
+
+                </div>
+                <div class="col-12">
+                    <div class="col-sm-3 mb-3">
+                        <label>Codigo Cliente</label>
+                        <input type="text" name="name" value="" placeholder="Introducir codigo" />
 
                     </div>
+                    <div class="d-flex justify-content-start mb-2">
+                        <button id="openModal" type="button" data-toggle="modal" data-target="#modal_aside_right" class="btn btn-info btn-sm" onclick="Edit(0)"><i class="fas fa-plus"></i> Registrar</button>
+                    </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label>Numero factura</label>
+                    <input type="text" name="name" value="" placeholder="Introducir codigo" />
 
                 </div>
 
+
             </div>
 
+        </div>*@
+        <div class="row">
+            <div class="row  col-6">
+                <div class="col-sm-5 mb-3">
+                    <label>Codigo cliente</label>
+                    <input type="text" name="name"class="form-control" value="" />
+                </div>
+                <div class="col-sm-5 mb-3 ">
+                    <label>Codigo factura</label>
+                    <input type="text" name="name" class="form-control" value="" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="d-flex justify-content-end mt-2">
+
+                    <button type="button" onclick="PrintMasivo()" class="btn btn-info btn-sm mt-2"><i class="fas fa-search"></i> BUSCAR</button>
+
+                </div>
+            </div>
         </div>
         <div class="table-responsive-lg">
             <table class="table table-sm table-striped" id="allGrilla">
@@ -32,11 +64,12 @@
                         <th scope="col">Lectura Antigua</th>
                         <th scope="col">Lectura Actual</th>
                         <th scope="col">Consumo</th>
+                        <th scope="col">Monto</th>
                         <th scope="col">Opcion</th>
 
                     </tr>
                 </thead>
-       
+
             </table>
 
         </div>
