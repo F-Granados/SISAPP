@@ -6,42 +6,291 @@
 <div class="card border-0 ml-4 mt-4 margin-1 mb-3">
     <div class="card-body fuente">
         <div class="card-header bg-dark text-white">
-            <h5><i class="fas fa-table"> Refacturacion</i> </h5>
+            <h5><i class="fas fa-table">Refacturacion</i> </h5>
         </div>
-        <hr  style="border-style: dashed"/>
-        <div class="row">
-            <div class="col-12">
-                <div class="d-flex justify-content-end mb-2">
-                    <div class="searchbar">
-                        <input type="text" name="name" class="search_input" value=""  placeholder="Buscar......"/>
-                        <a href="#" class="search_icon"> <i class="fas fa-search"></i> </a>
+    </div>
+    <div class="card border-0 ml-4 mt-4 margin-l mb-3 ">
+        <div class="card-body fuente">
+            <hr style="border-style: dashed;" />
+            <div class="row">
+                <div class="col-2">
 
+                </div>
+                <div class="row  col-8">
+                    <div class="col-sm-4 mb-4">
+                        <label>Codigo de Cliente</label>
+                        <input id="codCliente" class="form-control form-control-sm " />
+                    </div>
+                    <div class="col-sm-4 mb-4 ">
+                        <label>Numero de Medidor</label>
+                        <input id="numeroMedidor" class="form-control form-control-sm " />
                     </div>
 
                 </div>
+                <div class="col-2">
+                    <div class="d-flex justify-content-lg-start mt-2">
+                        <button type="button" onclick="Busqueda()" class="btn btn-info btn-sm mt-2"><i class="fas fa-search"></i> Buscar</button>
 
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 mb-12">
+                <h6>Nombre:<span id="nombre" class="badge badge-secondary"></span></h6>
+            </div>
+            <div class="col-sm-12 mb-12">
+                <h6>Direccion:<span id="direccion" class="badge badge-secondary"></span></h6>
+            </div>
+            <div class="col-sm-12 mb-12">
+                <h6>Numero Medidor:<span id="medidor" class="badge badge-secondary"></span></h6>
             </div>
 
-        </div>
-        <div class="table-responsive-lg">
-            <table class="table table-sm table-striped" id="allGrilla">
-                <thead>
-                    <tr class="bg-info text-light">
-                        <th scope="col">Año</th>
-                        <th scope="col">Mes</th>
-                        <th scope="col">Lectura Antigua</th>
-                        <th scope="col">Lectura Actual</th>
-                        <th scope="col">Consumo</th>
-                        <th scope="col">Opcion</th>
+            <div class="table-responsive-lg">
+                <table class="table table-sm table-striped table-responsive-sm" id="allGrilla">
+                    <thead>
+                        <tr class="bg-info text-light">
 
-                    </tr>
-                </thead>
-       
-            </table>
 
+                            <th scope="col">Año</th>
+                            <th scope="col">Mes</th>
+                            <th scope="col">Lec. Anterior</th>
+                            <th scope="col">Lec. Actual</th>
+                            <th scope="col">Consumo</th>
+
+                            <th scope="col">Total</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdateLectura" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body mt-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Nombre completo</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input disabled type="text" id="txtNombreCompleto" class="form-control">
+                        <input hidden type="text" id="txtClienteId" class="form-control">
+                        <input hidden type="text" id="txtAnnio" class="form-control">
+                        <input hidden type="text" id="txtMes" class="form-control">
+                        <input hidden type="text" id="txtValorAntiguo" class="form-control">
+                        <input hidden type="text" id="txtLecturaId" class="form-control">
+                        <input hidden type="text" id="txtLecturaAnterior" class="form-control">
+                        <input hidden type="text" id="txtFacturacionId" class="form-control">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+                        <label>Número Medidor</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input disabled type="text" id="txtNumeroMedidor" class="form-control">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-6">
+                        <label>Lectura Actual</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="number" id="txtLecturaActual" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-1">
+                <label id="MSGvalidacionVA" class=" text-danger" style="display:none">Debe llenar el valor actual</label>
+                <button type="button" class="btn btn-danger btn-sm" id="btnModalUpdateLecturaDismiss" data-dismiss="modal">Cerrar</button>
+                <button style="display:none;" class="btn btn-success btn-sm" id="btnModalUpdateLecturaSave" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Guardar</button>
+                <button style="display:none;" class="btn btn-warning btn-sm" id="btnModalUpdateLecturaUpdate" data-dismiss="modal" type="submit"><i class="fas fa-save"></i> Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+        $(document).ready(function () {
+            $("#btnModalUpdateLecturaSave").click(UpdateLecturaSave);
+            $("#btnModalUpdateLecturaUpdate").click(UpdateLecturaUpdate);
+        });
+
+        function Busqueda() {
+            var numeroMedidor = $("#numeroMedidor").val();
+            var codCliente = $("#codCliente").val();
+            ListLecturaMain();
+        }
+        function ListLecturaMain() {
+            tablaMain = $('#allGrilla').DataTable({
+            "destroy": true,
+            "dom": 'Bfrtip',
+            //"bPaginate": false,
+            "lengthMenu": [[10, 30, 50, -1], [10, 30, 50, "All"]],
+            "searching": false,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            },
+            "drawCallback": function () {
+                $('.page-link').addClass('btn-sm  border-0')
+            },
+
+            "serverSide": true,
+            "processing": true,
+            "orderable": false,
+            "ajax": {
+                "url": '@Url.Content("~/refacturacion/ListarLectura")',
+                "type": 'POST',
+                "data": function (d) {
+                    return $.extend({}, d, {
+
+                        numeroMedidor: $("#numeroMedidor").val() == "" ? null : $("#numeroMedidor").val(),
+                        codCliente: $("#codCliente").val() == "" ? null : $("#codCliente").val(),
+                    });
+                },
+                "dataSrc": "data",
+                "responsivePriority": 1,
+                //"pageLength": 10
+            },
+
+            "columns": [
+
+                { "data": "Annio" },
+                { "data": "Mes" },
+                { "data": "CantidadLecturaAntigua" },
+                { "data": "CantidadLectura" },
+                { "data": "Consumo" },
+                {
+                    "data": "Total",
+                    render: function (data, type, row) {
+                        $("#medidor").text(row.NumeroMedidor);
+                        $("#direccion").text(row.DireccionStr);
+                        $("#nombre").text(row.NombreCompleto);
+                        return 'S/. ' + row.Total
+
+                    }, className: "text-center"
+                },
+                {
+                    "data": "id", "render": function (data, type, row, meta) {
+                        return "<i class='text-center text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i> </a>"
+                        // "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
+                        //"<i class='text-warning fas fa-lightbulb ' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"
+                    }
+                }
+
+            ]
+        });
+
+        tablaMain.draw();
+
+    }
+
+    function Edit(dLectura) {
+        $("#modalUpdateLectura").modal('show');
+
+
+
+        $("#txtLecturaAnterior").val(dLectura.CantidadLecturaAntigua);
+        $("#txtClienteId").val(dLectura.ClienteId);
+        $("#txtLecturaId").val(dLectura.LecturaId);
+        $("#txtAnnio").val(dLectura.Annio);
+        $("#txtMes").val(dLectura.Mes);
+        $("#txtValorAntiguo").val(dLectura.CantidadLecturaAntigua);
+        $("#txtNombreCompleto").val(dLectura.NombreCompleto);
+        $("#txtNumeroMedidor").val(dLectura.NumeroMedidor);
+        $("#txtLecturaActual").val(dLectura.CantidadLectura);
+        $("#txtFacturacionId").val(dLectura.FacturacionId);
+
+        var value = dLectura.LecturaId;
+
+        if (value == 0) {
+            $("#btnModalUpdateLecturaUpdate").hide();
+            $("#btnModalUpdateLecturaSave").show();
+
+        }
+        else {
+            $("#btnModalUpdateLecturaUpdate").show();
+            $("#btnModalUpdateLecturaSave").hide();
+        }
+    }
+
+    function UpdateLecturaUpdate() {
+       
+
+        if ($("#txtLecturaActual").val() == 0) {
+            $("#MSGvalidacionVA").show();
+            return false;
+        }
+
+        UpdateDataLectura();
+
+        $("#modal_aside_right").modal('show');
+
+    }
+
+    function UpdateDataLectura() {
+
+        var objLectura = {};
+        objLectura.LecturaId = $("#txtLecturaId").val();
+        objLectura.FacturacionId = $("#txtFacturacionId").val();
+
+        objLectura.CantidadLecturaAntigua = $("#txtLecturaAnterior").val();
+        objLectura.Annio = $("#txtAnnio").val();
+        objLectura.Mes = $("#txtMes").val();
+        objLectura.CantidadLectura = $("#txtLecturaActual").val();
+        objLectura.ClienteId = $("#txtClienteId").val();
+        objLectura.CantidadLecturaAntigua = $("#txtValorAntiguo").val();
+        objLectura.Procesado = 1;
+
+        objLectura.Actualizado = 1;
+        console.log(objLectura);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Content("~/Refacturacion/Actualizar")',
+            data: JSON.stringify({
+                objLectura: objLectura
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resp) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                Toast.fire({
+                    icon: resp.errorCode === "01" ? 'success' : "warning",
+                        title: resp.msg
+                    })
+
+
+                tablaMain.draw();
+            }
+        });
+        Clean();
+    }
+
+
+    function UpdateLecturaSave() {
+        alert(UpdateLecturaSave);
+    }
+
+</script>
+
+
+
+
 
 

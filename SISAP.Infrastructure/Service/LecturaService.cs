@@ -96,8 +96,84 @@ namespace SISAP.Infrastructure.Service
 			}
 		}
 
+		//int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre
 
-		public void UpdateLecturaProcesada(UpdateLecturaProcess updateLecturaProcess)
+		public IEnumerable<Cliente> ListarLecturasPendientesPago(string numeroMedidor, string codCliente, int pageSize, int skip, out int nroTotalRegistros)
+        {
+			using (var dbContext = GetSISAPDBContext())
+			{
+
+				
+
+				var sql = (from l in dbContext.Lecturas
+						   join c in dbContext.Clientes on l.ClienteId equals c.ClienteId  
+						   from f in dbContext.Facturacions.Where(x=>x.Annio==l.Annio && x.Mes== l.Mes && x.ClienteId==c.ClienteId)
+						   join u in dbContext.Urbanizacions on c.UrbanizacionId equals u.UrbanizacionId
+						   join m in dbContext.Manzanas on c.ManzanaId equals m.ManzanaId
+						   where (c.EstadoServicioId == (int)EstadoServicioMaestro.Activo)
+						  
+						   &&  (c.CodigoCliente==codCliente || c.NumeroMedidor==numeroMedidor )
+						   &&  (f.EstadoPagado==0)
+						   orderby f.FacturacionId
+						   select new
+						   {
+							   c.CodigoCliente,
+							   c.ClienteId,
+							   c.Nombre,
+							   c.Apellido,
+							   c.Telefono,
+							   c.Direccion,
+							   c.UrbanizacionId,
+							   c.ManzanaId,
+							   c.NumeroMedidor,
+							   c.Complemento,
+							   u.NombreUrbanizacion,
+							   m.NombreManzana,
+							   LecturaId = l == null ? 0 : l.LecturaId,
+							   Annio = l == null ? 00 : l.Annio,
+							   Mes = l == null ? 00 : l.Mes,
+							   CantidadLectura = l == null ? 0 : l.CantidadLectura,
+							   Consumo = l == null ? 00 : l.Consumo,
+							   Promedio = l == null ? 00 : l.Promedio,
+							   Alerta = l == null ? String.Empty : l.Alerta,
+							   //CantidadLecturaAntigua = lec == null ? 00 : lec.CantidadLecturaAntigua
+							   
+							   f.Total
+						   });
+				nroTotalRegistros = sql.Count();
+				sql = sql.Skip(skip).Take(pageSize);
+
+				var ListadoFinal = (from c in sql.ToList()
+									select new Cliente()
+									{
+										CodigoCliente = c.CodigoCliente,
+										ClienteId = c.ClienteId,
+										Nombre = c.Nombre,
+										Apellido = c.Apellido,
+										Telefono = c.Telefono,
+										Direccion = c.Direccion,
+										UrbanizacionId = c.UrbanizacionId,
+										ManzanaId = c.ManzanaId,
+										NumeroMedidor = c.NumeroMedidor,
+										UrbanizacionNombre = c.NombreUrbanizacion,
+										Complemento = c.Complemento,
+										ManzanaNombre = c.NombreManzana,
+										LecturaId = c.LecturaId,
+										Annio = c.Annio,
+										Mes = c.Mes,
+										CantidadLectura = c.CantidadLectura,
+										Consumo = c.Consumo,
+										Promedio = c.Promedio,
+										Alerta = c.Alerta,
+										Total= c.Total
+										//CantidadLecturaAntigua = c.CantidadLecturaAntigua
+									}).ToList();
+				return ListadoFinal;
+			}
+		}
+
+
+        public void UpdateLecturaProcesada(UpdateLecturaProcess updateLecturaProcess)
 		{
 			using (var dbContext = GetSISAPDBContext())
 			{
@@ -290,6 +366,16 @@ namespace SISAP.Infrastructure.Service
 
 
 				return resultado;
+			}
+		}
+
+		public IEnumerable<Lectura> ListarLecturaAnnioMesCliente(int annio , int mes , int clienteId)
+		{
+			using (var dbContext = GetSISAPDBContext())
+			{
+				var lectura = dbContext.Lecturas.Where(l => l.ClienteId == clienteId && l.Annio==annio && l.Mes==mes);
+				var listadoFinal = lectura.ToList();
+				return listadoFinal;
 			}
 		}
 	}

@@ -15,7 +15,6 @@
             </div>
             <div class="modal-body">
 
-
                 <div class="col-sm-12mb-12">
                     <label>Categoria </label>
                     <input id="txtCategoria" type="text" class="form-control" placeholder="">
@@ -99,10 +98,10 @@
                     <th scope="col">Categoria</th>
                     <th scope="col">RangoMin</th>
                     <th scope="col">RangoMax</th>
-                    <th scope="col">TarifaAgua</th>
-                    <th scope="col">TarifaAlcantarillado</th>
-                    <th scope="col">CargoFijo</th>
-                    <th scope="col">ClaseId</th>
+                    <th scope="col">Tarifa Agua</th>
+                    <th scope="col">Tarifa Alcantarillado</th>
+                    <th scope="col">Cargo Fijo</th>
+                   
                     <th scope="col">Opcion</th>
                 </tr>
             </thead>
@@ -150,19 +149,41 @@
 
             },
             "columns": [
-                { "data": "CategoriaId" },
-                { "data": "RangoMin" },
-                { "data": "RangoMax" },
-                { "data": "TarifaAgua" },
-                { "data": "TarifaAlcantarillado" },
-                { "data": "CargoFijo" },
-                { "data": "ClaseId" },
+                { "data": "CategoriaId", className: "text-right"  },
+                { "data": "RangoMin", className: "text-right"  },
+                { "data": "RangoMax", className: "text-right"  },
+                {
+                    "data": "TarifaAgua",
+                    render: function (data, type, row) {
+
+                        return 'S/. ' + row.TarifaAgua
+
+                    }, className: "text-right"  
+                },
+                {
+                    "data": "null",
+                    render: function (data, type, row ) {
+
+                        return 'S/. '+row.TarifaAlcantarillado 
+
+                    }, className: "text-right"  
+                        
+                },
+                {
+                    "data": "null",
+                    render: function (data, type, row) {
+
+                        return 'S/. ' + row.CargoFijo
+
+                    }, className: "text-right"  
+                },
+                
                 {
                     "data": "id", "render": function (data, type, row, meta) {
                         return "<i class='text-warning far fa-edit mr-3' onClick='Edit(" + JSON.stringify(row) + ")'></i></a>" +
                             "<i class='text-danger fas fa-trash-alt mr-3' onClick='Delete(" + JSON.stringify(row) + ")'></i>"
                    /*         "<i class='text-warning fas fa-lightbulb' onClick='StatusUpdate(" + JSON.stringify(row) + ")'></i>"*/
-                    }
+                    }, className: "text-right" 
                 },
             ]
         });

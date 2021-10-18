@@ -21,7 +21,8 @@ namespace SISAP.Core.Interfaces
 		Lectura Create(Lectura objLectura);
 		IEnumerable<Lectura> GetFirst6Data(int? ClienteId);
 		IEnumerable<Cliente> ListarClienteLectura(int? Annio, int? Mes, int? UrbanizacionId, string FilterNombre, int pageSize, int skip, out int nroTotalRegistros);
-
+		IEnumerable<Cliente> ListarLecturasPendientesPago(string numeroMedidor, string codCliente, int pageSize, int skip, out int nroTotalRegistros);
 		decimal? ObtenerLecturaAnterior(int clienteId, int lecturaId);
+		IEnumerable<Lectura> ListarLecturaAnnioMesCliente(int annio, int mes, int clienteId);
 	}
 }
